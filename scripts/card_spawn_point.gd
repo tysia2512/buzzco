@@ -22,8 +22,6 @@ func _arrange_cards():
 	if len(cards) > 0:
 		delta_x = w / (len(cards) - 1)
 	for card in cards:
-		if card.is_dragged:
-			continue
 		card.position.x = current_x - w / 2
 		card.position.y = 0
 		

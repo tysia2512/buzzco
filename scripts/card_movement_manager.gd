@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var grid: Grid = $Grid
-@onready var deck_n_hand: CardSpawnPoint = $DeckNHand/CardSpawnPoint
+@onready var deck_n_hand: DeckNHand = $DeckNHand
 
 var dragged_card: Card = null
 var offset: Vector2 = Vector2.ZERO
@@ -21,7 +21,7 @@ func _input(event: InputEvent) -> void:
 			dragged_card = check_for_card()
 			if dragged_card:
 				print(dragged_card)
-				dragged_card.is_dragged = true
+				dragged_card.set_is_dragged()
 				dragged_card.reparent(self)
 				offset = dragged_card.position - get_global_mouse_position()
 		else:
@@ -31,14 +31,9 @@ func _input(event: InputEvent) -> void:
 			var grid_tile = check_for_grid_tile(dragged_card.global_position)
 			print("grid tile: ", grid_tile)
 			if grid_tile != null:
-				dragged_card.reparent(grid)
-				dragged_card.position = grid_tile.position
-				dragged_card.is_dragged = false
-				dragged_card.is_on_the_board = true
+				grid.place_card(dragged_card, grid_tile)
 			else:
-				dragged_card.reparent(deck_n_hand)
-				dragged_card.is_dragged = false
-				dragged_card.is_in_hand = true
+				deck_n_hand.add_card(dragged_card)
 			
 			dragged_card = null
 			offset = Vector2.ZERO

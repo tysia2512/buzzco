@@ -1,6 +1,7 @@
 class_name Grid extends Node2D
 
-@onready var GridTile = preload("res://scenes/grid_tile.tscn")
+@onready var grid_tile = preload("res://scenes/grid_tile.tscn")
+@onready var cards_node: Node2D = $Cards
 
 const FLIPPED = false
 const ROWS = [4, 3, 4, 3, 4]
@@ -11,13 +12,13 @@ func _ready():
 	for i in range(0, ROWS.size()):
 		grid[i] = []
 		grid[i].resize(ROWS[i])
-		
+#		
 	for i in range(0, ROWS.size()):
 		for j in range(0, ROWS[i]):
 			_add_grid_tile(i, j)
 		
 func _add_grid_tile(row: int, column: int):
-	var tile = GridTile.instantiate()
+	var tile = grid_tile.instantiate()
 	tile.visible = false
 	add_child(tile)
 	var h = tile.get_texture_size().y
@@ -34,3 +35,9 @@ func _add_grid_tile(row: int, column: int):
 	grid[row][column] = tile
 	tile.set_grid_position(row, column)
 	tile.visible = true
+
+func place_card(card: Card, grid_tile: GridTile) -> void:
+	card.reparent(cards_node)
+	card.set_on_the_board(grid_tile)
+	card.position = grid_tile.position
+	
