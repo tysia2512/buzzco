@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://qm813tqd45mo"]
+
+[ext_resource type="Script" uid="uid://cyupccclserhd" path="res://scenes/deck_n_hand.gd" id="1_fmhf8"]
+[ext_resource type="Script" uid="uid://0feak1ytnkat" path="res://scenes/spawn_point.gd" id="2_8h5ks"]
+
+[node name="DeckNHand" type="Node2D"]
+script = ExtResource("1_fmhf8")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CardSpawnPoint" type="Node2D" parent="."]
+script = ExtResource("2_8h5ks")
+
+[node name="SpawnCardButton" type="Button" parent="."]
+offset_left = -55.0
+offset_top = -168.0
+offset_right = 56.0
+offset_bottom = -137.0
+text = "Spawn a card"
+
+[connection signal="pressed" from="SpawnCardButton" to="." method="_on_spawn_card_button_pressed"]
