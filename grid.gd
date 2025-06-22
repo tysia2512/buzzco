@@ -39,5 +39,23 @@ func _add_grid_tile(row: int, column: int):
 func place_card(card: Card, grid_tile: GridTile) -> void:
 	card.reparent(cards_node)
 	card.set_on_the_board(grid_tile)
+	grid_tile.put_card(card)
 	card.position = grid_tile.position
+	
+func get_points() -> int:
+	var points = 0
+	for row in grid:
+		for tile in row:
+			if tile.get_card() != null:
+				points += tile.get_card().attack_value
+	return points
+
+func clear_cards() -> void:
+	for row in grid:
+		for tile in row:
+			if tile.get_card() != null:
+				tile.remove_card()
+	var children = cards_node.get_children()
+	for child in children:
+		cards_node.remove_child(child)
 	

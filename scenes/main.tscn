@@ -37,3 +37,5 @@ position = Vector2(726, 701)
 
 [node name="Grid" parent="CardMovementManager" instance=ExtResource("1_0wfyh")]
 position = Vector2(187, 98)
+
+[connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
