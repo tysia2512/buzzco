@@ -5,6 +5,10 @@ class_name Card extends Node2D
 @onready var attack_label: Label = $AttackLabel
 @onready var base_card_sprite: Sprite2D = $BaseCardSprite
 
+@export var is_dragged = false
+@export var is_in_hand = true
+@export var is_on_the_board = false
+
 func _ready():
 	attack_label.text = str(attack_value)
 

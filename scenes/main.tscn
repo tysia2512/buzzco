@@ -1,16 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://rgnja06btpb7"]
+[gd_scene load_steps=5 format=3 uid="uid://rgnja06btpb7"]
 
 [ext_resource type="PackedScene" uid="uid://q1bx0oxeisoc" path="res://scenes/grid.tscn" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://qm813tqd45mo" path="res://scenes/deck_n_hand.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://da7y0ixwnlfln" path="res://scripts/point_counter.gd" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://btxvhv1dwgx66" path="res://scripts/card_movement_manager.gd" id="4_jyhfs"]
 
 [node name="Main" type="Node2D"]
-
-[node name="Grid" parent="." instance=ExtResource("1_0wfyh")]
-position = Vector2(187, 98)
-
-[node name="DeckNHand" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(726, 701)
 
 [node name="PointCounter" type="Control" parent="."]
 layout_mode = 3
@@ -33,3 +28,12 @@ offset_right = 1555.0
 offset_bottom = 273.0
 text = "Launch the assault!
 "
+
+[node name="CardMovementManager" type="Node2D" parent="."]
+script = ExtResource("4_jyhfs")
+
+[node name="DeckNHand" parent="CardMovementManager" instance=ExtResource("2_sugp2")]
+position = Vector2(726, 701)
+
+[node name="Grid" parent="CardMovementManager" instance=ExtResource("1_0wfyh")]
+position = Vector2(187, 98)
