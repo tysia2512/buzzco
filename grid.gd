@@ -1,4 +1,4 @@
-extends Node2D
+class_name Grid extends Node2D
 
 @onready var GridTile = preload("res://scenes/grid_tile.tscn")
 

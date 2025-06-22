@@ -1,4 +1,4 @@
-extends Node2D
+class_name DeckNHand extends Node2D
 
 @onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
 @onready var card_spawn_point: CardSpawnPoint = $CardSpawnPoint
