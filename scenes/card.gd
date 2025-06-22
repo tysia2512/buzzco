@@ -9,4 +9,4 @@ func _ready():
 	attack_label.text = str(attack_value)
 
 func get_texture_size():
-	return base_card_sprite.get_texture_size()
+	return base_card_sprite.scale * base_card_sprite.texture.get_size()

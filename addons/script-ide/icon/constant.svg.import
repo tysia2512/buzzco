@@ -2,16 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dt3425k0ene5n"
-path="res://.godot/imported/hex_blue copy.svg-f41bb2c228b3b6fb89f5c2baf1b8d2da.ctex"
+uid="uid://cawc456ja8vf5"
+path="res://.godot/imported/constant.svg-f6e857276565573c7540f3c32801842a.ctex"
 metadata={
+"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/hex_blue copy.svg"
-dest_files=["res://.godot/imported/hex_blue copy.svg-f41bb2c228b3b6fb89f5c2baf1b8d2da.ctex"]
+source_file="res://addons/script-ide/icon/constant.svg"
+dest_files=["res://.godot/imported/constant.svg-f6e857276565573c7540f3c32801842a.ctex"]
 
 [params]
 
@@ -33,5 +34,5 @@ process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
 svg/scale=1.0
-editor/scale_with_editor_scale=false
+editor/scale_with_editor_scale=true
 editor/convert_colors_with_editor_theme=false

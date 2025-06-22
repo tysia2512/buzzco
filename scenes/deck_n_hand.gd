@@ -1,6 +1,7 @@
 extends Node2D
 
-@onready  var card_scene: PackedScene = preload("res://scenes/card.tscn")
+@onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
+@onready var card_spawn_point: CardSpawnPoint = $CardSpawnPoint
 
 func _init():
 	visible = false
@@ -11,5 +12,6 @@ func _ready():
 	visible = true
 	
 func _on_spawn_card_button_pressed() -> void:
-	var card = card_scene.instantiate() as Card
+	card_spawn_point.spawn_card()
+	
 	
