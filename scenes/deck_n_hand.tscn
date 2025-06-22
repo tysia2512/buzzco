@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://qm813tqd45mo"]
 
-[ext_resource type="Script" uid="uid://cyupccclserhd" path="res://scenes/deck_n_hand.gd" id="1_fmhf8"]
-[ext_resource type="Script" uid="uid://0feak1ytnkat" path="res://scenes/card_spawn_point.gd" id="2_8h5ks"]
+[ext_resource type="Script" uid="uid://cyupccclserhd" path="res://scripts/deck_n_hand.gd" id="1_fmhf8"]
+[ext_resource type="Script" uid="uid://0feak1ytnkat" path="res://scripts/card_spawn_point.gd" id="2_8h5ks"]
 [ext_resource type="Texture2D" uid="uid://cea7tuoyppfy8" path="res://assets/hex_blue.svg" id="3_8h5ks"]
 
 [node name="DeckNHand" type="Node2D"]

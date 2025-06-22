@@ -14,7 +14,6 @@ func _arrange_cards():
 	if cards.is_empty():
 		return
 	var card_width = cards[0].get_texture_size().x
-	print("W is: ", W, " and card width: ", card_width)
 	var gap = card_width / 4
 	var w = min(W, (len(cards) - 1) * card_width + (len(cards) - 1) * gap)
 	
