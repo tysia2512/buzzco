@@ -37,22 +37,31 @@ func set_is_dragged():
 	_is_dragged = true
 	_is_in_hand = false
 	_is_on_the_board = false
-	_tile_placed = null
+	if _tile_placed != null:
+		_tile_placed.remove_card()
+		_tile_placed = null
 
 func set_in_hand():
 	_is_dragged = false
 	_is_in_hand = true
 	_is_on_the_board = false
-	_tile_placed = null
+	if _tile_placed != null:
+		_tile_placed.remove_card()
+		_tile_placed = null
 	
 func set_on_the_board(tile: GridTile):
 	_is_dragged = false
 	_is_in_hand = false
 	_is_on_the_board = true
+	if _tile_placed != null:
+		_tile_placed.remove_card()
 	_tile_placed = tile
 
 func is_in_hand() -> bool:
 	return _is_in_hand
+
+func is_on_the_board() -> bool:
+	return _is_on_the_board
 	
 func get_grid_tile() -> GridTile:
 	return _tile_placed
