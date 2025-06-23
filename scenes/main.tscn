@@ -47,4 +47,8 @@ visible = false
 
 [node name="FriendlyBeeCard" parent="CardPresets" instance=ExtResource("6_tefeu")]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1, 0)
+anchor_mode = 0
+
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]

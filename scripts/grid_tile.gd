@@ -8,6 +8,7 @@ class_name GridTile extends Node2D
 @onready var debug_coord_label: Label = $DebugCoordLabel
 
 var _card: Card = null
+var _effects = {}
 
 func get_texture_size():
 	return sprite.get_texture_size() 
@@ -32,6 +33,18 @@ func get_card() -> Card:
 func highlight() -> void:
 	debug_coord_label.add_theme_color_override("font_color", Color.AQUAMARINE)
 
+func get_top_neighbor() -> GridTile:
+	return grid.get_tile(row - 2, column)
+
+func add_effect(effect: Effect) -> void:
+	_effects[effect] = true
+	
+func remove_effect(effect: Effect) -> void:
+	_effects.erase(effect)
+	
+func get_effects() -> Array:
+	return _effects.keys().map(func(key): return key as Effect)
+	
 func get_neighbors() -> Array: 
 	var neighbors = [
 		Vector2(row - 2, column), 

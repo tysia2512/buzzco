@@ -1,5 +1,8 @@
 class_name Card extends Node2D
 
+signal card_placed
+signal card_removed_from_board
+
 @export var attack_value: int = 1
 @export var card_name: String = "Card"
 @export var current_attack_points: int = 1
@@ -24,7 +27,7 @@ func _ready():
 func _update_labels():
 	attack_label.set_text(str(attack_value))
 	name_label.set_text(card_name)
-	debug_attack_strength_label.set_text(str(current_attack_points))
+	debug_attack_strength_label.set_text(str(get_attack_with_effects()))
 
 func _process(delta: float) -> void:
 	#print("process card with name: ", card_name)
@@ -46,6 +49,7 @@ func set_in_hand():
 	_is_in_hand = true
 	_is_on_the_board = false
 	if _tile_placed != null:
+		emit_signal("card_removed_from_board", _tile_placed)
 		_tile_placed.remove_card()
 		_tile_placed = null
 	
@@ -54,8 +58,10 @@ func set_on_the_board(tile: GridTile):
 	_is_in_hand = false
 	_is_on_the_board = true
 	if _tile_placed != null:
+		emit_signal("card_removed_from_board", _tile_placed)
 		_tile_placed.remove_card()
 	_tile_placed = tile
+	emit_signal("card_placed", tile)
 
 func is_in_hand() -> bool:
 	return _is_in_hand
@@ -65,3 +71,17 @@ func is_on_the_board() -> bool:
 	
 func get_grid_tile() -> GridTile:
 	return _tile_placed
+
+func get_attack_with_effects() -> int:
+	if _tile_placed == null:
+		return 0
+		
+	if _tile_placed.get_effects().is_empty():
+		return current_attack_points
+	
+	var total = current_attack_points
+	for effect in _tile_placed.get_effects():
+		total = (effect as Effect).apply(total)
+	return total
+	
+	
