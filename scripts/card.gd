@@ -36,3 +36,6 @@ func set_on_the_board(tile: GridTile):
 
 func is_in_hand() -> bool:
 	return _is_in_hand
+
+func count_attack_points(grid: Grid) -> int:
+	return attack_value
