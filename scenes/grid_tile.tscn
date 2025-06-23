@@ -17,3 +17,11 @@ collision_layer = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
 polygon = PackedVector2Array(-30, -54, 32, -54, 63, 1, 32, 54, -31, 55, -63, 0)
+
+[node name="DebugCoordLabel" type="Label" parent="."]
+offset_left = -30.0
+offset_top = -20.0
+offset_right = 33.0
+offset_bottom = 20.0
+horizontal_alignment = 1
+vertical_alignment = 1

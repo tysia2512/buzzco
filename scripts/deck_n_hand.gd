@@ -11,9 +11,6 @@ func _ready():
 	position.y = get_viewport().get_visible_rect().size.y * 3 / 4
 	visible = true
 	
-func _on_spawn_card_button_pressed() -> void:
-	card_spawn_point.spawn_card()
-	
 func add_card(card: Card)-> void:
 	card.set_in_hand()
 	card.reparent(card_spawn_point)

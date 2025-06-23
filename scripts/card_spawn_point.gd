@@ -1,10 +1,12 @@
 class_name CardSpawnPoint extends Node2D
 
-@onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
 @onready var W: int = get_viewport().get_visible_rect().size.y * 0.6
 
+func _has_card(x: Node2D) -> bool:
+	return !x.get_children().filter(func(x): return x is Card).is_empty()
+
 func get_cards():
-	return get_children().filter(func(x): return x is Card)
+	return get_children().filter(_has_card)
 
 func _process(delta: float):
 	_arrange_cards()
@@ -13,7 +15,7 @@ func _arrange_cards():
 	var cards = get_cards()
 	if cards.is_empty():
 		return
-	var card_width = cards[0].get_texture_size().x
+	var card_width = cards[0].card.get_texture_size().x
 	var gap = card_width / 4
 	var w = min(W, (len(cards) - 1) * card_width + (len(cards) - 1) * gap)
 	
@@ -27,10 +29,12 @@ func _arrange_cards():
 		
 		current_x += delta_x
 	
-func spawn_card():
+func spawn_card(card_scene: PackedScene):
 	var card = card_scene.instantiate()
 	card.visible = false
 	add_child(card)
+	print("Added card to the tree")
+	print(card)
 	_arrange_cards()
 	card.visible = true
 

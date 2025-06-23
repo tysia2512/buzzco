@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://qm813tqd45mo"]
+[gd_scene load_steps=5 format=3 uid="uid://qm813tqd45mo"]
 
 [ext_resource type="Script" uid="uid://cyupccclserhd" path="res://scripts/deck_n_hand.gd" id="1_fmhf8"]
 [ext_resource type="Script" uid="uid://0feak1ytnkat" path="res://scripts/card_spawn_point.gd" id="2_8h5ks"]
 [ext_resource type="Texture2D" uid="uid://cea7tuoyppfy8" path="res://assets/hex_blue.svg" id="3_8h5ks"]
+[ext_resource type="Script" uid="uid://daq7glj8xlc4j" path="res://scripts/deck.gd" id="4_q0ww4"]
 
 [node name="DeckNHand" type="Node2D"]
 script = ExtResource("1_fmhf8")
@@ -23,4 +24,8 @@ text = "Spawn a card"
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_8h5ks")
 
-[connection signal="pressed" from="SpawnCardButton" to="." method="_on_spawn_card_button_pressed"]
+[node name="Deck" type="Node2D" parent="."]
+script = ExtResource("4_q0ww4")
+metadata/_custom_type_script = "uid://daq7glj8xlc4j"
+
+[connection signal="pressed" from="SpawnCardButton" to="Deck" method="_on_spawn_card_button_pressed"]

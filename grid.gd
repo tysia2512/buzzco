@@ -4,7 +4,7 @@ class_name Grid extends Node2D
 @onready var cards_node: Node2D = $Cards
 
 const FLIPPED = false
-const ROWS = [4, 3, 4, 3, 4]
+const ROWS = [4, 3, 4, 3, 4, 3]
 @onready var grid = []
 
 func _ready():
@@ -34,6 +34,7 @@ func _add_grid_tile(row: int, column: int):
 	tile.position.y = y
 	grid[row][column] = tile
 	tile.set_grid_position(row, column)
+	tile.grid = self
 	tile.visible = true
 
 func place_card(card: Card, grid_tile: GridTile) -> void:
@@ -58,4 +59,10 @@ func clear_cards() -> void:
 	var children = cards_node.get_children()
 	for child in children:
 		cards_node.remove_child(child)
-	
+
+func get_tile(r: int, c: int) -> GridTile:
+	if r < 0 || r >= grid.size():
+		return null;
+	if c < 0 || c >= grid[r].size():
+		return null
+	return grid[r][c]
