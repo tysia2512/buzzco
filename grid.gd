@@ -49,7 +49,7 @@ func get_points() -> int:
 	for row in grid:
 		for tile in row:
 			if tile.get_card() != null:
-				points += tile.get_card().attack_value
+				points += tile.get_card().current_attack_points
 	return points
 
 func clear_cards() -> void:
