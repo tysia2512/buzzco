@@ -30,9 +30,6 @@ func remove_card():
 func get_card() -> Card:
 	return _card
 
-func highlight() -> void:
-	debug_coord_label.add_theme_color_override("font_color", Color.AQUAMARINE)
-
 func get_top_neighbor() -> GridTile:
 	return grid.get_tile(row - 2, column)
 

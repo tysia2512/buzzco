@@ -6,6 +6,7 @@ signal card_removed_from_board
 @export var attack_value: int = 1
 @export var card_name: String = "Card"
 @export var current_attack_points: int = 1
+@export var pollen_cost: int = 1
 
 @onready var name_label: Label = $NameLabel
 @onready var attack_label: Label = $AttackLabel
@@ -57,10 +58,14 @@ func set_on_the_board(tile: GridTile):
 	_is_dragged = false
 	_is_in_hand = false
 	_is_on_the_board = true
+	if !PollenManager.can_afford_pollen(pollen_cost):
+		return
+	
 	if _tile_placed != null:
 		emit_signal("card_removed_from_board", _tile_placed)
 		_tile_placed.remove_card()
 	_tile_placed = tile
+	PollenManager.pay_pollen(pollen_cost)
 	emit_signal("card_placed", tile)
 
 func is_in_hand() -> bool:

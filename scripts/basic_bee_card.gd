@@ -16,3 +16,4 @@ func _ready():
 	
 func _process(delta: float) -> void:
 	card.current_attack_points = _attack_value
+	

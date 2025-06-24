@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://17yh1762x5qx"]
+
+[ext_resource type="Script" uid="uid://dooc8gf7qhax2" path="res://scenes/pollen_manager.gd" id="1_vy1wf"]
+
+[node name="PollenCounter" type="Node2D"]
+script = ExtResource("1_vy1wf")

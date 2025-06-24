@@ -33,8 +33,6 @@ func spawn_card(card_scene: PackedScene):
 	var card = card_scene.instantiate()
 	card.visible = false
 	add_child(card)
-	print("Added card to the tree")
-	print(card)
 	_arrange_cards()
 	card.visible = true
 
