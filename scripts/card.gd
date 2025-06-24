@@ -6,7 +6,7 @@ signal card_removed_from_board
 @export var attack_value: int = 1
 @export var card_name: String = "Card"
 @export var current_attack_points: int = 1
-@export var pollen_cost: int = 1
+@export var pollen_cost: int = 2
 
 @onready var name_label: Label = $NameLabel
 @onready var attack_label: Label = $AttackLabel
