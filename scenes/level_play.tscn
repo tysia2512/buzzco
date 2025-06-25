@@ -51,10 +51,10 @@ script = ExtResource("3_obdjb")
 script = ExtResource("4_5espj")
 
 [node name="DeckNHand" parent="CardMovementManager" instance=ExtResource("5_1n5cl")]
-position = Vector2(948, 818)
+position = Vector2(973, 983)
 
 [node name="Grid" parent="CardMovementManager" instance=ExtResource("6_rvuek")]
-position = Vector2(943, 432)
+position = Vector2(969, 483)
 
 [node name="CardPresets" type="Node2D" parent="."]
 visible = false
@@ -66,7 +66,7 @@ visible = false
 [node name="AnimationManager" type="Node2D" parent="."]
 
 [node name="EnemyManager" parent="." instance=ExtResource("9_nk028")]
-position = Vector2(518, 47)
+position = Vector2(959, 231)
 
 [node name="CheatButton" type="Button" parent="."]
 offset_left = 1464.0

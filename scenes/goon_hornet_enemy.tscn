@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3o2u2d3uxip0"]
+[gd_scene load_steps=4 format=3 uid="uid://b3o2u2d3uxip0"]
 
 [ext_resource type="Script" uid="uid://cqy362lnjey5l" path="res://scripts/goon_hornet_enemy.gd" id="1_7qwat"]
 [ext_resource type="PackedScene" uid="uid://dhq8ybaxgx175" path="res://scenes/generic_enemy.tscn" id="2_amm3c"]
+[ext_resource type="Texture2D" uid="uid://doff2xg6t235r" path="res://assets/goon_hornet.png" id="3_amm3c"]
 
 [node name="GoonHornetEnemy" type="Node2D"]
 script = ExtResource("1_7qwat")
 
 [node name="GenericEnemy" parent="." instance=ExtResource("2_amm3c")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_amm3c")

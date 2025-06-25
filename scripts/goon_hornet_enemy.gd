@@ -1,6 +1,7 @@
 class_name GoonHornetEnemy extends Enemy
 
-func ready():
+func _ready():
 	enemy = $GenericEnemy
 	enemy.set_attack_chance(0.3)
+	sprite = $Sprite2D
 	

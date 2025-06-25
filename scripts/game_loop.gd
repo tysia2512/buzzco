@@ -7,7 +7,7 @@ extends Node2D
 
 var level: int = 1
 
-func ready():
+func _ready():
 	intro_page.visible = true
 	level_play.visible = false
 	next_level_page.visible = false
