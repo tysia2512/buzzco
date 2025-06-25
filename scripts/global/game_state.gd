@@ -8,4 +8,4 @@ enum TurnStage {
 
 var turn_stage: TurnStage = TurnStage.PLAYER_MOVE
 
-var player_health: int
+var player_health: int = 30

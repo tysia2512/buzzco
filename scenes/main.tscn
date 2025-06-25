@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://rgnja06btpb7"]
 
-[ext_resource type="Script" uid="uid://bumb3b6pr0scy" path="res://scenes/main.gd" id="1_85g3d"]
+[ext_resource type="Script" uid="uid://bumb3b6pr0scy" path="res://scripts/main.gd" id="1_85g3d"]
 [ext_resource type="Texture2D" uid="uid://dp46lamxqdnjy" path="res://assets/ChatGPT Image Jun 24, 2025, 08_01_31 PM.png" id="1_o6xl0"]
-[ext_resource type="Script" uid="uid://duw82m1t6ewrt" path="res://scenes/game_loop.gd" id="3_jyhfs"]
+[ext_resource type="Script" uid="uid://duw82m1t6ewrt" path="res://scripts/game_loop.gd" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://b0t0ehhi430ol" path="res://scenes/level_play.tscn" id="4_tbgi4"]
 [ext_resource type="Script" uid="uid://so73iwpeakdf" path="res://scripts/next_level_page.gd" id="5_tbgi4"]
 

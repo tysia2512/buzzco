@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-PollenManager="*res://scenes/pollen_manager.gd"
+PollenManager="*res://scripts/global/pollen_manager.gd"
+GameState="*res://scripts/global/game_state.gd"
 
 [display]
 

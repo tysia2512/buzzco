@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://b0t0ehhi430ol"]
+[gd_scene load_steps=12 format=3 uid="uid://b0t0ehhi430ol"]
 
-[ext_resource type="Script" uid="uid://o4fo1k5fxst8" path="res://scenes/level_play.gd" id="1_1uwbi"]
-[ext_resource type="Script" uid="uid://dupf0687sotgl" path="res://scenes/pollen_count.gd" id="1_2jmw1"]
+[ext_resource type="Script" uid="uid://o4fo1k5fxst8" path="res://scripts/level_play.gd" id="1_1uwbi"]
+[ext_resource type="Script" uid="uid://dupf0687sotgl" path="res://scripts/pollen_count.gd" id="1_2jmw1"]
 [ext_resource type="Script" uid="uid://da7y0ixwnlfln" path="res://scripts/point_counter.gd" id="2_1uwbi"]
-[ext_resource type="Script" uid="uid://l7i47vjsqppp" path="res://scenes/launch_attack_button.gd" id="3_obdjb"]
+[ext_resource type="Script" uid="uid://l7i47vjsqppp" path="res://scripts/launch_attack_button.gd" id="3_obdjb"]
 [ext_resource type="Script" uid="uid://btxvhv1dwgx66" path="res://scripts/card_movement_manager.gd" id="4_5espj"]
 [ext_resource type="PackedScene" uid="uid://qm813tqd45mo" path="res://scenes/deck_n_hand.tscn" id="5_1n5cl"]
 [ext_resource type="PackedScene" uid="uid://q1bx0oxeisoc" path="res://scenes/grid.tscn" id="6_rvuek"]
 [ext_resource type="PackedScene" uid="uid://ckpptl2jqbff3" path="res://scenes/basic_bee_card.tscn" id="7_wvadp"]
 [ext_resource type="PackedScene" uid="uid://cnbumly8wd46w" path="res://scenes/friendly_bee_card.tscn" id="8_x5h4f"]
 [ext_resource type="PackedScene" uid="uid://cx2m6md070sfq" path="res://scenes/enemy_manager.tscn" id="9_nk028"]
+[ext_resource type="Script" uid="uid://becgmjewancgc" path="res://scenes/health_label.gd" id="11_obdjb"]
 
 [node name="LevelPlay" type="Node2D"]
 script = ExtResource("1_1uwbi")
@@ -50,10 +51,10 @@ script = ExtResource("3_obdjb")
 script = ExtResource("4_5espj")
 
 [node name="DeckNHand" parent="CardMovementManager" instance=ExtResource("5_1n5cl")]
-position = Vector2(726, 701)
+position = Vector2(948, 818)
 
 [node name="Grid" parent="CardMovementManager" instance=ExtResource("6_rvuek")]
-position = Vector2(187, 98)
+position = Vector2(943, 432)
 
 [node name="CardPresets" type="Node2D" parent="."]
 visible = false
@@ -65,6 +66,7 @@ visible = false
 [node name="AnimationManager" type="Node2D" parent="."]
 
 [node name="EnemyManager" parent="." instance=ExtResource("9_nk028")]
+position = Vector2(518, 47)
 
 [node name="CheatButton" type="Button" parent="."]
 offset_left = 1464.0
@@ -72,6 +74,14 @@ offset_top = 732.0
 offset_right = 1635.0
 offset_bottom = 794.0
 text = "Skip Level"
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = 97.0
+offset_top = 180.0
+offset_right = 240.0
+offset_bottom = 264.0
+theme_override_font_sizes/font_size = 30
+script = ExtResource("11_obdjb")
 
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="pressed" from="CheatButton" to="." method="_on_cheat_button_pressed"]
