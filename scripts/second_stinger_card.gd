@@ -1,7 +1,6 @@
-class_name SecondStingerCard extends Node2D
+class_name SecondStingerCard extends TypedCard
 
 @onready var effect_scene: PackedScene = preload("res://scenes/effect.tscn")
-@onready var card: Card = $Card
 
 const _attack_value = 0
 const _name = "Second Stinger"
@@ -13,6 +12,7 @@ func _get_effects() -> Array[Effect]:
 	return get_children().filter(func(node): return node is Effect)
 
 func _ready():
+	card = $Card
 	card.attack_value = _attack_value
 	card.card_name = _name
 	visible = true
@@ -26,7 +26,7 @@ func _on_card_card_placed(tile: GridTile) -> void:
 		var effect = effect_scene.instantiate() as Effect
 		effect.multiplier = 2
 		add_child(effect)
-		effect.place(card, top_tile)
+		effect.place(self, top_tile)
 
 func _on_card_card_removed_from_board() -> void:
 	var effects = _get_effects()

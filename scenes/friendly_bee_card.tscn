@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cnbumly8wd46w"]
 
 [ext_resource type="Script" uid="uid://dqi1rabmv1wml" path="res://scripts/friendly_bee_card.gd" id="1_l7l4l"]
-[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/card.tscn" id="1_pqlsq"]
+[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="1_pqlsq"]
 
 [node name="FriendlyBeeCard" type="Node2D"]
 script = ExtResource("1_l7l4l")

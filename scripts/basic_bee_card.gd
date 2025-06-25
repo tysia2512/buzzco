@@ -1,6 +1,4 @@
-class_name BasicBeeCard extends Node2D
-
-@onready var card: Card = $Card
+class_name BasicBeeCard extends TypedCard
 
 const _attack_value = 1
 const _name = "Basic Bee"
@@ -9,9 +7,9 @@ func _init():
 	visible = false
 
 func _ready():
+	card = $Card
 	card.attack_value = _attack_value
 	card.card_name = _name
-	print("we expect: ", _name, " but set: ", card.card_name)
 	visible = true
 	
 func _process(delta: float) -> void:

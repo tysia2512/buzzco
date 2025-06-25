@@ -37,9 +37,9 @@ func _add_grid_tile(row: int, column: int):
 	tile.grid = self
 	tile.visible = true
 
-func place_card(card: Card, grid_tile: GridTile) -> void:
+func place_card(card: TypedCard, grid_tile: GridTile) -> void:
 	card.reparent(cards_node)
-	card.set_on_the_board(grid_tile)
+	card.card.set_on_the_board(grid_tile)
 		
 	grid_tile.put_card(card)
 	card.position = grid_tile.position

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ckpptl2jqbff3"]
 
-[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/card.tscn" id="1_rdu3o"]
+[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="1_rdu3o"]
 [ext_resource type="Script" uid="uid://bpnvof5tcbxpo" path="res://scripts/basic_bee_card.gd" id="1_xb5wf"]
 
 [node name="BasicBeeCard" type="Node2D"]

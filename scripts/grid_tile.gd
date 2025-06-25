@@ -7,7 +7,7 @@ class_name GridTile extends Node2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var debug_coord_label: Label = $DebugCoordLabel
 
-var _card: Card = null
+var _card: TypedCard = null
 var _effects = {}
 
 func get_texture_size():
@@ -21,13 +21,13 @@ func set_grid_position(_row: int, _column: int):
 func get_coords():
 	return Vector2(row, column)
 
-func put_card(card: Card) -> void:
+func put_card(card: TypedCard) -> void:
 	_card = card
 	
 func remove_card():
 	_card = null
 	
-func get_card() -> Card:
+func get_card() -> TypedCard:
 	return _card
 
 func get_top_neighbor() -> GridTile:

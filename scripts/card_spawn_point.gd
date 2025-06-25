@@ -2,11 +2,8 @@ class_name CardSpawnPoint extends Node2D
 
 @onready var W: int = get_viewport().get_visible_rect().size.y * 0.6
 
-func _has_card(x: Node2D) -> bool:
-	return !x.get_children().filter(func(x): return x is Card).is_empty()
-
 func get_cards():
-	return get_children().filter(_has_card)
+	return get_children().filter(func(x): return x is TypedCard)
 
 func _process(delta: float):
 	_arrange_cards()
@@ -28,6 +25,10 @@ func _arrange_cards():
 		card.position.y = 0
 		
 		current_x += delta_x
+	
+func add_card(card: TypedCard):
+	card.reparent(self)
+	_arrange_cards()
 	
 func spawn_card(card_scene: PackedScene):
 	var card = card_scene.instantiate()

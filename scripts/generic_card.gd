@@ -1,4 +1,4 @@
-class_name Card extends Node2D
+class_name GenericCard extends Node2D
 
 signal card_placed
 signal card_removed_from_board
@@ -59,6 +59,7 @@ func set_on_the_board(tile: GridTile):
 	_is_in_hand = false
 	_is_on_the_board = true
 	if !PollenManager.can_afford_pollen(pollen_cost):
+		set_in_hand()
 		return
 	
 	if _tile_placed != null:

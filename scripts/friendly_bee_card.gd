@@ -1,6 +1,4 @@
-class_name FriendlyBeeCard extends Node2D
-
-@onready var card: Card = $Card
+class_name FriendlyBeeCard extends TypedCard
 
 const _attack_value = 1
 const _name = "Friendly Bee"
@@ -9,6 +7,7 @@ func _init() -> void:
 	visible = false
 
 func _ready():
+	card = $Card
 	card.attack_value = _attack_value
 	card.card_name = _name
 	visible = true

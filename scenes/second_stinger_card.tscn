@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://okvgc0bfgaoo"]
 
 [ext_resource type="Script" uid="uid://fsghcs07a6lg" path="res://scripts/second_stinger_card.gd" id="1_71lds"]
-[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/card.tscn" id="2_42lsh"]
+[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="2_42lsh"]
 
 [node name="SecondStingerCard" type="Node2D"]
 script = ExtResource("1_71lds")
