@@ -20,7 +20,6 @@ func _input(event: InputEvent) -> void:
 		if event.pressed:
 			dragged_card = check_for_card()
 			if dragged_card:
-				print(dragged_card)
 				dragged_card.card.set_is_dragged()
 				dragged_card.reparent(self)
 				offset = dragged_card.position - get_global_mouse_position()
@@ -44,9 +43,14 @@ func check_for_card() -> TypedCard:
 	parameters.collide_with_areas = true
 	parameters.collision_mask = 1
 	var result = space_state.intersect_point(parameters)
-	if !result.is_empty() and result[0].collider.get_parent().get_parent() is TypedCard:
-		return result[0].collider.get_parent().get_parent()
-	return null
+	if result.is_empty():
+		return null
+	if !result[0].collider.get_parent().get_parent() is TypedCard:
+		return
+	var typed_card = result[0].collider.get_parent().get_parent() as TypedCard
+	if !typed_card.card.is_in_hand():
+		return
+	return typed_card
 	
 func check_for_grid_tile(position: Vector2) -> GridTile:
 	var space_state = get_world_2d().direct_space_state
