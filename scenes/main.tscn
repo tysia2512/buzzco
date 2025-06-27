@@ -10,7 +10,6 @@
 script = ExtResource("1_85g3d")
 
 [node name="Background" type="Sprite2D" parent="."]
-visible = false
 scale = Vector2(1.25, 1.05371)
 texture = ExtResource("1_o6xl0")
 centered = false
@@ -22,7 +21,6 @@ position = Vector2(960, 540)
 script = ExtResource("3_jyhfs")
 
 [node name="IntroPage" type="Node2D" parent="GameLoop"]
-visible = false
 
 [node name="StartGameButton" type="Button" parent="GameLoop/IntroPage"]
 offset_left = 820.0
@@ -33,6 +31,7 @@ theme_override_font_sizes/font_size = 50
 text = "Start game"
 
 [node name="LevelPlay" parent="GameLoop" instance=ExtResource("4_tbgi4")]
+visible = false
 
 [node name="NextLevelPage" type="Node2D" parent="GameLoop"]
 visible = false

@@ -27,14 +27,22 @@ func _input(event: InputEvent) -> void:
 			if dragged_card == null:
 				return
 			var grid_tile = check_for_grid_tile(dragged_card.global_position)
-			print("grid tile: ", grid_tile)
-			if grid_tile != null && PollenManager.can_afford_pollen(dragged_card.card.pollen_cost):
-				grid.place_card(dragged_card, grid_tile)
+			if grid_tile != null && PollenManager.can_afford_pollen(dragged_card.card.pollen_cost) && GameState.is_player_turn():
+				place_card(grid_tile)
 			else:
-				deck_n_hand.add_card(dragged_card)
+				drop_card()
 			
-			dragged_card = null
-			offset = Vector2.ZERO
+
+func place_card(tile: GridTile):
+	grid.place_card(dragged_card, tile)
+	dragged_card = null
+	offset = Vector2.ZERO
+	GameState.player_finished_turn()	
+
+func drop_card():
+	deck_n_hand.add_card(dragged_card)
+	dragged_card = null
+	offset = Vector2.ZERO
 
 func check_for_card() -> TypedCard:
 	var space_state = get_world_2d().direct_space_state

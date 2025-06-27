@@ -83,5 +83,29 @@ offset_bottom = 264.0
 theme_override_font_sizes/font_size = 30
 script = ExtResource("11_obdjb")
 
+[node name="EnemyTurnLabel" type="Label" parent="."]
+visible = false
+offset_left = 644.0
+offset_top = 382.0
+offset_right = 1307.0
+offset_bottom = 668.0
+theme_override_colors/font_color = Color(0, 0, 0.752941, 1)
+theme_override_font_sizes/font_size = 100
+text = "ENEMY TURN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="YourTurnLabel" type="Label" parent="."]
+visible = false
+offset_left = 676.0
+offset_top = 386.0
+offset_right = 1339.0
+offset_bottom = 672.0
+theme_override_colors/font_color = Color(0, 0, 0.752941, 1)
+theme_override_font_sizes/font_size = 100
+text = "YOUR TURN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="pressed" from="CheatButton" to="." method="_on_cheat_button_pressed"]
