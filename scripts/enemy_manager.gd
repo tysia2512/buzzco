@@ -1,5 +1,7 @@
 class_name EnemyManager extends Node2D
 
+signal enemy_turn_finished
+
 @onready var enemy_spawn_point: EnemySpawnPoint = $EnemySpawnPoint
 
 func perform_turn():
@@ -10,4 +12,4 @@ func perform_turn():
 	await get_tree().create_timer(1.0).timeout
 	self.scale = original_scale
 	await get_tree().create_timer(0.1).timeout
-	GameState.enemy_finished_turn()
+	enemy_turn_finished.emit()

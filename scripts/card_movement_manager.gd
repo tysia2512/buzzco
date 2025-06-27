@@ -1,5 +1,7 @@
 extends Node2D
 
+signal perform_player_action
+
 @onready var grid: Grid = $Grid
 @onready var deck_n_hand: DeckNHand = $DeckNHand
 
@@ -37,7 +39,7 @@ func place_card(tile: GridTile):
 	grid.place_card(dragged_card, tile)
 	dragged_card = null
 	offset = Vector2.ZERO
-	GameState.player_finished_turn()	
+	perform_player_action.emit()
 
 func drop_card():
 	deck_n_hand.add_card(dragged_card)

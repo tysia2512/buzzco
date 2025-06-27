@@ -16,10 +16,10 @@
 script = ExtResource("1_1uwbi")
 
 [node name="PollenCount" type="Label" parent="."]
-offset_left = 385.0
-offset_top = 165.0
-offset_right = 524.0
-offset_bottom = 221.0
+offset_left = 132.0
+offset_top = 852.0
+offset_right = 471.0
+offset_bottom = 1013.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 script = ExtResource("1_2jmw1")
@@ -39,10 +39,11 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="LaunchAttackButton" type="Button" parent="."]
-offset_left = 1397.0
-offset_top = 242.0
-offset_right = 1555.0
-offset_bottom = 273.0
+offset_left = 1519.0
+offset_top = 931.0
+offset_right = 1847.0
+offset_bottom = 1017.0
+theme_override_font_sizes/font_size = 30
 text = "Launch the assault!
 "
 script = ExtResource("3_obdjb")
@@ -69,10 +70,10 @@ visible = false
 position = Vector2(959, 231)
 
 [node name="CheatButton" type="Button" parent="."]
-offset_left = 1464.0
-offset_top = 732.0
-offset_right = 1635.0
-offset_bottom = 794.0
+offset_left = 1647.0
+offset_top = 802.0
+offset_right = 1818.0
+offset_bottom = 864.0
 text = "Skip Level"
 
 [node name="HealthLabel" type="Label" parent="."]
@@ -107,5 +108,15 @@ text = "YOUR TURN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ActionsLeftLabel" type="Label" parent="."]
+offset_left = 112.0
+offset_top = 815.0
+offset_right = 399.0
+offset_bottom = 978.0
+theme_override_font_sizes/font_size = 30
+
+[connection signal="perform_player_action" from="LaunchAttackButton" to="." method="_on_launch_attack_button_perform_player_action"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
+[connection signal="perform_player_action" from="CardMovementManager" to="." method="_on_card_movement_manager_perform_player_action"]
+[connection signal="enemy_turn_finished" from="EnemyManager" to="." method="_on_enemy_manager_enemy_turn_finished"]
 [connection signal="pressed" from="CheatButton" to="." method="_on_cheat_button_pressed"]
