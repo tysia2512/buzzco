@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://rewgn7hk2kr1"]
+
+[ext_resource type="Script" uid="uid://biawq750srgwo" path="res://scripts/animated_label.gd" id="1_2vpra"]
+
+[node name="AnimatedLabel" type="Node2D"]
+script = ExtResource("1_2vpra")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.6, 0, 0, 1)
+theme_override_font_sizes/font_size = 30

@@ -52,3 +52,6 @@ func _arrange_enemies():
 func _set_enemies_visible():
 	for enemy in _enemies:
 		enemy.visible = true
+
+func get_enemies() -> Array:
+	return _enemies

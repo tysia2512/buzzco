@@ -7,8 +7,8 @@
 [node name="GoonHornetEnemy" type="Node2D"]
 script = ExtResource("1_7qwat")
 
-[node name="GenericEnemy" parent="." instance=ExtResource("2_amm3c")]
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("3_amm3c")
+
+[node name="GenericEnemy" parent="." instance=ExtResource("2_amm3c")]

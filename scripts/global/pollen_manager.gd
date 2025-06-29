@@ -8,6 +8,9 @@ func can_afford_pollen(x: int) -> bool:
 
 func pay_pollen(x: int) -> void:
 	pollen -= x
+	
+func add_pollen(x: int) -> void:
+	pollen += x
 
 func launch_assault():
 	pollen += _pollen_regained_from_launch
