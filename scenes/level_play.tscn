@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ckpptl2jqbff3" path="res://scenes/basic_bee_card.tscn" id="7_wvadp"]
 [ext_resource type="PackedScene" uid="uid://cnbumly8wd46w" path="res://scenes/friendly_bee_card.tscn" id="8_x5h4f"]
 [ext_resource type="PackedScene" uid="uid://cx2m6md070sfq" path="res://scenes/enemy_manager.tscn" id="9_nk028"]
-[ext_resource type="Script" uid="uid://becgmjewancgc" path="res://scenes/health_label.gd" id="11_obdjb"]
+[ext_resource type="PackedScene" uid="uid://cn0nek0sj8uyd" path="res://scenes/health_label.tscn" id="11_obdjb"]
 
 [node name="LevelPlay" type="Node2D"]
 script = ExtResource("1_1uwbi")
@@ -76,13 +76,7 @@ offset_right = 1818.0
 offset_bottom = 864.0
 text = "Skip Level"
 
-[node name="HealthLabel" type="Label" parent="."]
-offset_left = 97.0
-offset_top = 180.0
-offset_right = 240.0
-offset_bottom = 264.0
-theme_override_font_sizes/font_size = 30
-script = ExtResource("11_obdjb")
+[node name="HealthLabel" parent="." instance=ExtResource("11_obdjb")]
 
 [node name="EnemyTurnLabel" type="Label" parent="."]
 visible = false
@@ -118,5 +112,6 @@ theme_override_font_sizes/font_size = 30
 [connection signal="perform_player_action" from="LaunchAttackButton" to="." method="_on_launch_attack_button_perform_player_action"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="perform_player_action" from="CardMovementManager" to="." method="_on_card_movement_manager_perform_player_action"]
+[connection signal="deal_damage" from="EnemyManager" to="." method="_on_enemy_manager_deal_damage"]
 [connection signal="enemy_turn_finished" from="EnemyManager" to="." method="_on_enemy_manager_enemy_turn_finished"]
 [connection signal="pressed" from="CheatButton" to="." method="_on_cheat_button_pressed"]

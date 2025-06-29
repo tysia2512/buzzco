@@ -1,6 +1,7 @@
 class_name EnemyManager extends Node2D
 
 signal enemy_turn_finished
+signal deal_damage
 
 @onready var enemy_spawn_point: EnemySpawnPoint = $EnemySpawnPoint
 

@@ -25,6 +25,7 @@ func _spawn_enemy_invisible(scene: PackedScene):
 	enemy.visible = false
 	print("add child ", enemy)
 	add_child(enemy)
+	enemy.enemy.deal_damage.connect(deal_damage)
 	_enemies.append(enemy)
 
 func _arrange_enemies():
@@ -55,3 +56,6 @@ func _set_enemies_visible():
 
 func get_enemies() -> Array:
 	return _enemies
+
+func deal_damage(damage: int):
+	get_parent().deal_damage.emit(damage)

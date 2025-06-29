@@ -4,6 +4,7 @@ class_name LevelPlay extends Node2D
 @onready var enemy_turn_label: Label = $EnemyTurnLabel
 @onready var enemy_manager: EnemyManager = $EnemyManager
 @onready var actions_left_label: Label = $ActionsLeftLabel
+@onready var health_label: Label = $HealthLabel
 
 signal level_cleared
 signal player_moved
@@ -51,3 +52,7 @@ func _perform_action():
 func _on_enemy_manager_enemy_turn_finished() -> void:
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
+
+func _on_enemy_manager_deal_damage(dmg: int) -> void:
+	health_label.animate_health_loss(dmg)
+	

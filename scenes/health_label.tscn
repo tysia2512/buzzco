@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cn0nek0sj8uyd"]
+
+[ext_resource type="Script" uid="uid://becgmjewancgc" path="res://scenes/health_label.gd" id="1_8lbpj"]
+[ext_resource type="PackedScene" uid="uid://rewgn7hk2kr1" path="res://scenes/animated_label.tscn" id="2_qka7v"]
+
+[node name="HealthLabel" type="Label"]
+offset_left = 143.0
+offset_top = 761.0
+offset_right = 286.0
+offset_bottom = 845.0
+theme_override_colors/font_color = Color(0.807843, 0, 0.376471, 1)
+theme_override_font_sizes/font_size = 30
+script = ExtResource("1_8lbpj")
+
+[node name="AnimatedLabel" parent="." instance=ExtResource("2_qka7v")]
+visible = false
+position = Vector2(46, -16)
