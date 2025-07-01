@@ -2,15 +2,27 @@ extends Node2D
 
 signal player_turn_start
 
+
 enum TurnStage {
 	PLAYER_MOVE,
-	ENEMY_MOVE
+	ENEMY_MOVE,
+	SPECIFIC_INPUT
 }
+
+enum SpecificInput {
+	ENEMY_SELECT,
+	GRID_CARD_SELECT
+}
+
+const EMEMY_COLLISION_LAYER: int = 3
+
 
 const ACTIONS_PER_TURN: int = 3
 const POLLEN_RECOVERED_ON_ASSAULT: int = 5
 
 var turn_stage: TurnStage = TurnStage.PLAYER_MOVE
+var specific_input: SpecificInput
+var enemy_select_for_attack: int
 
 var player_health: int = 30
 

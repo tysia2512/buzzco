@@ -6,6 +6,7 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 
 @export var health: int = 10
 @export var attack_points: int = 5
+@export var area: Area2D
 
 var _attack_every_turns = null
 var _attack_chance = null
@@ -22,6 +23,10 @@ func set_attack_every_turns(turns: int):
 func set_attack_chance(chance: float) -> void:
 	_attack_chance = chance
 	_attack_every_turns = null
+	
+func set_area(_area: Area2D) -> void:
+	_area.collision_layer = 2** (GameState.EMEMY_COLLISION_LAYER - 1)
+	area = _area
 
 func should_attack() -> bool:
 	if _attack_every_turns != null:
@@ -50,4 +55,3 @@ func _animate_damage(msg: String):
 	label.visible = true
 	await label.animate(1.0)
 	label.queue_free()
-	

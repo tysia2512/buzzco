@@ -8,3 +8,9 @@ func get_texture_size():
 
 func attack():
 	await enemy.attack()
+
+func highlight() -> void:
+	var m = sprite.modulate
+	sprite.modulate = Color.DARK_ORANGE
+	await get_tree().create_timer(0.5).timeout
+	sprite.modulate = m

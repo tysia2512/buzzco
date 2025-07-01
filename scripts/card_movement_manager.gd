@@ -18,6 +18,9 @@ func _process(delta: float) -> void:
 		dragged_card.position = Vector2(clamp(position.x, 0, screen_size.x), clamp(position.y, 0, screen_size.y))
 
 func _input(event: InputEvent) -> void:
+	if GameState.turn_stage != GameState.TurnStage.PLAYER_MOVE:
+		return
+
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			dragged_card = check_for_card()

@@ -18,3 +18,5 @@ func _perform_enemy_attack(enemy: Enemy) -> void:
 	enemy.scale = original_scale
 	await get_tree().create_timer(0.1).timeout
 	
+func get_enemies() -> Array:
+	return enemy_spawn_point.get_enemies()

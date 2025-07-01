@@ -1,5 +1,7 @@
 class_name EnemySpawnPoint extends Node2D
 
+signal enemy_selected
+
 @onready var area_border: ReferenceRect = $AreaBorder
 @onready var goon_hornet_enemy_scene: PackedScene = preload("res://scenes/goon_hornet_enemy.tscn")
 
@@ -8,8 +10,20 @@ class_name EnemySpawnPoint extends Node2D
 var _enemies: Array = []
 
 func _ready():
-	print("SPAWN ENEMIES")
 	spawn_enemies()
+
+func _input(event: InputEvent) -> void:
+	if GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
+		return
+
+	if GameState.specific_input != GameState.SpecificInput.ENEMY_SELECT:
+		return
+
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if event.pressed:
+			var enemy = check_for_enemy()
+			await enemy.highlight()
+			enemy_selected.emit(enemy)
 	
 func spawn_enemies():
 	for i in range(0, goon_hornet_enemy_count):
@@ -59,3 +73,22 @@ func get_enemies() -> Array:
 
 func deal_damage(damage: int):
 	get_parent().deal_damage.emit(damage)
+
+func enemy_selected_for_attack(generic_enemy: GenericEnemy):
+	var enemy
+
+func check_for_enemy() -> Enemy:
+	var space_state = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.position = get_global_mouse_position()
+	parameters.collide_with_areas = true
+	parameters.collision_mask = 2 ** (GameState.EMEMY_COLLISION_LAYER - 1)
+	var result = space_state.intersect_point(parameters, 1)
+	if result.is_empty():
+		return null
+	var enemy = result[0].collider.get_parent()
+	if !(enemy is Enemy):
+		return null
+	if !(enemy.get_parent() == self):
+		return null
+	return enemy
