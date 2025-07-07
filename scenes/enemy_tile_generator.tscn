@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvptk7crr0v5f"]
+
+[ext_resource type="Script" uid="uid://deprwymjne1xf" path="res://scenes/enemy_tile_generator.gd" id="1_lpg7o"]
+
+[node name="EnemyTileGenerator" type="Node2D"]
+script = ExtResource("1_lpg7o")

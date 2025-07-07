@@ -10,4 +10,3 @@ func _on_launch_attack_button_pressed() -> void:
 		return
 	points += grid.get_points()
 	point_counter_label.text = str(points)
-	grid.clear_cards()

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvbugsggny58k"]
+
+[ext_resource type="Script" uid="uid://bey0rqxb04pra" path="res://scripts/tile.gd" id="1_3dk36"]
+
+[node name="Tile" type="Node2D"]
+script = ExtResource("1_3dk36")
+
+[node name="DebugCoordLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

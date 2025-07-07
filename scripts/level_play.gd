@@ -1,5 +1,6 @@
 class_name LevelPlay extends Node2D
 
+@onready var enemy_tile_generator: EnemyTileGenerator = $EnemyTileGenerator
 @onready var your_turn_label: Label = $YourTurnLabel
 @onready var enemy_turn_label: Label = $EnemyTurnLabel
 @onready var enemy_manager: EnemyManager = $EnemyManager
@@ -9,6 +10,7 @@ class_name LevelPlay extends Node2D
 
 signal level_cleared
 signal player_moved
+signal generate_enemies
 
 var actions_left_in_turn: int
 
@@ -21,6 +23,8 @@ func _process(delta):
 
 func prepare_level(level: int):
 	GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
+	enemy_tile_generator.prepare_level(level)
+	generate_enemies.emit(enemy_tile_generator)
 
 func _on_cheat_button_pressed() -> void:
 	level_cleared.emit()
@@ -63,12 +67,11 @@ func _on_launch_attack_button_launch_assault() -> void:
 	if enemy_manager.get_enemies().size() == 1:
 		enemy = enemy_manager.get_enemies()[0]
 	else:
-		print("TURNING THE TURN STAGE TO SPECIFIC_INPUT")
+		var interrupted_stage = GameState.turn_stage 
 		GameState.turn_stage = GameState.TurnStage.SPECIFIC_INPUT
 		GameState.specific_input = GameState.SpecificInput.ENEMY_SELECT
 		enemy = await enemy_manager.enemy_spawn_point.enemy_selected
-		# maybe not player?
-		GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
+		GameState.turn_stage = interrupted_stage
 		
 	_attack_enemy(enemy, attack_points)
 	grid.clear_cards()
