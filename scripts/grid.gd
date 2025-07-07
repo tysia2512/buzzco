@@ -62,6 +62,8 @@ func get_points() -> int:
 	var points = 0
 	for row in grid:
 		for tile in row:
+			if !(tile is GridTile):
+				continue
 			if tile.get_card() != null:
 				points += tile.get_card().card.get_attack_with_effects()
 	return points
