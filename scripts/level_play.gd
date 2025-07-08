@@ -10,7 +10,6 @@ class_name LevelPlay extends Node2D
 
 signal level_cleared
 signal player_moved
-signal generate_enemies
 
 var actions_left_in_turn: int
 
@@ -24,7 +23,8 @@ func _process(delta):
 func prepare_level(level: int):
 	GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
 	enemy_tile_generator.prepare_level(level)
-	generate_enemies.emit(enemy_tile_generator)
+	# no need to use a signal
+	grid.generate_enemies(enemy_tile_generator, enemy_manager)
 
 func _on_cheat_button_pressed() -> void:
 	level_cleared.emit()
@@ -70,7 +70,7 @@ func _on_launch_attack_button_launch_assault() -> void:
 		var interrupted_stage = GameState.turn_stage 
 		GameState.turn_stage = GameState.TurnStage.SPECIFIC_INPUT
 		GameState.specific_input = GameState.SpecificInput.ENEMY_SELECT
-		enemy = await enemy_manager.enemy_spawn_point.enemy_selected
+		enemy = await enemy_manager.enemy_selected
 		GameState.turn_stage = interrupted_stage
 		
 	_attack_enemy(enemy, attack_points)

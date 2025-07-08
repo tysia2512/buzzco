@@ -113,7 +113,6 @@ offset_right = 399.0
 offset_bottom = 978.0
 theme_override_font_sizes/font_size = 30
 
-[connection signal="generate_enemies" from="." to="CardMovementManager/Grid" method="_on_level_play_generate_enemies"]
 [connection signal="launch_assault" from="LaunchAttackButton" to="." method="_on_launch_attack_button_launch_assault"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="perform_player_action" from="CardMovementManager" to="." method="_on_card_movement_manager_perform_player_action"]

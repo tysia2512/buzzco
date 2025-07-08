@@ -25,7 +25,7 @@ func _ready():
 	tile_height = tile.get_texture_size().y
 	tile_width = tile.get_texture_size().x
 	tile.queue_free()
-	W = ROWS.max() * tile_width + tile_width/2
+	W = ROWS.max() * tile_width + tile_width / 2
 	H = (tile_height * (ROWS.size() + 2) + 1) / 2
 	
 	for i in range(2, ROWS.size()):
@@ -71,6 +71,8 @@ func get_points() -> int:
 func clear_cards() -> void:
 	for row in grid:
 		for tile in row:
+			if !(tile is GridTile):
+				continue
 			if tile.get_card() != null:
 				tile.remove_card()
 	var children = cards_node.get_children()
@@ -84,9 +86,13 @@ func get_tile(r: int, c: int) -> GridTile:
 		return null
 	return grid[r][c]
 
+func get_enemies():
+	return (enemies_rows[0] + enemies_rows[1]).filter(func(et): return et is EnemyTile).map(func(et): return et.get_enemy())
 
-func _on_level_play_generate_enemies(enemy_tile_generator: EnemyTileGenerator) -> void:
+func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: EnemyManager) -> void:
+	var enemies = []
 	enemies_rows.resize(2)
+
 	for row in [0, 1]:
 		enemies_rows[row] = []
 		enemies_rows[row].resize(ROWS[row])
@@ -94,6 +100,7 @@ func _on_level_play_generate_enemies(enemy_tile_generator: EnemyTileGenerator) -
 			var tile = enemy_tile.instantiate() as EnemyTile
 			tile.visible = false
 			var enemy = enemy_tile_generator.generate_enemy()
+			enemies.append(enemy)
 			add_child(tile)
 			tile.set_enemy(enemy)
 			tile.position = get_coord(row, i)
@@ -101,3 +108,6 @@ func _on_level_play_generate_enemies(enemy_tile_generator: EnemyTileGenerator) -
 			tile.set_grid_position(row, i)
 			tile.visible = true
 			enemies_rows[row][i] = tile
+			
+	enemies.sort_custom(func(e): return (e as Enemy).position.x)
+	enemy_manager.set_enemies(enemies)

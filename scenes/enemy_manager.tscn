@@ -1,23 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cx2m6md070sfq"]
+[gd_scene load_steps=2 format=3 uid="uid://cx2m6md070sfq"]
 
 [ext_resource type="Script" uid="uid://cuxjy1mcnq7du" path="res://scripts/enemy_manager.gd" id="1_sqyd6"]
-[ext_resource type="Script" uid="uid://brlnuo6orbwki" path="res://scripts/enemy_spawn_point.gd" id="2_i6mmg"]
 
 [node name="EnemyManager" type="Node2D"]
 script = ExtResource("1_sqyd6")
-
-[node name="EnemySpawnPoint" type="Node2D" parent="."]
-script = ExtResource("2_i6mmg")
-
-[node name="AreaBorder" type="ReferenceRect" parent="EnemySpawnPoint"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -714.0
-offset_top = -193.0
-offset_right = 714.0
-offset_bottom = 193.0
-grow_horizontal = 2
-grow_vertical = 2
