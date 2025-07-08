@@ -14,3 +14,7 @@ func highlight() -> void:
 	sprite.modulate = Color.DARK_ORANGE
 	await get_tree().create_timer(0.5).timeout
 	sprite.modulate = m
+
+func get_scale_to_fit(w: float, h: float) -> float:
+	var size = get_texture_size()
+	return min(w / size.x, h / size.y)

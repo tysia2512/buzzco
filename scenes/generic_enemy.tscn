@@ -4,3 +4,13 @@
 
 [node name="GenericEnemy" type="Node2D"]
 script = ExtResource("1_8fubi")
+
+[node name="HealthDisplay" type="Node2D" parent="."]
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HealthDisplay"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="HealthDisplay"]
+offset_right = 40.0
+offset_bottom = 23.0
