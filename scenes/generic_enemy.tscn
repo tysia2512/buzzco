@@ -1,16 +1,48 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhq8ybaxgx175"]
+[gd_scene load_steps=4 format=3 uid="uid://dhq8ybaxgx175"]
 
 [ext_resource type="Script" uid="uid://ciox2q0tgbe5m" path="res://scripts/generic_enemy.gd" id="1_8fubi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fubi"]
+bg_color = Color(0.8, 0.8, 0.8, 0.333333)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v2kyb"]
+bg_color = Color(0.847059, 0.0745098, 0.176471, 1)
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
 
 [node name="GenericEnemy" type="Node2D"]
 script = ExtResource("1_8fubi")
 
 [node name="HealthDisplay" type="Node2D" parent="."]
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="HealthDisplay"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="HealthBar" type="ProgressBar" parent="HealthDisplay"]
+offset_left = -61.0
+offset_top = -123.0
+offset_right = 62.0
+offset_bottom = -110.0
+theme_override_styles/background = SubResource("StyleBoxFlat_8fubi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_v2kyb")
+value = 50.0
+show_percentage = false
 
-[node name="Label" type="Label" parent="HealthDisplay"]
+[node name="HealthLabel" type="Label" parent="HealthDisplay"]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="TextureArea" type="Polygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-100, -100, 100, -100, 100, 100, -100, 100)
+
+[node name="SpriteWithCollision" type="Node2D" parent="."]
+scale = Vector2(1e-05, 1e-05)
+
+[node name="Area2D" type="Area2D" parent="SpriteWithCollision"]
+collision_layer = 4
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SpriteWithCollision/Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteWithCollision"]
