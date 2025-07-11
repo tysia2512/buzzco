@@ -53,7 +53,7 @@ func _check_for_enemy() -> Enemy:
 	var result = space_state.intersect_point(parameters, 1)
 	if result.is_empty():
 		return null
-	var enemy = result[0].collider.get_parent().get_parent().get_parent()
-	if !(enemy is Enemy):
+	var enemy_area = result[0].collider
+	if !(enemy_area is EnemyArea):
 		return null
-	return enemy
+	return enemy_area.get_enemy()

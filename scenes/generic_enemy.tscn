@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhq8ybaxgx175"]
+[gd_scene load_steps=5 format=3 uid="uid://dhq8ybaxgx175"]
 
 [ext_resource type="Script" uid="uid://ciox2q0tgbe5m" path="res://scripts/generic_enemy.gd" id="1_8fubi"]
+[ext_resource type="Script" uid="uid://b5ao8onoqx8is" path="res://scenes/enemy_area.gd" id="2_v2kyb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fubi"]
 bg_color = Color(0.8, 0.8, 0.8, 0.333333)
@@ -40,9 +41,10 @@ polygon = PackedVector2Array(-100, -100, 100, -100, 100, 100, -100, 100)
 [node name="SpriteWithCollision" type="Node2D" parent="."]
 scale = Vector2(1e-05, 1e-05)
 
-[node name="Area2D" type="Area2D" parent="SpriteWithCollision"]
+[node name="EnemyArea" type="Area2D" parent="SpriteWithCollision"]
 collision_layer = 4
+script = ExtResource("2_v2kyb")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SpriteWithCollision/Area2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SpriteWithCollision/EnemyArea"]
 
 [node name="Sprite2D" type="Sprite2D" parent="SpriteWithCollision"]
