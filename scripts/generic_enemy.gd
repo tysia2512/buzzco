@@ -52,7 +52,11 @@ func _ready():
 	collision_polygon.polygon = polygon
 	area.collision_layer = 2 ** (GameState.EMEMY_COLLISION_LAYER - 1)
 	_health = max_health
+	health_bar.max_value = max_health
+	health_bar.value = _health
 
+func _process(delta: float) -> void:
+	health_bar.value = _health
 
 func should_attack() -> bool:
 	var attacks_this_turn = rng.rand_weighted([attack_chance, 1.0 - attack_chance])
