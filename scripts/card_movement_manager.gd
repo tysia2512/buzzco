@@ -31,12 +31,24 @@ func _input(event: InputEvent) -> void:
 		else:
 			if dragged_card == null:
 				return
-			var grid_tile = check_for_grid_tile(dragged_card.global_position)
-			if grid_tile != null && PollenManager.can_afford_pollen(dragged_card.card.pollen_cost) && GameState.is_player_turn():
+			var grid_tile = _check_for_grid_tile(dragged_card.global_position)
+			if grid_tile != null && _can_place_on_tile(grid_tile, dragged_card.card):
 				place_card(grid_tile)
 			else:
 				drop_card()
 			
+func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
+	if !GameState.is_player_turn():
+		return false
+	if !PollenManager.can_afford_pollen(card.pollen_cost):
+		return false
+	var bottom_neighbor = grid_tile.get_bottom_neighbor()
+
+	# If there's nothing below, you can place. Otherwise there has to be a card there.
+	if bottom_neighbor != null && bottom_neighbor.get_card() == null:
+		return false
+	return true
+
 
 func place_card(tile: GridTile):
 	grid.place_card(dragged_card, tile)
@@ -65,7 +77,7 @@ func check_for_card() -> TypedCard:
 		return
 	return typed_card
 	
-func check_for_grid_tile(position: Vector2) -> GridTile:
+func _check_for_grid_tile(position: Vector2) -> GridTile:
 	var space_state = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
 	parameters.position = position
