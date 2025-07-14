@@ -34,3 +34,7 @@ func _on_button_pressed() -> void:
 	level_play.prepare_level(level)
 	game_over_page.visible = false
 	level_play.visible = true
+
+func _on_level_play_game_over() -> void:
+	level_play.visible = false
+	game_over_page.visible = true

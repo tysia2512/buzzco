@@ -10,6 +10,7 @@ class_name LevelPlay extends Node2D
 
 signal level_cleared
 signal player_moved
+signal game_over
 
 var actions_left_in_turn: int
 
@@ -53,14 +54,10 @@ func _perform_action():
 	if actions_left_in_turn == 0:
 		start_enemy_turn()
 
-
 func _on_enemy_manager_enemy_turn_finished() -> void:
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
 
-func _on_enemy_manager_deal_damage(dmg: int) -> void:
-	health_label.animate_health_loss(dmg)
-	
 func _on_launch_attack_button_launch_assault() -> void:
 	var attack_points = grid.get_points()
 	var enemy: Enemy
@@ -80,5 +77,11 @@ func _on_launch_attack_button_launch_assault() -> void:
 
 func _attack_enemy(enemy: Enemy, attack_points: int) -> void:
 	enemy.enemy.receive_damage(attack_points)
-	# TODO
 	print("Attack enemy: ", enemy, " for: ", attack_points)
+
+
+func _on_enemy_manager_deal_damage_to_player(dmg: int) -> void:
+	GameState.player_health = max(0, GameState.player_health - dmg)
+	health_label.animate_health_loss(dmg)
+	if GameState.player_health == 0:
+		game_over.emit()

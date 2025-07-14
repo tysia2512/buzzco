@@ -11,7 +11,6 @@ func _process(delta: float):
 	text = str(GameState.player_health)
 	
 func animate_health_loss(dmg: int):
-	GameState.player_health -= dmg
 	animated_label.set_text("-" + str(dmg))
 	animated_label.visible = true
 	await animated_label.animate(1.0)

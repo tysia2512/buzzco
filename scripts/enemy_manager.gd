@@ -1,8 +1,8 @@
 class_name EnemyManager extends Node2D
 
 signal enemy_turn_finished
-signal deal_damage
 signal enemy_selected
+signal deal_damage_to_player
 
 var _enemies = []
 
@@ -31,6 +31,7 @@ func set_enemies(enemies: Array) -> void:
 	for e in enemies:
 		assert(e is Enemy)
 		e.enemy.enemy_died.connect(_handle_enemy_death)
+		e.enemy.deal_damage_to_player.connect(func(dmg): deal_damage_to_player.emit(dmg))
 	_enemies = enemies
 
 func _input(event: InputEvent) -> void:

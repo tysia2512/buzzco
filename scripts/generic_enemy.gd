@@ -1,7 +1,7 @@
 # @tool
 class_name GenericEnemy extends Node2D
 
-signal deal_damage
+signal deal_damage_to_player
 signal enemy_died
 
 var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tscn")
@@ -75,7 +75,7 @@ func should_attack() -> bool:
 			
 func attack():
 	if should_attack():
-		deal_damage.emit(attack_points)
+		deal_damage_to_player.emit(attack_points)
 		await _animate_damage("Attack: " + str(attack_points))
 	else:
 		await _animate_damage("Pass")
