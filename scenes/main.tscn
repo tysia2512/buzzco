@@ -67,6 +67,5 @@ theme_override_font_sizes/font_size = 50
 text = "Start bew gane"
 
 [connection signal="pressed" from="GameLoop/IntroPage/StartGameButton" to="GameLoop" method="_on_start_game_button_pressed"]
-[connection signal="level_cleared" from="GameLoop/LevelPlay" to="GameLoop" method="_on_level_play_level_cleared"]
 [connection signal="pressed" from="GameLoop/NextLevelPage/NextLevelButton" to="GameLoop" method="_on_next_level_button_pressed"]
 [connection signal="pressed" from="GameLoop/GameOverPage/Button" to="GameLoop" method="_on_button_pressed"]

@@ -64,20 +64,21 @@ func _on_enemy_manager_deal_damage(dmg: int) -> void:
 func _on_launch_attack_button_launch_assault() -> void:
 	var attack_points = grid.get_points()
 	var enemy: Enemy
+	var interrupted_stage = GameState.turn_stage 
 	if enemy_manager.get_enemies().size() == 1:
 		enemy = enemy_manager.get_enemies()[0]
 	else:
-		var interrupted_stage = GameState.turn_stage 
 		GameState.turn_stage = GameState.TurnStage.SPECIFIC_INPUT
 		GameState.specific_input = GameState.SpecificInput.ENEMY_SELECT
 		enemy = await enemy_manager.enemy_selected
-		GameState.turn_stage = interrupted_stage
-		
+	
+	GameState.turn_stage = interrupted_stage
 	_attack_enemy(enemy, attack_points)
 	grid.clear_cards()
 	
 	_perform_action()
 
 func _attack_enemy(enemy: Enemy, attack_points: int) -> void:
+	enemy.enemy.receive_damage(attack_points)
 	# TODO
 	print("Attack enemy: ", enemy, " for: ", attack_points)

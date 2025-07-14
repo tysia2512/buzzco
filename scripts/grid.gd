@@ -7,7 +7,6 @@ class_name Grid extends Node2D
 const FLIPPED = false
 const ROWS = [4, 3, 4, 3, 4, 3, 4, 3]
 @onready var grid = []
-@onready var enemies_rows = []
 var tile_height
 var tile_width
 var H
@@ -86,20 +85,14 @@ func get_tile(r: int, c: int) -> GridTile:
 		return null
 	return grid[r][c]
 
-func get_enemies():
-	return (enemies_rows[0] + enemies_rows[1]).filter(func(et): return et is EnemyTile).map(func(et): return et.get_enemy())
-
 func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: EnemyManager) -> void:
 	var enemies = []
-	enemies_rows.resize(2)
 
 	for row in [0, 1]:
-		enemies_rows[row] = []
-		enemies_rows[row].resize(ROWS[row])
 		for i in range(0, ROWS[row]):
 			var tile = enemy_tile.instantiate() as EnemyTile
 			tile.visible = false
-			var enemy = enemy_tile_generator.generate_enemy()
+			var enemy = enemy_tile_generator.generate_enemy() as Enemy
 			enemies.append(enemy)
 			add_child(tile)
 			tile.set_enemy(enemy)
@@ -108,7 +101,7 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 			tile.scale = Vector2(best_scale, best_scale)
 			tile.set_grid_position(row, i)
 			tile.visible = true
-			enemies_rows[row][i] = tile
 			
 	enemies.sort_custom(func(e): return (e as Enemy).position.x)
 	enemy_manager.set_enemies(enemies)
+

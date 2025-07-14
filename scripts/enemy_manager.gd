@@ -28,7 +28,6 @@ func set_enemies(enemies: Array) -> void:
 		assert(e is Enemy)
 	_enemies = enemies
 
-
 func _input(event: InputEvent) -> void:
 	if GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
 		return

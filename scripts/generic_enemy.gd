@@ -1,7 +1,8 @@
-@tool
+# @tool
 class_name GenericEnemy extends Node2D
 
 signal deal_damage
+signal enemy_died
 
 var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tscn")
 
@@ -22,6 +23,15 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 var _health: int = 10
 
 var rng = RandomNumberGenerator.new()
+
+func receive_damage(attack_points: int) -> void:
+	var m = sprite.modulate
+	sprite.modulate = Color.RED
+	_health = max(0, _health - attack_points)
+	await get_tree().create_timer(0.5).timeout
+	if _health == 0:
+		get_parent().queue_free()
+	sprite.modulate = m
 
 func get_area_size() -> Vector2:
 	var max_x = _texture_area.polygon[0].x
@@ -79,3 +89,12 @@ func _animate_damage(msg: String):
 	label.visible = true
 	await label.animate(1.0)
 	label.queue_free()
+
+func highlight():
+	_highlight(Color.WHITE)
+
+func _highlight(color: Color) -> void:
+	var m = sprite.modulate
+	sprite.modulate = color
+	await get_tree().create_timer(0.5).timeout
+	sprite.modulate = m
