@@ -104,4 +104,3 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 			
 	enemies.sort_custom(func(e): return (e as Enemy).position.x)
 	enemy_manager.set_enemies(enemies)
-

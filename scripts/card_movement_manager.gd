@@ -1,4 +1,4 @@
-extends Node2D
+class_name CardMovementManager extends Node2D
 
 signal perform_player_action
 
