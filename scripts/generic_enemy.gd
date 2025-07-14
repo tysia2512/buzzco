@@ -12,7 +12,7 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @export var texture: Texture2D
 @export var polygon: PackedVector2Array
 
-@onready var health_bar: ProgressBar = $HealthDisplay/HealthBar
+@onready var health_display: HealthDisplay = $HealthDisplay
 
 @onready var sprite_with_collision: Node2D = $SpriteWithCollision
 @onready var sprite: Sprite2D = $SpriteWithCollision/Sprite2D
@@ -28,6 +28,7 @@ func receive_damage(attack_points: int) -> void:
 	var m = sprite.modulate
 	sprite.modulate = Color.RED
 	_health = max(0, _health - attack_points)
+	health_display.set_current_health(_health)
 	await get_tree().create_timer(0.5).timeout
 	if _health == 0:
 		enemy_died.emit(get_parent())
@@ -63,11 +64,8 @@ func _ready():
 	collision_polygon.polygon = polygon
 	area.collision_layer = 2 ** (GameState.EMEMY_COLLISION_LAYER - 1)
 	_health = max_health
-	health_bar.max_value = max_health
-	health_bar.value = _health
-
-func _process(delta: float) -> void:
-	health_bar.value = _health
+	health_display.set_max_health(max_health)
+	health_display.set_current_health(_health)
 
 func should_attack() -> bool:
 	var attacks_this_turn = rng.rand_weighted([attack_chance, 1.0 - attack_chance])
