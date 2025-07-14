@@ -30,8 +30,9 @@ func receive_damage(attack_points: int) -> void:
 	_health = max(0, _health - attack_points)
 	await get_tree().create_timer(0.5).timeout
 	if _health == 0:
-		get_parent().queue_free()
-	sprite.modulate = m
+		enemy_died.emit(get_parent())
+	else:
+		sprite.modulate = m
 
 func get_area_size() -> Vector2:
 	var max_x = _texture_area.polygon[0].x

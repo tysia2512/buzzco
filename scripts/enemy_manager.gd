@@ -23,9 +23,14 @@ func _perform_enemy_attack(enemy: Enemy) -> void:
 func get_enemies() -> Array:
 	return _enemies
 
+func _handle_enemy_death(enemy: Enemy) -> void:
+	_enemies = _enemies.filter(func(e): return e != enemy)
+	enemy.queue_free()
+
 func set_enemies(enemies: Array) -> void:
 	for e in enemies:
 		assert(e is Enemy)
+		e.enemy.enemy_died.connect(_handle_enemy_death)
 	_enemies = enemies
 
 func _input(event: InputEvent) -> void:
