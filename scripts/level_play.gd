@@ -22,10 +22,10 @@ func _process(delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
 
 func prepare_level(level: int):
-	GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
+	GameState.set_up_new_level()
 	enemy_tile_generator.prepare_level(level)
-	# no need to use a signal
-	grid.generate_enemies(enemy_tile_generator, enemy_manager)
+	grid.set_up_new_level(level, enemy_tile_generator, enemy_manager)
+	# clear hand, prepare deck
 
 func _on_cheat_button_pressed() -> void:
 	level_cleared.emit()

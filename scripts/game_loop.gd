@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var level_play_scene: PackedScene = preload("res://scenes/level_play.tscn")
+
 @onready var intro_page: Node2D = $IntroPage
 @onready var level_play: Node2D = $LevelPlay
 @onready var next_level_page: NextLeveLPage = $NextLevelPage
@@ -9,32 +11,36 @@ var level: int = 1
 
 func _ready():
 	intro_page.visible = true
-	level_play.visible = false
+	level_play.queue_free()
 	next_level_page.visible = false
 	game_over_page.visible = false
 
 func _on_start_game_button_pressed() -> void:
-	level_play.prepare_level(level)
 	intro_page.visible = false
-	level_play.visible = true
+	instantiate_level(level)
 
 func _on_level_play_level_cleared() -> void:
 	level += 1
-	level_play.visible = false
+	level_play.queue_free()
 	next_level_page.next_level_button.text = "Start level " + str(level)
 	next_level_page.visible = true
 
 func _on_next_level_button_pressed() -> void:
-	level_play.prepare_level(level)
+	instantiate_level(level)
 	next_level_page.visible = false
-	level_play.visible = true
-
-func _on_button_pressed() -> void:
-	level = 1
-	level_play.prepare_level(level)
-	game_over_page.visible = false
-	level_play.visible = true
 
 func _on_level_play_game_over() -> void:
-	level_play.visible = false
+	level_play.queue_free()
 	game_over_page.visible = true
+
+func _on_new_game_button_pressed() -> void:
+	level = 1
+	instantiate_level(level)
+	game_over_page.visible = false
+
+func instantiate_level(lvl: int) -> void:
+	level_play = level_play_scene.instantiate() as LevelPlay
+	add_child(level_play)
+	level_play.game_over.connect(_on_level_play_game_over)
+	level_play.level_cleared.connect(_on_level_play_level_cleared)
+	level_play.prepare_level(lvl)

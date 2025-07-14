@@ -16,9 +16,10 @@ enum SpecificInput {
 
 const EMEMY_COLLISION_LAYER: int = 3
 
-
 const ACTIONS_PER_TURN: int = 3
 const POLLEN_RECOVERED_ON_ASSAULT: int = 5
+const PLAYER_START_HEALTH: int = 30
+const START_POLLEN: int = 5
 
 var turn_stage: TurnStage = TurnStage.PLAYER_MOVE
 var specific_input: SpecificInput
@@ -35,3 +36,8 @@ func is_player_turn() -> bool:
 # make a difference if you launch the assault or not. Ideas:
 # only the assault triggers the enemy attack
 # the assault takes 3 actions
+
+func set_up_new_level():
+	turn_stage = GameState.TurnStage.PLAYER_MOVE
+	player_health = GameState.PLAYER_START_HEALTH
+	PollenManager.set_up_new_level()

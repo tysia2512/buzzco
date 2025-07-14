@@ -58,7 +58,7 @@ Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="GameLoop/GameOverPage"]
+[node name="NewGameButton" type="Button" parent="GameLoop/GameOverPage"]
 offset_left = 761.0
 offset_top = 558.0
 offset_right = 1130.0
@@ -68,5 +68,6 @@ text = "Start bew gane"
 
 [connection signal="pressed" from="GameLoop/IntroPage/StartGameButton" to="GameLoop" method="_on_start_game_button_pressed"]
 [connection signal="game_over" from="GameLoop/LevelPlay" to="GameLoop" method="_on_level_play_game_over"]
+[connection signal="level_cleared" from="GameLoop/LevelPlay" to="GameLoop" method="_on_level_play_level_cleared"]
 [connection signal="pressed" from="GameLoop/NextLevelPage/NextLevelButton" to="GameLoop" method="_on_next_level_button_pressed"]
-[connection signal="pressed" from="GameLoop/GameOverPage/Button" to="GameLoop" method="_on_button_pressed"]
+[connection signal="pressed" from="GameLoop/GameOverPage/NewGameButton" to="GameLoop" method="_on_new_game_button_pressed"]

@@ -13,17 +13,21 @@ var H
 var W
 
 func _ready():
+	set_up_new_grid()
+
+func set_up_new_grid():
 	grid.resize(ROWS.size())
 	for i in range(0, ROWS.size()):
 		grid[i] = []
 		grid[i].resize(ROWS[i])
 		
-	var tile = grid_tile.instantiate()
-	tile.visible = false
-	add_child(tile)
-	tile_height = tile.get_texture_size().y
-	tile_width = tile.get_texture_size().x
-	tile.queue_free()
+	var size_tile = grid_tile.instantiate()
+	size_tile.visible = false
+	add_child(size_tile)
+	tile_height = size_tile.get_texture_size().y
+	tile_width = size_tile.get_texture_size().x
+	size_tile.queue_free()
+	
 	W = ROWS.max() * tile_width + tile_width / 2
 	H = (tile_height * (ROWS.size() + 2) + 1) / 2
 	
@@ -104,3 +108,17 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 			
 	enemies.sort_custom(func(e): return (e as Enemy).position.x)
 	enemy_manager.set_enemies(enemies)
+
+func set_up_new_level(
+	level: int, 
+	enemy_tile_generator: EnemyTileGenerator, 
+	enemy_manager: EnemyManager) -> void:
+	for row in grid:
+		for tile in row:
+			if tile == null:
+				continue
+			tile.queue_free()
+	grid = []
+
+	set_up_new_grid()
+	generate_enemies(enemy_tile_generator, enemy_manager)
