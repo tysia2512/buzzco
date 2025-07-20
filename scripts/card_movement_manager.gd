@@ -28,6 +28,7 @@ func _input(event: InputEvent) -> void:
 			if dragged_card:
 				dragged_card.card.set_is_dragged()
 				dragged_card.reparent(self)
+				deck_n_hand.card_spawn_point.update()
 				offset = dragged_card.position - get_global_mouse_position()
 		else:
 			if dragged_card == null:

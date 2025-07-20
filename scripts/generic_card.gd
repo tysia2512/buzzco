@@ -13,6 +13,8 @@ signal card_removed_from_board
 @onready var base_card_sprite: Sprite2D = $BaseCardSprite
 @onready var debug_attack_strength_label: Label = $DebugAttackStrengthLabel
 
+var tween: Tween
+
 var _is_dragged = false
 var _is_in_hand = true
 var _is_on_the_board = false
@@ -38,6 +40,9 @@ func get_texture_size():
 	return base_card_sprite.scale * base_card_sprite.texture.get_size()
 
 func set_is_dragged():
+	if get_parent() and get_parent().tween:
+		get_parent().tween.kill()
+		
 	_is_dragged = true
 	_is_in_hand = false
 	_is_on_the_board = false
