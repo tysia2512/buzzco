@@ -20,6 +20,10 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @onready var collision_polygon: CollisionPolygon2D = $SpriteWithCollision/EnemyArea/CollisionPolygon2D
 @onready var _texture_area: Polygon2D = $TextureArea
 
+const SCALE_ON_HOVER_MULTIPLIER = 1.25
+const SCALE_ON_ATTACK_MULTIPIER = 2.0
+var _base_scale = Vector2.ONE
+
 var _health: int = 10
 
 var rng = RandomNumberGenerator.new()
@@ -66,6 +70,7 @@ func _ready():
 	_health = max_health
 	health_display.set_max_health(max_health)
 	health_display.set_current_health(_health)
+	_base_scale = scale
 
 func should_attack() -> bool:
 	var attacks_this_turn = rng.rand_weighted([attack_chance, 1.0 - attack_chance])
@@ -74,12 +79,21 @@ func should_attack() -> bool:
 	return false
 			
 func attack():
+	# TODO: this might collide, maybe better use process for this
+	var scale_mult = SCALE_ON_ATTACK_MULTIPIER
+	if _is_hovered:
+		scale_mult = max(SCALE_ON_ATTACK_MULTIPIER, SCALE_ON_HOVER_MULTIPLIER)
+	scale = _base_scale * scale_mult
+	
+	# TODO: keep the state of hover here
 	if should_attack():
 		deal_damage_to_player.emit(attack_points)
 		await _animate_damage("Attack: " + str(attack_points))
 	else:
 		await _animate_damage("Pass")
-
+		
+	scale = _base_scale
+	
 func _animate_damage(msg: String):
 	var label: AnimatedLabel = animated_label_scene.instantiate() as AnimatedLabel
 	label.visible = false
@@ -97,3 +111,19 @@ func _highlight(color: Color) -> void:
 	sprite.modulate = color
 	await get_tree().create_timer(0.5).timeout
 	sprite.modulate = m
+
+var _is_hovered = false
+
+func _set_on_hover():
+	_is_hovered = true
+	scale *= SCALE_ON_HOVER_MULTIPLIER
+
+func _set_stop_hover():
+	_is_hovered = false
+	scale = _base_scale
+
+func _on_enemy_area_mouse_entered() -> void:
+	_set_on_hover()
+
+func _on_enemy_area_mouse_exited() -> void:
+	_set_stop_hover()
