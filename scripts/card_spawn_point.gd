@@ -21,8 +21,9 @@ func _arrange_cards():
 	if len(cards) > 0:
 		delta_x = w / (len(cards) - 1)
 	for card in cards:
-		card.position.x = current_x - w / 2
-		card.position.y = 0
+		var destination = Vector2(current_x - w / 2, 0)
+		var tween = create_tween()
+		tween.tween_property(card, "position", destination, 0.5)
 		
 		current_x += delta_x
 	
@@ -30,11 +31,13 @@ func add_card(card: TypedCard):
 	card.reparent(self)
 	_arrange_cards()
 	
-func spawn_card(card_scene: PackedScene):
-	var card = card_scene.instantiate()
-	card.visible = false
+func spawn_card(card: TypedCard, from: Vector2):
 	add_child(card)
+	var position_start = from - global_position
+	card.position = position_start
+
 	_arrange_cards()
-	card.visible = true
+
+	
 
 	

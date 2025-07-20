@@ -42,10 +42,10 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="LaunchAttackButton" type="Button" parent="."]
-offset_left = 1519.0
-offset_top = 931.0
-offset_right = 1847.0
-offset_bottom = 1017.0
+offset_left = 1489.0
+offset_top = 450.0
+offset_right = 1817.0
+offset_bottom = 536.0
 theme_override_font_sizes/font_size = 30
 text = "Launch the assault!
 "
@@ -56,6 +56,15 @@ script = ExtResource("4_5espj")
 
 [node name="DeckNHand" parent="CardMovementManager" instance=ExtResource("5_1n5cl")]
 position = Vector2(973, 983)
+
+[node name="Deck" parent="CardMovementManager/DeckNHand" index="4"]
+position = Vector2(722, -15)
+
+[node name="Sprite2D" parent="CardMovementManager/DeckNHand/Deck" index="0"]
+position = Vector2(10.8, -23)
+
+[node name="SpawnPoint" parent="CardMovementManager/DeckNHand/Deck" index="1"]
+position = Vector2(-48.2, -116)
 
 [node name="Grid" parent="CardMovementManager" instance=ExtResource("6_rvuek")]
 position = Vector2(969, 483)
@@ -74,10 +83,10 @@ visible = false
 position = Vector2(959, 231)
 
 [node name="CheatButton" type="Button" parent="."]
-offset_left = 1647.0
-offset_top = 802.0
-offset_right = 1818.0
-offset_bottom = 864.0
+offset_left = 1605.0
+offset_top = 589.0
+offset_right = 1776.0
+offset_bottom = 651.0
 text = "Skip Level"
 
 [node name="HealthLabel" parent="." instance=ExtResource("11_obdjb")]
@@ -120,3 +129,5 @@ theme_override_font_sizes/font_size = 30
 [connection signal="deal_damage_to_player" from="EnemyManager" to="." method="_on_enemy_manager_deal_damage_to_player"]
 [connection signal="enemy_turn_finished" from="EnemyManager" to="." method="_on_enemy_manager_enemy_turn_finished"]
 [connection signal="pressed" from="CheatButton" to="." method="_on_cheat_button_pressed"]
+
+[editable path="CardMovementManager/DeckNHand"]

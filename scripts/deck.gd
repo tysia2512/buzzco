@@ -8,7 +8,8 @@ class_name Deck extends Node2D
 @export var friendly_bee_card_count: int = 3
 @export var second_stinger_card_count: int = 2
 
-@onready var card_spawn_point: CardSpawnPoint = $"../CardSpawnPoint"
+@onready var hand_spawn_point: CardSpawnPoint = $"../CardSpawnPoint"
+@onready var card_spawn_point: Node2D = $SpawnPoint
 
 var _deck = []
 
@@ -30,10 +31,10 @@ func _on_spawn_card_button_pressed() -> void:
 func _deal_card():
 	if _deck.size() > 0:
 		var card_scene = _deck.pop_back()
-		
-		card_spawn_point.spawn_card(card_scene)
+		var card = card_scene.instantiate()
+
+		await hand_spawn_point.spawn_card(card, card_spawn_point.global_position)
 
 func deal_cards(cnt: int):
 	for i in range(cnt):
 		_deal_card()
-	
