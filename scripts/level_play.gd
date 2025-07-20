@@ -7,6 +7,7 @@ class_name LevelPlay extends Node2D
 @onready var actions_left_label: Label = $ActionsLeftLabel
 @onready var health_label: Label = $HealthLabel
 @onready var grid: Grid = $CardMovementManager/Grid
+@onready var deck: Deck = $CardMovementManager/DeckNHand/Deck
 
 signal level_cleared
 signal player_moved
@@ -25,7 +26,7 @@ func prepare_level(level: int):
 	GameState.set_up_new_level()
 	enemy_tile_generator.prepare_level(level)
 	grid.set_up_new_level(level, enemy_tile_generator, enemy_manager)
-	# clear hand, prepare deck
+	deck.deal_cards(GameState.START_NUMBER_OF_CARDS)
 
 func _on_cheat_button_pressed() -> void:
 	level_cleared.emit()
@@ -85,3 +86,7 @@ func _on_enemy_manager_deal_damage_to_player(dmg: int) -> void:
 	health_label.animate_health_loss(dmg)
 	if GameState.player_health == 0:
 		game_over.emit()
+
+
+func _on_card_movement_manager_card_placed() -> void:
+	deck.deal_cards(1)

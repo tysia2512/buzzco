@@ -25,7 +25,15 @@ func _ready() -> void:
 	_deck.shuffle()
 
 func _on_spawn_card_button_pressed() -> void:
+	_deal_card()
+
+func _deal_card():
 	if _deck.size() > 0:
 		var card_scene = _deck.pop_back()
 		
 		card_spawn_point.spawn_card(card_scene)
+
+func deal_cards(cnt: int):
+	for i in range(cnt):
+		_deal_card()
+	

@@ -1,6 +1,7 @@
 class_name CardMovementManager extends Node2D
 
 signal perform_player_action
+signal card_placed
 
 @onready var grid: Grid = $Grid
 @onready var deck_n_hand: DeckNHand = $DeckNHand
@@ -55,6 +56,7 @@ func place_card(tile: GridTile):
 	dragged_card = null
 	offset = Vector2.ZERO
 	perform_player_action.emit()
+	card_placed.emit()
 
 func drop_card():
 	deck_n_hand.add_card(dragged_card)
