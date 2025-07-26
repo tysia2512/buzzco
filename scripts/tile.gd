@@ -18,7 +18,6 @@ func get_top_neighbor() -> GridTile:
 	return grid.get_tile(row - 2, column)
 
 func get_bottom_neighbor() -> GridTile:
-	print("looking for a tile on: ", row + 2, ", ", column)
 	return grid.get_tile(row + 2, column)
 
 func get_neighbors() -> Array:

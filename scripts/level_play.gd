@@ -10,7 +10,6 @@ class_name LevelPlay extends Node2D
 @onready var deck: Deck = $CardMovementManager/DeckNHand/Deck
 
 signal level_cleared
-signal player_moved
 signal game_over
 
 var actions_left_in_turn: int
@@ -19,7 +18,7 @@ func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 
-func _process(delta):
+func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
 
 func prepare_level(level: int):
@@ -41,6 +40,10 @@ func start_enemy_turn():
 	enemy_turn_label.visible = false
 	enemy_manager.perform_turn()
 	
+func start_boulder_turn():
+	GameState.turn_stage = GameState.TurnStage.BOULDER_MOVE
+	grid.perform_boulder_move()
+
 func start_player_turn():
 	your_turn_label.visible = true
 	await get_tree().create_timer(1.0).timeout
@@ -56,7 +59,7 @@ func _on_launch_attack_button_perform_player_action() -> void:
 func _perform_action():
 	actions_left_in_turn -= 1
 	if actions_left_in_turn == 0:
-		start_enemy_turn()
+		start_boulder_turn()
 
 func _on_enemy_manager_enemy_turn_finished() -> void:
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
@@ -96,3 +99,8 @@ func _on_card_movement_manager_card_placed() -> void:
 
 func _on_enemy_manager_boulder_spawned(on_tile: GridTile) -> void:
 	grid.spawn_boulder(on_tile)
+
+
+func _on_grid_boulder_move_finished() -> void:
+	GameState.turn_stage = GameState.TurnStage.ENEMY_MOVE
+	start_enemy_turn()

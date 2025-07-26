@@ -5,6 +5,7 @@ signal player_turn_start
 
 enum TurnStage {
 	PLAYER_MOVE,
+	BOULDER_MOVE,
 	ENEMY_MOVE,
 	SPECIFIC_INPUT
 }

@@ -45,13 +45,13 @@ func set_is_dragged():
 	_is_dragged = true
 	_is_in_hand = false
 	_is_on_the_board = false
-	_remove_from_the_board()
+	remove_from_the_board()
 
 func set_in_hand():
 	_is_dragged = false
 	_is_in_hand = true
 	_is_on_the_board = false
-	_remove_from_the_board()
+	remove_from_the_board()
 	
 func set_on_the_board(tile: GridTile):
 	assert(_tile_placed == null)
@@ -66,11 +66,11 @@ func set_on_the_board(tile: GridTile):
 	PollenManager.pay_pollen(pollen_cost)
 	card_placed.emit(tile)
 
-func _remove_from_the_board():
+func remove_from_the_board():
 	if _tile_placed != null:
-		card_removed_from_board.emit(_tile_placed)
 		_tile_placed.remove_card()
 		_tile_placed = null
+		card_removed_from_board.emit(_tile_placed)
 
 func is_in_hand() -> bool:
 	return _is_in_hand

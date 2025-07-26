@@ -126,6 +126,7 @@ theme_override_font_sizes/font_size = 30
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="card_placed" from="CardMovementManager" to="." method="_on_card_movement_manager_card_placed"]
 [connection signal="perform_player_action" from="CardMovementManager" to="." method="_on_card_movement_manager_perform_player_action"]
+[connection signal="boulder_move_finished" from="CardMovementManager/Grid" to="." method="_on_grid_boulder_move_finished"]
 [connection signal="boulder_spawned" from="EnemyManager" to="." method="_on_enemy_manager_boulder_spawned"]
 [connection signal="deal_damage_to_player" from="EnemyManager" to="." method="_on_enemy_manager_deal_damage_to_player"]
 [connection signal="enemy_turn_finished" from="EnemyManager" to="." method="_on_enemy_manager_enemy_turn_finished"]

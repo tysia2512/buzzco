@@ -4,3 +4,6 @@ class_name TypedCard extends Node2D
 
 var card: GenericCard
 var tween: Tween
+
+func remove_from_board():
+	card.remove_from_the_board()

@@ -5,6 +5,8 @@ class_name Grid extends Node2D
 @onready var boulder_scene = preload("res://scenes/boulder.tscn")
 @onready var cards_node: Node2D = $Cards
 
+signal boulder_move_finished
+
 const FLIPPED = false
 const ROWS = [4, 3, 4, 3, 4, 3, 4, 3]
 @onready var grid = []
@@ -113,7 +115,10 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 
 func spawn_boulder(on_tile: GridTile):
 	var boulder = boulder_scene.instantiate() as Boulder
-	var card = on_tile.get_card()
+	if on_tile.boulder != null:
+		return
+
+	_clear_for_boulder(on_tile)
 	
 	on_tile.boulder = boulder
 	on_tile.add_child(boulder)
@@ -132,3 +137,39 @@ func set_up_new_level(
 
 	set_up_new_grid()
 	generate_enemies(enemy_tile_generator, enemy_manager)
+
+func perform_boulder_move():
+	var back_to_front = true
+
+	var rows = range(0, ROWS.size())
+	rows.reverse()
+	for r in rows:
+		var inds = range(0, ROWS[r])
+		if back_to_front:
+			inds.reverse()
+		for c in inds:
+			var tile = get_tile(r, c)
+			if tile == null or tile.boulder == null:
+				continue
+
+			var to_tile: GridTile = tile.get_bottom_neighbor()
+			if to_tile == null or to_tile.boulder != null:
+				continue
+
+			_move_boulder(tile.boulder, tile, tile.get_bottom_neighbor())
+
+	boulder_move_finished.emit()
+
+func _move_boulder(b: Boulder, from_tile: GridTile, to_tile: GridTile) -> void:
+	assert(to_tile != null and to_tile.boulder == null)
+	_clear_for_boulder(to_tile)
+	b.reparent(to_tile)
+	b.position = Vector2.ZERO
+	to_tile.boulder = b
+	from_tile.boulder = null
+
+
+func _clear_for_boulder(to_tile: GridTile) -> void:
+	var card = to_tile.get_card()
+	if card:
+		card.remove_from_board()
