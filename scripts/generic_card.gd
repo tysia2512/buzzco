@@ -32,8 +32,7 @@ func _update_labels():
 	name_label.set_text(card_name)
 	debug_attack_strength_label.set_text(str(get_attack_with_effects()))
 
-func _process(delta: float) -> void:
-	#print("process card with name: ", card_name)
+func _process(_delta: float) -> void:
 	_update_labels()
 	
 func get_texture_size():
@@ -46,33 +45,32 @@ func set_is_dragged():
 	_is_dragged = true
 	_is_in_hand = false
 	_is_on_the_board = false
-	if _tile_placed != null:
-		_tile_placed.remove_card()
-		_tile_placed = null
+	_remove_from_the_board()
 
 func set_in_hand():
 	_is_dragged = false
 	_is_in_hand = true
 	_is_on_the_board = false
-	if _tile_placed != null:
-		emit_signal("card_removed_from_board", _tile_placed)
-		_tile_placed.remove_card()
-		_tile_placed = null
+	_remove_from_the_board()
 	
 func set_on_the_board(tile: GridTile):
+	assert(_tile_placed == null)
 	_is_dragged = false
 	_is_in_hand = false
 	_is_on_the_board = true
 	if !PollenManager.can_afford_pollen(pollen_cost):
 		set_in_hand()
 		return
-	
-	if _tile_placed != null:
-		emit_signal("card_removed_from_board", _tile_placed)
-		_tile_placed.remove_card()
+
 	_tile_placed = tile
 	PollenManager.pay_pollen(pollen_cost)
-	emit_signal("card_placed", tile)
+	card_placed.emit(tile)
+
+func _remove_from_the_board():
+	if _tile_placed != null:
+		card_removed_from_board.emit(_tile_placed)
+		_tile_placed.remove_card()
+		_tile_placed = null
 
 func is_in_hand() -> bool:
 	return _is_in_hand

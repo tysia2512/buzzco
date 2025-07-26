@@ -2,6 +2,7 @@ class_name GridTile extends Tile
 
 @onready var sprite: Sprite2D = $Sprite2D
 
+var boulder: Boulder = null
 var _card: TypedCard = null
 var _effects = {}
 
@@ -11,7 +12,7 @@ func get_texture_size():
 func put_card(card: TypedCard) -> void:
 	_card = card
 	
-func remove_card():
+func remove_card() -> void:
 	_card = null
 	
 func get_card() -> TypedCard:

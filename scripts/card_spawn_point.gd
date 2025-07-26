@@ -44,7 +44,3 @@ func spawn_card(card: TypedCard, from: Vector2):
 	card.position = position_start
 
 	_arrange_cards()
-
-	
-
-	

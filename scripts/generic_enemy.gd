@@ -12,7 +12,7 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @export var attack_points: int = 5
 @export var max_health: int = 10
 @export var attack_chance = 0.5
-@export var boulder_drop_chance = 0.9
+@export var boulder_drop_chance = 0.4
 @export var texture: Texture2D
 @export var polygon: PackedVector2Array
 

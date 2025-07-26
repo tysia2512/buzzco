@@ -33,3 +33,4 @@ func _on_card_card_removed_from_board() -> void:
 	for effect in effects:
 		effect.remove()
 		effect.queue_free()
+	queue_free()

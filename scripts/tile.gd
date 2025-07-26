@@ -18,25 +18,25 @@ func get_top_neighbor() -> GridTile:
 	return grid.get_tile(row - 2, column)
 
 func get_bottom_neighbor() -> GridTile:
+	print("looking for a tile on: ", row + 2, ", ", column)
 	return grid.get_tile(row + 2, column)
 
-func get_neighbors() -> Array: 
+func get_neighbors() -> Array:
 	var neighbors = [
-		Vector2(row - 2, column), 
+		Vector2(row - 2, column),
 		Vector2(row + 2, column),
-		Vector2(row - 1, column), 
+		Vector2(row - 1, column),
 		Vector2(row + 1, column)]
 	if row % 2 == 1:
 		neighbors.append_array([
-			Vector2(row - 1, column + 1), 
+			Vector2(row - 1, column + 1),
 			Vector2(row + 1, column + 1)
 		])
 	else:
 		neighbors.append_array([
-			Vector2(row - 1, column - 1), 
+			Vector2(row - 1, column - 1),
 			Vector2(row + 1, column - 1)
 		])
 	return neighbors.map(
 		func(coord): return grid.get_tile(coord.x, coord.y)
 		).filter(func(tile): return tile != null)
-		

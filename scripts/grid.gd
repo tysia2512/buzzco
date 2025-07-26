@@ -2,6 +2,7 @@ class_name Grid extends Node2D
 
 @onready var enemy_tile = preload("res://scenes/enemy_tile.tscn")
 @onready var grid_tile = preload("res://scenes/grid_tile.tscn")
+@onready var boulder_scene = preload("res://scenes/boulder.tscn")
 @onready var cards_node: Node2D = $Cards
 
 const FLIPPED = false
@@ -95,6 +96,9 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 	for row in [0, 1]:
 		for i in range(0, ROWS[row]):
 			var tile = enemy_tile.instantiate() as EnemyTile
+			tile.grid = self
+			tile.row = row
+			tile.column = i
 			tile.visible = false
 			var enemy = enemy_tile_generator.generate_enemy() as Enemy
 			enemies.append(enemy)
@@ -106,6 +110,14 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 			
 	enemies.sort_custom(func(e): return (e as Enemy).position.x)
 	enemy_manager.set_enemies(enemies)
+
+func spawn_boulder(on_tile: GridTile):
+	var boulder = boulder_scene.instantiate() as Boulder
+	var card = on_tile.get_card()
+	
+	on_tile.boulder = boulder
+	on_tile.add_child(boulder)
+	#TODO: instantiate scene, if there's a card there - remove it (also remove the effects)
 
 func set_up_new_level(
 	level: int, 

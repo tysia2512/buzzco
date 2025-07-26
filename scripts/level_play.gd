@@ -31,6 +31,9 @@ func prepare_level(level: int):
 func _on_cheat_button_pressed() -> void:
 	level_cleared.emit()
 
+func move_boulders():
+	pass
+
 func start_enemy_turn():
 	GameState.turn_stage = GameState.TurnStage.ENEMY_MOVE
 	enemy_turn_label.visible = true
@@ -90,3 +93,6 @@ func _on_enemy_manager_deal_damage_to_player(dmg: int) -> void:
 
 func _on_card_movement_manager_card_placed() -> void:
 	deck.deal_cards(1)
+
+func _on_enemy_manager_boulder_spawned(on_tile: GridTile) -> void:
+	grid.spawn_boulder(on_tile)

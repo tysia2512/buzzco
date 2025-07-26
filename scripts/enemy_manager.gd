@@ -3,15 +3,24 @@ class_name EnemyManager extends Node2D
 signal enemy_turn_finished
 signal enemy_selected
 signal deal_damage_to_player
+signal boulder_spawned
 
 var _enemies = []
 
 func perform_turn():
 	for enemy in _enemies:
 		assert(enemy is Enemy)
+		await _spawn_boulder(enemy)
+
+	for enemy in _enemies:
+		assert(enemy is Enemy)
 		await _perform_enemy_attack(enemy)
 		
 	enemy_turn_finished.emit()
+
+func _spawn_boulder(enemy: Enemy) -> void:
+	await enemy.spawn_boulder()
+	await get_tree().create_timer(0.1).timeout
 
 func _perform_enemy_attack(enemy: Enemy) -> void:
 	await enemy.attack()
@@ -24,11 +33,15 @@ func _handle_enemy_death(enemy: Enemy) -> void:
 	_enemies = _enemies.filter(func(e): return e != enemy)
 	enemy.queue_free()
 
+func _handle_boulder_spawned(on_tile: Tile) -> void:
+	boulder_spawned.emit(on_tile)
+
 func set_enemies(enemies: Array) -> void:
 	for e in enemies:
 		assert(e is Enemy)
 		e.enemy.enemy_died.connect(_handle_enemy_death)
 		e.enemy.deal_damage_to_player.connect(func(dmg): deal_damage_to_player.emit(dmg))
+		e.enemy.boulder_spawned.connect(_handle_boulder_spawned)
 	_enemies = enemies
 
 func _input(event: InputEvent) -> void:
