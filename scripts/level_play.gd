@@ -104,3 +104,7 @@ func _on_enemy_manager_boulder_spawned(on_tile: GridTile) -> void:
 func _on_grid_boulder_move_finished() -> void:
 	GameState.turn_stage = GameState.TurnStage.ENEMY_MOVE
 	start_enemy_turn()
+
+
+func _on_enemy_manager_all_enemies_dead() -> void:
+	level_cleared.emit()

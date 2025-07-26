@@ -4,6 +4,7 @@ signal enemy_turn_finished
 signal enemy_selected
 signal deal_damage_to_player
 signal boulder_spawned
+signal all_enemies_dead
 
 var _enemies = []
 
@@ -32,6 +33,8 @@ func get_enemies() -> Array:
 func _handle_enemy_death(enemy: Enemy) -> void:
 	_enemies = _enemies.filter(func(e): return e != enemy)
 	enemy.queue_free()
+	if _enemies.is_empty():
+		all_enemies_dead.emit()
 
 func _handle_boulder_spawned(on_tile: Tile) -> void:
 	boulder_spawned.emit(on_tile)
