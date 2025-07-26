@@ -95,6 +95,10 @@ func get_tile(r: int, c: int) -> GridTile:
 func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: EnemyManager) -> void:
 	var enemies = []
 
+	var enemy_scenes = enemy_tile_generator.generate_enemies([ROWS[0], ROWS[1]])
+	print("ENEMY SCENES")
+	print(enemy_scenes)
+
 	for row in [0, 1]:
 		for i in range(0, ROWS[row]):
 			var tile = enemy_tile.instantiate() as EnemyTile
@@ -102,7 +106,11 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 			tile.row = row
 			tile.column = i
 			tile.visible = false
-			var enemy = enemy_tile_generator.generate_enemy() as Enemy
+			var enemy_scene = enemy_scenes[row][i] as PackedScene
+			if enemy_scene == null:
+				continue
+				
+			var enemy = enemy_scene.instantiate() as Enemy
 			enemies.append(enemy)
 			add_child(tile)
 			tile.set_enemy(enemy)

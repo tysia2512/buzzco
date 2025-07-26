@@ -53,12 +53,8 @@ func _ready():
 	_base_scale = scale
 
 func _should_attack() -> bool:
-	var attacks_this_turn = rng.rand_weighted([attack_chance, 1.0 - attack_chance])
-	return attacks_this_turn == 0
+	return Utils.rand_with_chance(attack_chance)
 
-func should_drop_boulder() -> bool:
-	return rng.rand_weighted([boulder_drop_chance, 1.0 - boulder_drop_chance]) == 0 
-			
 func attack():
 	# TODO: this might collide, maybe better use process for this
 	var scale_mult = SCALE_ON_ATTACK_MULTIPIER
@@ -76,8 +72,7 @@ func attack():
 	scale = _base_scale
 
 func _should_spawn_boulder() -> bool:
-	var drops_this_turn = rng.rand_weighted([boulder_drop_chance, 1.0 - boulder_drop_chance])
-	return drops_this_turn == 0
+	return Utils.rand_with_chance(boulder_drop_chance)
 
 func spawn_boulder():
 	var scale_mult = SCALE_ON_ATTACK_MULTIPIER
