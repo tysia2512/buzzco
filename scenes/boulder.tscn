@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxhfcmvihyn3p"]
+
+[ext_resource type="Script" uid="uid://d0da25fspmut6" path="res://scenes/boulder.gd" id="1_475t6"]
+[ext_resource type="Texture2D" uid="uid://bm72tqdcw7d8h" path="res://assets/7e763f28-b779-4e67-aee7-64bc4e356d88.png" id="2_7lox5"]
+[ext_resource type="PackedScene" uid="uid://bgilbttcnjaf8" path="res://scenes/grid_sprite_2d.tscn" id="2_wye2t"]
+
+[node name="Boulder" type="Node2D"]
+script = ExtResource("1_475t6")
+
+[node name="GridSprite2D" parent="." instance=ExtResource("2_wye2t")]
+texture = ExtResource("2_7lox5")
