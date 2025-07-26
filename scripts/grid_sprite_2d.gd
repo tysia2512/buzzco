@@ -7,9 +7,7 @@ func _ready():
 	
 func init_texture(t: Texture2D):
 	texture = t
-	print("set texture: ", texture)
 	_set_scale()
-	print("scale is: ", scale)
 	
 func _set_scale():
 	if texture == null:

@@ -2,8 +2,14 @@
 # and will queue free
 class_name TypedCard extends Node2D
 
-var card: GenericCard
 var tween: Tween
-
+@export var card: GenericCard:
+	set(value):
+		card = value
+		card.card_removed_from_board.connect(_remove)
+		
 func remove_from_board():
 	card.remove_from_the_board()
+	
+func _remove(_tile: GridTile) -> void:
+	queue_free()

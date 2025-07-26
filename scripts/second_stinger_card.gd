@@ -8,7 +8,7 @@ const _name = "Second Stinger"
 func _init():
 	visible = false
 	
-func _get_effects() -> Array[Effect]:
+func _get_effects() -> Array[Node]:
 	return get_children().filter(func(node): return node is Effect)
 
 func _ready():
@@ -28,9 +28,9 @@ func _on_card_card_placed(tile: GridTile) -> void:
 		add_child(effect)
 		effect.place(self, top_tile)
 
-func _on_card_card_removed_from_board() -> void:
+func _remove(tile: GridTile) -> void:
 	var effects = _get_effects()
 	for effect in effects:
 		effect.remove()
 		effect.queue_free()
-	queue_free()
+	super._remove(tile)

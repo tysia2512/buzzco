@@ -70,6 +70,7 @@ func remove_from_the_board():
 	if _tile_placed != null:
 		_tile_placed.remove_card()
 		_tile_placed = null
+		print("send card_removed_from_board")
 		card_removed_from_board.emit(_tile_placed)
 
 func is_in_hand() -> bool:

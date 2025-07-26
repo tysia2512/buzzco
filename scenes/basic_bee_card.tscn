@@ -7,3 +7,5 @@
 script = ExtResource("1_xb5wf")
 
 [node name="Card" parent="." instance=ExtResource("1_rdu3o")]
+
+[connection signal="card_removed_from_board" from="Card" to="." method="_on_card_card_removed_from_board"]
