@@ -156,7 +156,7 @@ func perform_boulder_move():
 			if to_tile == null or to_tile.boulder != null:
 				continue
 
-			_move_boulder(tile.boulder, tile, tile.get_bottom_neighbor())
+			await _move_boulder(tile.boulder, tile, tile.get_bottom_neighbor())
 
 	boulder_move_finished.emit()
 
@@ -168,6 +168,7 @@ func _move_boulder(b: Boulder, from_tile: GridTile, to_tile: GridTile) -> void:
 	to_tile.boulder = b
 	from_tile.boulder = null
 
+	await get_tree().create_timer(0.1).timeout
 
 func _clear_for_boulder(to_tile: GridTile) -> void:
 	var card = to_tile.get_card()
