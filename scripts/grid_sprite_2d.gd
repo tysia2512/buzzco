@@ -3,8 +3,19 @@ class_name GridSprite2D extends Sprite2D
 @onready var grid_tile_scene = preload("res://scenes/grid_tile.tscn")
 
 func _ready():
-	var text_size = texture.get_size()
+	_set_scale()
 	
+func init_texture(t: Texture2D):
+	texture = t
+	print("set texture: ", texture)
+	_set_scale()
+	print("scale is: ", scale)
+	
+func _set_scale():
+	if texture == null:
+		return
+		
+	var text_size = texture.get_size()
 	var tile = grid_tile_scene.instantiate()
 	add_child(tile)
 	var tile_height = tile.get_texture_size().y
@@ -13,6 +24,3 @@ func _ready():
 	
 	var s = min(tile_width / text_size.x, tile_height / text_size.y)
 	scale = Vector2(s, s)
-
-	
-	

@@ -3,19 +3,23 @@ class_name GenericEnemy extends Node2D
 
 signal deal_damage_to_player
 signal enemy_died
+signal boulder_spawned
+
+var tile: Tile
 
 var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tscn")
 
 @export var attack_points: int = 5
 @export var max_health: int = 10
 @export var attack_chance = 0.5
+@export var boulder_drop_chance = 0.9
 @export var texture: Texture2D
 @export var polygon: PackedVector2Array
 
 @onready var health_display: HealthDisplay = $HealthDisplay
 
 @onready var sprite_with_collision: Node2D = $SpriteWithCollision
-@onready var sprite: Sprite2D = $SpriteWithCollision/Sprite2D
+@onready var sprite: Sprite2D = $SpriteWithCollision/GridSprite2D
 @onready var area: Area2D = $SpriteWithCollision/EnemyArea
 @onready var collision_polygon: CollisionPolygon2D = $SpriteWithCollision/EnemyArea/CollisionPolygon2D
 @onready var _texture_area: Polygon2D = $TextureArea
@@ -39,32 +43,8 @@ func receive_damage(attack_points: int) -> void:
 	else:
 		sprite.modulate = m
 
-func get_area_size() -> Vector2:
-	var max_x = _texture_area.polygon[0].x
-	var min_x = _texture_area.polygon[0].x
-	var max_y = _texture_area.polygon[0].y
-	var min_y = _texture_area.polygon[0].y
-	for vertex in _texture_area.polygon:
-		max_x = max(max_x, vertex.x)
-		min_x = min(min_x, vertex.x)
-		max_y = max(max_y, vertex.y)
-		min_y = min(min_y, vertex.y)
-
-	var w = max_x - min_x
-	var h = max_y - min_y
-
-	return Vector2(w, h)
-
-func _get_texture_scale() -> Vector2:
-	var area_size = get_area_size()
-	var scale_x = area_size.x / texture.get_width()
-	var scale_y = area_size.y / texture.get_height()
-	var s = min(scale_x, scale_y)
-	return Vector2(s, s)
-
 func _ready():
-	sprite_with_collision.scale = _get_texture_scale()
-	sprite.texture = texture
+	sprite_with_collision.set_texture(texture)
 	collision_polygon.polygon = polygon
 	area.collision_layer = 2 ** (GameState.EMEMY_COLLISION_LAYER - 1)
 	_health = max_health
@@ -72,11 +52,12 @@ func _ready():
 	health_display.set_current_health(_health)
 	_base_scale = scale
 
-func should_attack() -> bool:
+func _should_attack() -> bool:
 	var attacks_this_turn = rng.rand_weighted([attack_chance, 1.0 - attack_chance])
-	if attacks_this_turn == 0:
-		return true
-	return false
+	return attacks_this_turn == 0
+
+func should_drop_boulder() -> bool:
+	return rng.rand_weighted([boulder_drop_chance, 1.0 - boulder_drop_chance]) == 0 
 			
 func attack():
 	# TODO: this might collide, maybe better use process for this
@@ -86,13 +67,32 @@ func attack():
 	scale = _base_scale * scale_mult
 	
 	# TODO: keep the state of hover here
-	if should_attack():
+	if _should_attack():
 		deal_damage_to_player.emit(attack_points)
 		await _animate_damage("Attack: " + str(attack_points))
 	else:
 		await _animate_damage("Pass")
 		
 	scale = _base_scale
+
+func _should_spawn_boulder() -> bool:
+	var drops_this_turn = rng.rand_weighted([boulder_drop_chance, 1.0 - boulder_drop_chance])
+	return drops_this_turn == 0
+
+func spawn_boulder():
+	var scale_mult = SCALE_ON_ATTACK_MULTIPIER
+	if _is_hovered:
+		scale_mult = max(SCALE_ON_ATTACK_MULTIPIER, SCALE_ON_HOVER_MULTIPLIER)
+	scale = _base_scale * scale_mult
+	
+	if _should_spawn_boulder():
+		_spawn_boulder()
+	
+	scale = _base_scale
+
+func _spawn_boulder():
+	if tile and tile.get_bottom_neighbor():
+		boulder_spawned.emit(tile.get_bottom_neighbor())
 	
 func _animate_damage(msg: String):
 	var label: AnimatedLabel = animated_label_scene.instantiate() as AnimatedLabel

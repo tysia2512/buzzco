@@ -101,8 +101,6 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 			add_child(tile)
 			tile.set_enemy(enemy)
 			tile.position = get_coord(row, i)
-			var best_scale = enemy.get_scale_to_fit(tile_width, tile_height)
-			tile.scale = Vector2(best_scale, best_scale)
 			tile.set_grid_position(row, i)
 			tile.visible = true
 			

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhq8ybaxgx175"]
+[gd_scene load_steps=8 format=3 uid="uid://dhq8ybaxgx175"]
 
 [ext_resource type="Script" uid="uid://ciox2q0tgbe5m" path="res://scripts/generic_enemy.gd" id="1_8fubi"]
 [ext_resource type="Script" uid="uid://c2gdu55e32jrq" path="res://scenes/health_display.gd" id="2_fcrdg"]
 [ext_resource type="Script" uid="uid://b5ao8onoqx8is" path="res://scenes/enemy_area.gd" id="2_v2kyb"]
+[ext_resource type="Script" uid="uid://dtlcchgt3xjsb" path="res://scripts/sprite_with_collision.gd" id="3_h66n4"]
+[ext_resource type="Script" uid="uid://dr65pifk4fdu7" path="res://scripts/grid_sprite_2d.gd" id="4_0mm51"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fubi"]
 bg_color = Color(0.8, 0.8, 0.8, 0.333333)
@@ -46,6 +48,7 @@ polygon = PackedVector2Array(-100, -100, 100, -100, 100, 100, -100, 100)
 
 [node name="SpriteWithCollision" type="Node2D" parent="."]
 scale = Vector2(1e-05, 1e-05)
+script = ExtResource("3_h66n4")
 
 [node name="EnemyArea" type="Area2D" parent="SpriteWithCollision"]
 collision_layer = 4
@@ -53,7 +56,9 @@ script = ExtResource("2_v2kyb")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SpriteWithCollision/EnemyArea"]
 
-[node name="Sprite2D" type="Sprite2D" parent="SpriteWithCollision"]
+[node name="GridSprite2D" type="Sprite2D" parent="SpriteWithCollision"]
+script = ExtResource("4_0mm51")
+metadata/_custom_type_script = "uid://dr65pifk4fdu7"
 
 [connection signal="mouse_entered" from="SpriteWithCollision/EnemyArea" to="." method="_on_enemy_area_mouse_entered"]
 [connection signal="mouse_exited" from="SpriteWithCollision/EnemyArea" to="." method="_on_enemy_area_mouse_exited"]
