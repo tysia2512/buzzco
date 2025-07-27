@@ -3,9 +3,28 @@ class_name GenericCard extends Node2D
 signal card_placed
 signal card_removed_from_board
 
-@export var attack_value: int = 1
-@export var card_name: String = "Card"
-@export var description: String = "Card Description"
+@export var attack_value: int = 1:
+	set(value):
+		attack_value = value
+		if card_display:
+			card_display.attack = value
+		if attack_label:
+			attack_label.set_text(str(attack_value))
+
+@export var card_name: String = "Card":
+	set(value):
+		card_name = value
+		if card_display:
+			card_display.card_name = value
+		if name_label:
+			name_label.set_text(value)
+
+@export var description: String = "Card Description":
+	set(value):
+		description = value
+		if card_display:
+			card_display.description = value
+
 @export var current_attack_points: int = 1
 @export var pollen_cost: int = 2
 @export var texture: Texture2D:
@@ -56,7 +75,7 @@ var _is_on_the_board = false:
 	set(value):
 		if value == _is_on_the_board:
 			return
-			
+
 		_is_on_the_board = value
 		_is_dragged = false
 		_is_in_hand = false
@@ -77,12 +96,7 @@ func _ready():
 	_update_labels()
 
 func _update_labels():
-	attack_label.set_text(str(attack_value))
-	name_label.set_text(card_name)
 	debug_attack_strength_label.set_text(str(get_attack_with_effects()))
-
-func _process(_delta: float) -> void:
-	_update_labels()
 	
 func _set_card_display(mode: CardDisplayMode) -> void:
 	_card_display_mode = mode

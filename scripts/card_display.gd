@@ -8,9 +8,22 @@ class_name CardDisplay extends Node2D
 			_image_sprite.texture = value
 			_resize_texture()
 			
-@export var card_name: String = "Card name"
-@export var attack: int = 10
-@export var description: String = "This is a card. It can be played and placed on the board."
+@export var card_name: String = "Card name":
+	set(value):
+		card_name = value
+		if _image_sprite:
+			$Name.text = value
+			
+@export var attack: int = 10:
+	set(value):
+		attack = value
+		if _image_sprite:
+			$AttackPts.text = str(value)
+@export var description: String = "This is a card. It can be played and placed on the board.":
+	set(value):
+		description = value
+		if _image_sprite:
+			$Description.text = value
 
 @onready var _image_sprite: Sprite2D = $ImageSprite
 @onready var _image_polygon: Polygon2D = $CardTemplateSprite/Polygon2D
