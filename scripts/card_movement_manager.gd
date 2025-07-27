@@ -85,6 +85,8 @@ func check_for_card() -> TypedCard:
 	var card = (card_area as CardArea).get_card()
 	assert(card != null)
 	assert(card is TypedCard)
+	if card.card.is_on_the_board():
+		return null
 	return card
 	
 func _check_for_grid_tile(p: Vector2) -> GridTile:

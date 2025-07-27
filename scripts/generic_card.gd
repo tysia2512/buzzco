@@ -120,7 +120,6 @@ func _set_card_display_visible(v: bool) -> void:
 	card_display.enable_collision = v
 
 func _set_card_display_mode() -> void:
-	print("THE SETTTER IS RUNNNING WIHT: ", _card_display_mode)
 	_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE || _card_display_mode == CardDisplayMode.HOVER)
 	if _card_display_mode == CardDisplayMode.HOVER:
 		card_display.position = $HoverOffset.position
