@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://qm813tqd45mo"]
+[gd_scene load_steps=5 format=3 uid="uid://qm813tqd45mo"]
 
 [ext_resource type="Script" uid="uid://cyupccclserhd" path="res://scripts/deck_n_hand.gd" id="1_fmhf8"]
 [ext_resource type="Script" uid="uid://0feak1ytnkat" path="res://scripts/card_spawn_point.gd" id="2_8h5ks"]
-[ext_resource type="Texture2D" uid="uid://cea7tuoyppfy8" path="res://assets/hex_blue.svg" id="3_8h5ks"]
 [ext_resource type="Script" uid="uid://daq7glj8xlc4j" path="res://scripts/deck.gd" id="4_q0ww4"]
 [ext_resource type="Texture2D" uid="uid://cbehd0bdyg44f" path="res://assets/16cc3acd-a2dd-4fe1-85f7-df177e5ff541.png" id="5_50gwp"]
 
@@ -20,10 +19,6 @@ offset_top = -168.0
 offset_right = 56.0
 offset_bottom = -137.0
 text = "Spawn a card"
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_8h5ks")
 
 [node name="Deck" type="Node2D" parent="."]
 script = ExtResource("4_q0ww4")
