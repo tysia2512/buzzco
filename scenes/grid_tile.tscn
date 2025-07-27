@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://qvga7oo7m85q"]
 
 [ext_resource type="Script" uid="uid://cewurguepsev6" path="res://scripts/grid_tile.gd" id="1_0v2c5"]
-[ext_resource type="Texture2D" uid="uid://cea7tuoyppfy8" path="res://assets/hex_blue.svg" id="1_wprxu"]
+[ext_resource type="Texture2D" uid="uid://16cbqx6pwg7b" path="res://assets/hexagon.png" id="2_uvppq"]
 [ext_resource type="Script" uid="uid://dh2wsik7lhugt" path="res://scripts/grid_tile_sprite.gd" id="3_uvppq"]
 
 [node name="GridTile" type="Node2D"]
 script = ExtResource("1_0v2c5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.23, 0.23)
-texture = ExtResource("1_wprxu")
+scale = Vector2(0.115, 0.115)
+texture = ExtResource("2_uvppq")
 script = ExtResource("3_uvppq")
 
 [node name="Area2D" type="Area2D" parent="."]
