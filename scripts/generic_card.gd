@@ -7,11 +7,17 @@ signal card_removed_from_board
 @export var card_name: String = "Card"
 @export var current_attack_points: int = 1
 @export var pollen_cost: int = 2
+@export var texture: Texture2D:
+	set(value):
+		texture = value
+		if sprite:
+			sprite.init_texture(value)
+
 
 @onready var name_label: Label = $NameLabel
 @onready var attack_label: Label = $AttackLabel
-@onready var base_card_sprite: Sprite2D = $BaseCardSprite
 @onready var debug_attack_strength_label: Label = $DebugAttackStrengthLabel
+@onready var sprite: GridSprite2D = $GridSprite2D
 
 var tween: Tween
 
@@ -24,6 +30,7 @@ func _init() -> void:
 	visible = false
 
 func _ready():
+	sprite.init_texture(texture)
 	_update_labels()
 	visible = true
 
@@ -36,7 +43,7 @@ func _process(_delta: float) -> void:
 	_update_labels()
 	
 func get_texture_size():
-	return base_card_sprite.scale * base_card_sprite.texture.get_size()
+	return sprite.scale * sprite.texture.get_size()
 
 func set_is_dragged():
 	if get_parent() and get_parent().tween:

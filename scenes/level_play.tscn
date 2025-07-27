@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0t0ehhi430ol"]
+[gd_scene load_steps=11 format=3 uid="uid://b0t0ehhi430ol"]
 
 [ext_resource type="Script" uid="uid://o4fo1k5fxst8" path="res://scripts/level_play.gd" id="1_1uwbi"]
 [ext_resource type="Script" uid="uid://dupf0687sotgl" path="res://scripts/pollen_count.gd" id="1_2jmw1"]
@@ -8,8 +8,6 @@
 [ext_resource type="Script" uid="uid://btxvhv1dwgx66" path="res://scripts/card_movement_manager.gd" id="4_5espj"]
 [ext_resource type="PackedScene" uid="uid://qm813tqd45mo" path="res://scenes/deck_n_hand.tscn" id="5_1n5cl"]
 [ext_resource type="PackedScene" uid="uid://q1bx0oxeisoc" path="res://scenes/grid.tscn" id="6_rvuek"]
-[ext_resource type="PackedScene" uid="uid://ckpptl2jqbff3" path="res://scenes/basic_bee_card.tscn" id="7_wvadp"]
-[ext_resource type="PackedScene" uid="uid://cnbumly8wd46w" path="res://scenes/friendly_bee_card.tscn" id="8_x5h4f"]
 [ext_resource type="PackedScene" uid="uid://cx2m6md070sfq" path="res://scenes/enemy_manager.tscn" id="9_nk028"]
 [ext_resource type="PackedScene" uid="uid://cn0nek0sj8uyd" path="res://scenes/health_label.tscn" id="11_obdjb"]
 
@@ -65,13 +63,6 @@ position = Vector2(-48.2, -116)
 
 [node name="Grid" parent="CardMovementManager" instance=ExtResource("6_rvuek")]
 position = Vector2(969, 483)
-
-[node name="CardPresets" type="Node2D" parent="."]
-visible = false
-
-[node name="BasicBeeCard" parent="CardPresets" instance=ExtResource("7_wvadp")]
-
-[node name="FriendlyBeeCard" parent="CardPresets" instance=ExtResource("8_x5h4f")]
 
 [node name="AnimationManager" type="Node2D" parent="."]
 

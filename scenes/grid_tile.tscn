@@ -19,6 +19,7 @@ collision_layer = 2
 polygon = PackedVector2Array(-30, -54, 32, -54, 63, 1, 32, 54, -31, 55, -63, 0)
 
 [node name="DebugCoordLabel" type="Label" parent="."]
+visible = false
 offset_left = -30.0
 offset_top = -20.0
 offset_right = 33.0

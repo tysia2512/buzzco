@@ -1,10 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnbumly8wd46w"]
+[gd_scene load_steps=4 format=3 uid="uid://cnbumly8wd46w"]
 
 [ext_resource type="Script" uid="uid://dqi1rabmv1wml" path="res://scripts/friendly_bee_card.gd" id="1_l7l4l"]
 [ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="1_pqlsq"]
+[ext_resource type="Texture2D" uid="uid://qptb5hp8683y" path="res://assets/friendly_bee.png" id="2_0xwkr"]
 
 [node name="FriendlyBeeCard" type="Node2D"]
 script = ExtResource("1_l7l4l")
+texture = ExtResource("2_0xwkr")
 
 [node name="Card" parent="." instance=ExtResource("1_pqlsq")]
 

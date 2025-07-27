@@ -14,6 +14,7 @@ enum SpecificInput {
 	ENEMY_SELECT,
 	GRID_CARD_SELECT
 }
+const DEBUG_MODE: bool = false
 const POLLEN_ENABLED: bool = false
 
 const EMEMY_COLLISION_LAYER: int = 3

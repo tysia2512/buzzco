@@ -3,9 +3,17 @@
 class_name TypedCard extends Node2D
 
 var tween: Tween
+@export var texture: Texture2D:
+	set(value):
+		texture = value
+		if card != null:
+			card.texture = value
+
 @export var card: GenericCard:
 	set(value):
 		card = value
+		if texture:
+			card.texture = texture
 		card.card_removed_from_board.connect(_remove)
 		
 func remove_from_board():

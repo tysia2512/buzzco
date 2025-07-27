@@ -6,6 +6,13 @@ class_name Tile extends Node2D
 
 @onready var debug_coord_label: Label = $DebugCoordLabel
 
+func _ready():
+	if GameState.DEBUG_MODE:
+		debug_coord_label.visible = true
+	else: 
+		debug_coord_label.visible = false
+
+
 func set_grid_position(_row: int, _column: int):
 	row = _row
 	column = _column
