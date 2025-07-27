@@ -60,9 +60,6 @@ position = Vector2(973, 983)
 [node name="Deck" parent="CardMovementManager/DeckNHand" index="4"]
 position = Vector2(722, -15)
 
-[node name="Sprite2D" parent="CardMovementManager/DeckNHand/Deck" index="0"]
-position = Vector2(10.8, -23)
-
 [node name="SpawnPoint" parent="CardMovementManager/DeckNHand/Deck" index="1"]
 position = Vector2(-48.2, -116)
 
