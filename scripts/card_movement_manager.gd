@@ -46,10 +46,16 @@ func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
 		return false
 	var bottom_neighbor = grid_tile.get_bottom_neighbor()
 
-	# If there's nothing below, you can place. Otherwise there has to be a card there.
-	if bottom_neighbor != null && bottom_neighbor.get_card() == null:
-		return false
-	return true
+	if bottom_neighbor == null:
+		return true
+
+	if bottom_neighbor.get_card() != null:
+		return true
+
+	if bottom_neighbor.boulder != null and bottom_neighbor.boulder.is_grounded():
+		return true
+
+	return false
 
 
 func place_card(tile: GridTile):

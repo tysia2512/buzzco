@@ -106,8 +106,6 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 	var enemies = []
 
 	var enemy_scenes = enemy_tile_generator.generate_enemies([ROWS[0], ROWS[1]])
-	print("ENEMY SCENES")
-	print(enemy_scenes)
 
 	for row in [0, 1]:
 		for i in range(0, ROWS[row]):
@@ -168,6 +166,8 @@ func perform_boulder_move():
 		for c in inds:
 			var tile = get_tile(r, c)
 			if tile == null or tile.boulder == null:
+				continue
+			if tile.boulder.is_grounded():
 				continue
 
 			var to_tile: GridTile = tile.get_bottom_neighbor()
