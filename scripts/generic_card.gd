@@ -79,6 +79,7 @@ var _is_on_the_board = false:
 		_is_on_the_board = value
 		_is_dragged = false
 		_is_in_hand = false
+		debug_attack_strength_label.visible = value
 		if value:
 			_set_card_display(CardDisplayMode.TILE)
 		else:
@@ -97,15 +98,20 @@ func _ready():
 
 func _update_labels():
 	debug_attack_strength_label.set_text(str(get_attack_with_effects()))
-	
+
+func _set_tile_sprite_visible(v: bool) -> void:
+	tile_sprite.visible = v
+	attack_label.visible = v
+	name_label.visible = v
+
 func _set_card_display(mode: CardDisplayMode) -> void:
 	_card_display_mode = mode
 	if _card_display_mode == CardDisplayMode.CARD:
-		tile_sprite.visible = false
+		_set_tile_sprite_visible(false)
 		card_display.visible = true
 	else:
-		tile_sprite.visible = true
 		card_display.visible = false
+		_set_tile_sprite_visible(true)
 	
 func get_texture_size():
 	if _card_display_mode == CardDisplayMode.CARD:

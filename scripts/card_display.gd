@@ -53,11 +53,10 @@ func _resize_texture():
 	var W = max_x - min_x
 	var H = max_y - min_y
 	
+	var s = min(W / _image_sprite.texture.get_width(), H / _image_sprite.texture.get_height())
+
 	_image_sprite.position = Vector2((min_x + max_x) / 2, (min_y + max_y) / 2)
-	_image_sprite.scale = Vector2(
-		W / _image_sprite.texture.get_width(),
-		H / _image_sprite.texture.get_height(),
-	)
+	_image_sprite.scale = Vector2(s, s)
 
 func get_texture_size():
 	return _image_sprite.texture.get_size() * _image_sprite.scale * scale

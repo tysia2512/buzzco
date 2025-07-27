@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://c15x7spqonh0n"]
+[gd_scene load_steps=4 format=3 uid="uid://c15x7spqonh0n"]
 
 [ext_resource type="Script" uid="uid://csbiin3n3wfbq" path="res://scripts/card_display.gd" id="1_nfdgj"]
+[ext_resource type="Texture2D" uid="uid://ban30gdqiypvw" path="res://assets/honeycomb1/vecteezy_honey-and-wax_13795969.jpg" id="2_6w6hm"]
 [ext_resource type="Texture2D" uid="uid://3huxyf6fgi5l" path="res://assets/card_template.png" id="2_toolh"]
 
 [node name="CardDisplay" type="Node2D"]
 script = ExtResource("1_nfdgj")
+
+[node name="ImageBackgroundSprite" type="Sprite2D" parent="."]
+position = Vector2(4.50003, -235.985)
+scale = Vector2(0.454688, 0.655384)
+texture = ExtResource("2_6w6hm")
 
 [node name="ImageSprite" type="Sprite2D" parent="."]
 
@@ -45,3 +51,8 @@ theme_override_colors/font_color = Color(0.467085, 0.301005, 1.92523e-07, 1)
 theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-460, -692, -451, 585, -423, 623, 7, 739, 465, 627, 467, -699)
