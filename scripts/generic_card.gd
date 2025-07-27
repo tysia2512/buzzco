@@ -5,34 +5,76 @@ signal card_removed_from_board
 
 @export var attack_value: int = 1
 @export var card_name: String = "Card"
+@export var description: String = "Card Description"
 @export var current_attack_points: int = 1
 @export var pollen_cost: int = 2
 @export var texture: Texture2D:
 	set(value):
 		texture = value
-		if sprite:
-			sprite.init_texture(value)
-
+		if tile_sprite:
+			tile_sprite.init_texture(value)
+		if card_display:
+			card_display.texture = value
 
 @onready var name_label: Label = $NameLabel
 @onready var attack_label: Label = $AttackLabel
 @onready var debug_attack_strength_label: Label = $DebugAttackStrengthLabel
-@onready var sprite: GridSprite2D = $GridSprite2D
+@onready var tile_sprite: GridSprite2D = $GridSprite2D
+@onready var card_display: CardDisplay = $CardDisplay
 
 var tween: Tween
 
-var _is_dragged = false
-var _is_in_hand = true
-var _is_on_the_board = false
+enum CardDisplayMode {
+	CARD,
+	TILE
+}
+
+var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD
+
+var _is_dragged = false:
+	set(value):
+		if value == _is_dragged:
+			return
+
+		_is_dragged = value
+		_is_in_hand = false
+		_is_on_the_board = false
+		if value:
+			_set_card_display(CardDisplayMode.TILE)
+
+var _is_in_hand = true:
+	set(value):
+		if value == _is_in_hand:
+			return
+		_is_in_hand = value
+		_is_dragged = false
+		_is_on_the_board = false
+		if value:
+			_set_card_display(CardDisplayMode.CARD)
+
+var _is_on_the_board = false:
+	set(value):
+		if value == _is_on_the_board:
+			return
+			
+		_is_on_the_board = value
+		_is_dragged = false
+		_is_in_hand = false
+		if value:
+			_set_card_display(CardDisplayMode.TILE)
+		else:
+			remove_from_the_board()
+
+
 var _tile_placed: GridTile = null
 
-func _init() -> void:
-	visible = false
-
 func _ready():
-	sprite.init_texture(texture)
+	_set_card_display(CardDisplayMode.CARD)
+	tile_sprite.init_texture(texture)
+	card_display.texture = texture
+	card_display.name = card_name
+	card_display.description = description
 	_update_labels()
-	visible = true
 
 func _update_labels():
 	attack_label.set_text(str(attack_value))
@@ -42,33 +84,36 @@ func _update_labels():
 func _process(_delta: float) -> void:
 	_update_labels()
 	
+func _set_card_display(mode: CardDisplayMode) -> void:
+	_card_display_mode = mode
+	if _card_display_mode == CardDisplayMode.CARD:
+		tile_sprite.visible = false
+		card_display.visible = true
+	else:
+		tile_sprite.visible = true
+		card_display.visible = false
+	
 func get_texture_size():
-	return sprite.scale * sprite.texture.get_size()
+	if _card_display_mode == CardDisplayMode.CARD:
+		return card_display.get_texture_size()
+	return tile_sprite.scale * tile_sprite.texture.get_size()
 
 func set_is_dragged():
 	if get_parent() and get_parent().tween:
 		get_parent().tween.kill()
 		
 	_is_dragged = true
-	_is_in_hand = false
-	_is_on_the_board = false
-	remove_from_the_board()
 
 func set_in_hand():
-	_is_dragged = false
 	_is_in_hand = true
-	_is_on_the_board = false
-	remove_from_the_board()
 	
 func set_on_the_board(tile: GridTile):
 	assert(_tile_placed == null)
-	_is_dragged = false
-	_is_in_hand = false
-	_is_on_the_board = true
 	if !PollenManager.can_afford_pollen(pollen_cost):
 		set_in_hand()
 		return
 
+	_is_on_the_board = true
 	_tile_placed = tile
 	PollenManager.pay_pollen(pollen_cost)
 	card_placed.emit(tile)

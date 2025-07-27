@@ -1,0 +1,50 @@
+#@tool
+class_name CardDisplay extends Node2D
+
+@export var texture: Texture2D:
+	set(value):
+		texture = value
+		if _image_sprite:
+			_image_sprite.texture = value
+			_resize_texture()
+			
+@export var card_name: String = "Card name"
+@export var attack: int = 10
+@export var description: String = "This is a card. It can be played and placed on the board."
+
+@onready var _image_sprite: Sprite2D = $ImageSprite
+@onready var _image_polygon: Polygon2D = $CardTemplateSprite/Polygon2D
+
+func _ready():
+	_image_sprite.texture = texture
+	if _image_sprite.texture:
+		_resize_texture()
+	$Name.text = card_name
+	$Description.text = description
+	$AttackPts.text = str(attack)
+	
+func _resize_texture():
+	if !_image_polygon or _image_polygon.polygon.is_empty():
+		return
+	var min_x = _image_polygon.polygon[0].x
+	var max_x = _image_polygon.polygon[0].x
+	var min_y = _image_polygon.polygon[0].y
+	var max_y = _image_polygon.polygon[0].y
+	
+	for pt in _image_polygon.polygon:
+		min_x = min(min_x, pt.x)
+		max_x = max(max_x, pt.x)
+		min_y = min(min_y, pt.y)
+		max_y = max(max_y, pt.y)
+	
+	var W = max_x - min_x
+	var H = max_y - min_y
+	
+	_image_sprite.position = Vector2((min_x + max_x) / 2, (min_y + max_y) / 2)
+	_image_sprite.scale = Vector2(
+		W / _image_sprite.texture.get_width(),
+		H / _image_sprite.texture.get_height(),
+	)
+
+func get_texture_size():
+	return _image_sprite.texture.get_size() * _image_sprite.scale * scale
