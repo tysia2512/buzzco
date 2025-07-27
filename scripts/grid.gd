@@ -63,6 +63,16 @@ func place_card(card: TypedCard, grid_tile: GridTile) -> void:
 		
 	grid_tile.put_card(card)
 	card.position = grid_tile.position
+
+func cards_on_board_count() -> int:
+	var count = 0
+	for row in grid:
+		for tile in row:
+			if !(tile is GridTile):
+				continue
+			if tile.get_card() != null:
+				count += 1
+	return count
 	
 func get_points() -> int:
 	var points = 0

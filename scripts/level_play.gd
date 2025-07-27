@@ -58,8 +58,14 @@ func _on_launch_attack_button_perform_player_action() -> void:
 
 func _perform_action():
 	actions_left_in_turn -= 1
+	_check_game_lost()
 	if actions_left_in_turn == 0:
 		start_boulder_turn()
+
+func _check_game_lost():
+	if grid.cards_on_board_count() == 0 and deck.get_cards_in_deck_count() == 0 and deck.get_cards_in_hand_count() == 0:
+		game_over.emit()
+
 
 func _on_enemy_manager_enemy_turn_finished() -> void:
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN

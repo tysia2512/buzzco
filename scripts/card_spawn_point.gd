@@ -5,9 +5,6 @@ class_name CardSpawnPoint extends Node2D
 func get_cards():
 	return get_children().filter(func(x): return x is TypedCard)
 
-# func _process(delta: float):
-# 	_arrange_cards()
-
 func _arrange_cards():
 	var cards = get_cards()
 	if cards.is_empty():

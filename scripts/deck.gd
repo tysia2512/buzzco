@@ -27,8 +27,6 @@ func _ready() -> void:
 	_deck.shuffle()
 	_update_label()
 
-	print("GLOBAL position: ", global_position)
-
 func _on_spawn_card_button_pressed() -> void:
 	_deal_card()
 
@@ -49,3 +47,6 @@ func get_cards_in_deck_count() -> int:
 
 func _update_label() -> void:
 	_card_count_label.text = str(get_cards_in_deck_count())
+
+func get_cards_in_hand_count() -> int:
+	return hand_spawn_point.get_cards().size()
