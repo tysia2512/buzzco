@@ -43,6 +43,10 @@ func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
 		return false
 	if !PollenManager.can_afford_pollen(card.pollen_cost):
 		return false
+
+	if grid_tile.get_card() != null:
+		return false
+
 	var bottom_neighbor = grid_tile.get_bottom_neighbor()
 
 	if bottom_neighbor == null:
