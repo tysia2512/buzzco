@@ -29,7 +29,6 @@ class_name CardDisplay extends Node2D
 	set(value):
 		card = value
 		if _collision_polygon:
-			print("setting card to: ", value)
 			_collision_polygon.card = value
 
 @export var enable_collision: bool = true:
@@ -49,7 +48,6 @@ func _ready():
 	$Name.text = card_name
 	$Description.text = description
 	$AttackPts.text = str(attack)
-	print("setting card to: ", card)
 	_collision_polygon.card = card
 	_collision_polygon.disabled = !enable_collision
 	

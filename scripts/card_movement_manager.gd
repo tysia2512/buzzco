@@ -7,7 +7,6 @@ signal card_placed
 @onready var deck_n_hand: DeckNHand = $DeckNHand
 
 var dragged_card: TypedCard = null
-var offset: Vector2 = Vector2.ZERO
 var screen_size
 
 func _ready() -> void:
@@ -15,8 +14,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if dragged_card:
-		var position = get_global_mouse_position() + offset
-		dragged_card.position = Vector2(clamp(position.x, 0, screen_size.x), clamp(position.y, 0, screen_size.y))
+		var p = get_global_mouse_position()
+		dragged_card.position = Vector2(clamp(p.x, 0, screen_size.x), clamp(p.y, 0, screen_size.y))
 
 func _input(event: InputEvent) -> void:
 	if GameState.turn_stage != GameState.TurnStage.PLAYER_MOVE:
@@ -29,11 +28,11 @@ func _input(event: InputEvent) -> void:
 				dragged_card.card.set_is_dragged()
 				dragged_card.reparent(self)
 				deck_n_hand.card_spawn_point.update()
-				offset = dragged_card.position - get_global_mouse_position()
+				dragged_card.position += get_global_mouse_position() - dragged_card.global_position
 		else:
 			if dragged_card == null:
 				return
-			var grid_tile = _check_for_grid_tile(dragged_card.global_position)
+			var grid_tile = _check_for_grid_tile(get_global_mouse_position())
 			if grid_tile != null && _can_place_on_tile(grid_tile, dragged_card.card):
 				place_card(grid_tile)
 			else:
@@ -61,14 +60,12 @@ func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
 func place_card(tile: GridTile):
 	grid.place_card(dragged_card, tile)
 	dragged_card = null
-	offset = Vector2.ZERO
 	perform_player_action.emit()
 	card_placed.emit()
 
 func drop_card():
 	deck_n_hand.add_card(dragged_card)
 	dragged_card = null
-	offset = Vector2.ZERO
 
 func check_for_card() -> TypedCard:
 	var space_state = get_world_2d().direct_space_state
@@ -86,10 +83,10 @@ func check_for_card() -> TypedCard:
 	assert(card is TypedCard)
 	return card
 	
-func _check_for_grid_tile(position: Vector2) -> GridTile:
+func _check_for_grid_tile(p: Vector2) -> GridTile:
 	var space_state = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
-	parameters.position = position
+	parameters.position = p
 	parameters.collide_with_areas = true
 	parameters.collision_mask = 2
 	var result = space_state.intersect_point(parameters)

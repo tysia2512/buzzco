@@ -102,10 +102,6 @@ func set_collision_shape_card(card: TypedCard):
 	if card_display:
 		card_display.card = card
 
-	
-
-
-
 func _update_labels():
 	debug_attack_strength_label.set_text(str(get_attack_with_effects()))
 
