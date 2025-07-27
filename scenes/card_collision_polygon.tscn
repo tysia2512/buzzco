@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca0mebw5ix76x"]
+
+[ext_resource type="Script" uid="uid://cb42o3fyvhm8o" path="res://scripts/card_collision_polygon.gd" id="1_s25lf"]
+
+[node name="CardCollisionPolygon" type="CollisionPolygon2D"]
+script = ExtResource("1_s25lf")

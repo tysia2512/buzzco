@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpctul3yh8g03"]
+[gd_scene load_steps=7 format=3 uid="uid://dpctul3yh8g03"]
 
 [ext_resource type="Script" uid="uid://ckwpxrboijb8j" path="res://scripts/generic_card.gd" id="1_1y0pe"]
 [ext_resource type="Texture2D" uid="uid://dt3425k0ene5n" path="res://assets/hex_blue copy.svg" id="2_nnksx"]
 [ext_resource type="Script" uid="uid://dr65pifk4fdu7" path="res://scripts/grid_sprite_2d.gd" id="3_nnksx"]
 [ext_resource type="PackedScene" uid="uid://c15x7spqonh0n" path="res://scenes/card_display.tscn" id="4_nluqo"]
+[ext_resource type="Script" uid="uid://cfercmd3mfvhu" path="res://scripts/card_area.gd" id="5_1pxps"]
+[ext_resource type="Script" uid="uid://cb42o3fyvhm8o" path="res://scripts/card_collision_polygon.gd" id="5_kfhh1"]
 
 [node name="Card" type="Node2D"]
 script = ExtResource("1_1y0pe")
@@ -28,10 +30,14 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("5_1pxps")
+metadata/_custom_type_script = "uid://cfercmd3mfvhu"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
 position = Vector2(-1, -3)
 polygon = PackedVector2Array(-27, -46, 29, -46, 58, 3, 29, 52, -27, 52, -55, 3)
+script = ExtResource("5_kfhh1")
+metadata/_custom_type_script = "uid://cb42o3fyvhm8o"
 
 [node name="DebugAttackStrengthLabel" type="Label" parent="."]
 visible = false

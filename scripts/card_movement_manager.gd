@@ -79,12 +79,12 @@ func check_for_card() -> TypedCard:
 	var result = space_state.intersect_point(parameters)
 	if result.is_empty():
 		return null
-	if !result[0].collider.get_parent().get_parent() is TypedCard:
-		return
-	var typed_card = result[0].collider.get_parent().get_parent() as TypedCard
-	if !typed_card.card.is_in_hand():
-		return
-	return typed_card
+	var card_area = result[0].collider
+	assert(card_area is CardArea)
+	var card = (card_area as CardArea).get_card()
+	assert(card != null)
+	assert(card is TypedCard)
+	return card
 	
 func _check_for_grid_tile(position: Vector2) -> GridTile:
 	var space_state = get_world_2d().direct_space_state

@@ -15,6 +15,7 @@ var tween: Tween
 		if texture:
 			card.texture = texture
 		card.card_removed_from_board.connect(_remove)
+		card.set_collision_shape_card(self)
 		
 func remove_from_board():
 	card.remove_from_the_board()

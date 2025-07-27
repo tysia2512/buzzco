@@ -25,8 +25,22 @@ class_name CardDisplay extends Node2D
 		if _image_sprite:
 			$Description.text = value
 
+@export var card: TypedCard = null:
+	set(value):
+		card = value
+		if _collision_polygon:
+			print("setting card to: ", value)
+			_collision_polygon.card = value
+
+@export var enable_collision: bool = true:
+	set(value):
+		enable_collision = value
+		if _collision_polygon:
+			_collision_polygon.disabled = !value
+
 @onready var _image_sprite: Sprite2D = $ImageSprite
 @onready var _image_polygon: Polygon2D = $CardTemplateSprite/Polygon2D
+@onready var _collision_polygon: CardCollisionPolygon = $Area2D/CollisionPolygon2D
 
 func _ready():
 	_image_sprite.texture = texture
@@ -35,6 +49,9 @@ func _ready():
 	$Name.text = card_name
 	$Description.text = description
 	$AttackPts.text = str(attack)
+	print("setting card to: ", card)
+	_collision_polygon.card = card
+	_collision_polygon.disabled = !enable_collision
 	
 func _resize_texture():
 	if !_image_polygon or _image_polygon.polygon.is_empty():

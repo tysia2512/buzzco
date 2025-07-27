@@ -40,6 +40,7 @@ signal card_removed_from_board
 @onready var debug_attack_strength_label: Label = $DebugAttackStrengthLabel
 @onready var tile_sprite: GridSprite2D = $GridSprite2D
 @onready var card_display: CardDisplay = $CardDisplay
+@onready var collision_polygon: CardCollisionPolygon = $Area2D/CollisionPolygon2D
 
 var tween: Tween
 
@@ -85,7 +86,6 @@ var _is_on_the_board = false:
 		else:
 			remove_from_the_board()
 
-
 var _tile_placed: GridTile = null
 
 func _ready():
@@ -96,6 +96,16 @@ func _ready():
 	card_display.description = description
 	_update_labels()
 
+func set_collision_shape_card(card: TypedCard):
+	if collision_polygon:
+		collision_polygon.card = card
+	if card_display:
+		card_display.card = card
+
+	
+
+
+
 func _update_labels():
 	debug_attack_strength_label.set_text(str(get_attack_with_effects()))
 
@@ -103,15 +113,16 @@ func _set_tile_sprite_visible(v: bool) -> void:
 	tile_sprite.visible = v
 	attack_label.visible = v
 	name_label.visible = v
+	collision_polygon.disabled = !v
+
+func _set_card_display_visible(v: bool) -> void:
+	card_display.visible = v
+	card_display.enable_collision = v
 
 func _set_card_display(mode: CardDisplayMode) -> void:
 	_card_display_mode = mode
-	if _card_display_mode == CardDisplayMode.CARD:
-		_set_tile_sprite_visible(false)
-		card_display.visible = true
-	else:
-		card_display.visible = false
-		_set_tile_sprite_visible(true)
+	_set_tile_sprite_visible(mode == CardDisplayMode.TILE)
+	_set_card_display_visible(mode == CardDisplayMode.CARD)
 	
 func get_texture_size():
 	if _card_display_mode == CardDisplayMode.CARD:
