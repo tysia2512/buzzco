@@ -46,10 +46,14 @@ var tween: Tween
 
 enum CardDisplayMode {
 	CARD,
-	TILE
+	TILE,
+	HOVER
 }
 
-var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD
+var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
+	set(value):
+		_card_display_mode = value
+		_set_card_display_mode()
 
 var _is_dragged = false:
 	set(value):
@@ -60,7 +64,7 @@ var _is_dragged = false:
 		_is_in_hand = false
 		_is_on_the_board = false
 		if value:
-			_set_card_display(CardDisplayMode.TILE)
+			_card_display_mode = CardDisplayMode.TILE
 
 var _is_in_hand = true:
 	set(value):
@@ -70,7 +74,7 @@ var _is_in_hand = true:
 		_is_dragged = false
 		_is_on_the_board = false
 		if value:
-			_set_card_display(CardDisplayMode.CARD)
+			_card_display_mode = CardDisplayMode.CARD
 
 var _is_on_the_board = false:
 	set(value):
@@ -82,14 +86,14 @@ var _is_on_the_board = false:
 		_is_in_hand = false
 		debug_attack_strength_label.visible = value
 		if value:
-			_set_card_display(CardDisplayMode.TILE)
+			_card_display_mode = CardDisplayMode.TILE
 		else:
 			remove_from_the_board()
 
 var _tile_placed: GridTile = null
 
 func _ready():
-	_set_card_display(CardDisplayMode.CARD)
+	_card_display_mode = CardDisplayMode.CARD
 	tile_sprite.init_texture(texture)
 	card_display.texture = texture
 	card_display.name = card_name
@@ -115,10 +119,16 @@ func _set_card_display_visible(v: bool) -> void:
 	card_display.visible = v
 	card_display.enable_collision = v
 
-func _set_card_display(mode: CardDisplayMode) -> void:
-	_card_display_mode = mode
-	_set_tile_sprite_visible(mode == CardDisplayMode.TILE)
-	_set_card_display_visible(mode == CardDisplayMode.CARD)
+func _set_card_display_mode() -> void:
+	print("THE SETTTER IS RUNNNING WIHT: ", _card_display_mode)
+	_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE || _card_display_mode == CardDisplayMode.HOVER)
+	if _card_display_mode == CardDisplayMode.HOVER:
+		card_display.position = $HoverOffset.position
+		card_display.z_index = 1
+	else:
+		card_display.position = Vector2.ZERO
+		card_display.z_index = 0
+	_set_card_display_visible(_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER)
 	
 func get_texture_size():
 	if _card_display_mode == CardDisplayMode.CARD:
@@ -173,4 +183,16 @@ func get_attack_with_effects() -> int:
 		total = (effect as Effect).apply(total)
 	return total
 	
-	
+func _on_area_2d_mouse_entered() -> void:
+	if !_is_on_the_board:
+		return
+	_card_display_mode = CardDisplayMode.HOVER
+
+func _on_area_2d_mouse_exited() -> void:
+	if _card_display_mode != CardDisplayMode.HOVER:
+		return
+
+	if _is_on_the_board:
+		_card_display_mode = CardDisplayMode.TILE
+	else:
+		_card_display_mode = CardDisplayMode.CARD

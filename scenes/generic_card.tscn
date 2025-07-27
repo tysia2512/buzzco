@@ -57,3 +57,9 @@ offset_bottom = -18.0
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="HoverOffset" type="Node2D" parent="."]
+position = Vector2(120, -158)
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
