@@ -20,5 +20,9 @@ var tween: Tween
 func remove_from_board():
 	card.remove_from_the_board()
 	
+func _on_remove(_tile: GridTile) -> void:
+	pass
+
 func _remove(_tile: GridTile) -> void:
+	_on_remove(_tile)
 	queue_free()

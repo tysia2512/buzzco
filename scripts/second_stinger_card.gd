@@ -28,9 +28,8 @@ func _on_card_card_placed(tile: GridTile) -> void:
 		add_child(effect)
 		effect.place(self, top_tile)
 
-func _remove(tile: GridTile) -> void:
+func _on_remove(tile: GridTile) -> void:
 	var effects = _get_effects()
 	for effect in effects:
 		effect.remove()
 		effect.queue_free()
-	super._remove(tile)
