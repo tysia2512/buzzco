@@ -21,6 +21,8 @@ PollenManager="*res://scripts/global/pollen_manager.gd"
 GameState="*res://scripts/global/game_state.gd"
 EnemyLevelConfig="*res://scripts/global/enemy_level_config.gd"
 Utils="*res://scripts/global/utils.gd"
+ZLayers="*res://scripts/global/z_layers.gd"
+InputStatus="*res://scripts/global/input_status.gd"
 
 [display]
 

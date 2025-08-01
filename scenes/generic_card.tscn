@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ckwpxrboijb8j" path="res://scripts/generic_card.gd" id="1_1y0pe"]
 [ext_resource type="Texture2D" uid="uid://dt3425k0ene5n" path="res://assets/hex_blue copy.svg" id="2_nnksx"]
-[ext_resource type="Script" uid="uid://dr65pifk4fdu7" path="res://scripts/grid_sprite_2d.gd" id="3_nnksx"]
+[ext_resource type="PackedScene" uid="uid://bgilbttcnjaf8" path="res://scenes/grid_sprite_2d.tscn" id="3_1pxps"]
 [ext_resource type="PackedScene" uid="uid://c15x7spqonh0n" path="res://scenes/card_display.tscn" id="4_nluqo"]
 [ext_resource type="Script" uid="uid://cfercmd3mfvhu" path="res://scripts/card_area.gd" id="5_1pxps"]
 [ext_resource type="Script" uid="uid://cb42o3fyvhm8o" path="res://scripts/card_collision_polygon.gd" id="5_kfhh1"]
@@ -11,9 +11,7 @@
 script = ExtResource("1_1y0pe")
 texture = ExtResource("2_nnksx")
 
-[node name="GridSprite2D" type="Sprite2D" parent="."]
-script = ExtResource("3_nnksx")
-metadata/_custom_type_script = "uid://dr65pifk4fdu7"
+[node name="GridSprite2D" parent="." instance=ExtResource("3_1pxps")]
 
 [node name="CardDisplay" parent="." instance=ExtResource("4_nluqo")]
 scale = Vector2(0.2, 0.2)

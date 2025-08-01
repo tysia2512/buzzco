@@ -65,6 +65,8 @@ var _is_dragged = false:
 		_is_on_the_board = false
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
+			z_index = ZLayers.ON_HOVER
+
 
 var _is_in_hand = true:
 	set(value):
@@ -75,6 +77,7 @@ var _is_in_hand = true:
 		_is_on_the_board = false
 		if value:
 			_card_display_mode = CardDisplayMode.CARD
+			z_index = ZLayers.DEFAULT
 
 var _is_on_the_board = false:
 	set(value):
@@ -88,6 +91,7 @@ var _is_on_the_board = false:
 		set_process(value)
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
+			z_index = ZLayers.CARDS_ON_GRID
 		else:
 			remove_from_the_board()
 
@@ -128,10 +132,10 @@ func _set_card_display_mode() -> void:
 	_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE || _card_display_mode == CardDisplayMode.HOVER)
 	if _card_display_mode == CardDisplayMode.HOVER:
 		card_display.position = $HoverOffset.position
-		card_display.z_index = 1
+		card_display.z_index = ZLayers.ON_HOVER
 	else:
 		card_display.position = Vector2.ZERO
-		card_display.z_index = 0
+		card_display.z_index = z_index
 	_set_card_display_visible(_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER)
 	
 func get_texture_size():
@@ -188,7 +192,7 @@ func get_attack_with_effects() -> int:
 	return total
 	
 func _on_area_2d_mouse_entered() -> void:
-	if !_is_on_the_board:
+	if !_is_on_the_board or InputStatus.is_card_dragged:
 		return
 	_card_display_mode = CardDisplayMode.HOVER
 

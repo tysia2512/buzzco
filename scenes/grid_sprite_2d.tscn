@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgilbttcnjaf8"]
+[gd_scene load_steps=4 format=3 uid="uid://bgilbttcnjaf8"]
 
+[ext_resource type="Texture2D" uid="uid://dt3425k0ene5n" path="res://assets/hex_blue copy.svg" id="1_bui7x"]
 [ext_resource type="Script" uid="uid://dr65pifk4fdu7" path="res://scripts/grid_sprite_2d.gd" id="1_h5jfe"]
+[ext_resource type="PackedScene" uid="uid://bhrair5ua2r1o" path="res://scenes/gird_sprite_number_display.tscn" id="2_a8pqb"]
 
 [node name="GridSprite2D" type="Sprite2D"]
+texture = ExtResource("1_bui7x")
 script = ExtResource("1_h5jfe")
+
+[node name="GirdSpriteNumberDisplay" parent="." instance=ExtResource("2_a8pqb")]

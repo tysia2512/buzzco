@@ -25,6 +25,7 @@ func _input(event: InputEvent) -> void:
 		if event.pressed:
 			dragged_card = check_for_card()
 			if dragged_card:
+				InputStatus.is_card_dragged = true
 				dragged_card.card.set_is_dragged()
 				dragged_card.reparent(self)
 				deck_n_hand.card_spawn_point.update()
@@ -64,12 +65,14 @@ func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
 func place_card(tile: GridTile):
 	grid.place_card(dragged_card, tile)
 	dragged_card = null
+	InputStatus.is_card_dragged = false
 	perform_player_action.emit()
 	card_placed.emit()
 
 func drop_card():
 	deck_n_hand.add_card(dragged_card)
 	dragged_card = null
+	InputStatus.is_card_dragged = false
 
 func check_for_card() -> TypedCard:
 	var space_state = get_world_2d().direct_space_state

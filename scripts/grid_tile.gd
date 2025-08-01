@@ -29,3 +29,6 @@ func remove_effect(effect: Effect) -> void:
 	
 func get_effects() -> Array:
 	return _effects.keys().map(func(key): return key as Effect)
+
+func get_bottom_left_corner_position() -> Vector2:
+	return $BottomLeftCorner.position

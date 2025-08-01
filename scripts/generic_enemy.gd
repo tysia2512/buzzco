@@ -110,6 +110,9 @@ func _highlight(color: Color) -> void:
 var _is_hovered = false
 
 func _set_on_hover():
+	if InputStatus.is_card_dragged:
+		return
+		
 	_is_hovered = true
 	scale *= SCALE_ON_HOVER_MULTIPLIER
 

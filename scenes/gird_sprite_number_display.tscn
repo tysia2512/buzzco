@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhrair5ua2r1o"]
+
+[ext_resource type="Texture2D" uid="uid://bkngtma2g46lp" path="res://assets/circle.png" id="1_hy7oi"]
+[ext_resource type="Script" uid="uid://d2umbqol7t53c" path="res://scripts/gird_sprite_number_display.gd" id="1_uthjm"]
+
+[node name="GirdSpriteNumberDisplay" type="Node2D"]
+script = ExtResource("1_uthjm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hy7oi")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -260.0
+offset_top = -235.0
+offset_right = 270.0
+offset_bottom = 222.0
+theme_override_colors/font_color = Color(0.745098, 0.4, 0, 1)
+theme_override_font_sizes/font_size = 250
+text = "123"
+horizontal_alignment = 1
+vertical_alignment = 1
