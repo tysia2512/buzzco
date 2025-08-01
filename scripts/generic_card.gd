@@ -85,6 +85,7 @@ var _is_on_the_board = false:
 		_is_dragged = false
 		_is_in_hand = false
 		debug_attack_strength_label.visible = value
+		set_process(value)
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
 		else:
@@ -98,6 +99,10 @@ func _ready():
 	card_display.texture = texture
 	card_display.name = card_name
 	card_display.description = description
+	_update_labels()
+
+
+func _process(_delta: float) -> void:
 	_update_labels()
 
 func set_collision_shape_card(card: TypedCard):
