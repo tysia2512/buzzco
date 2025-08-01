@@ -55,7 +55,7 @@ script = ExtResource("4_5espj")
 [node name="DeckNHand" parent="CardMovementManager" instance=ExtResource("5_1n5cl")]
 position = Vector2(973, 983)
 
-[node name="Deck" parent="CardMovementManager/DeckNHand" index="4"]
+[node name="Deck" parent="CardMovementManager/DeckNHand" index="3"]
 position = Vector2(722, -15)
 
 [node name="SpawnPoint" parent="CardMovementManager/DeckNHand/Deck" index="1"]

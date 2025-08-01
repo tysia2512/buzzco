@@ -9,5 +9,6 @@ script = ExtResource("1_l7l4l")
 texture = ExtResource("2_0xwkr")
 
 [node name="Card" parent="." instance=ExtResource("1_pqlsq")]
+description = "Keep your friends close. +1 attack for any adjecent bee."
 
 [connection signal="card_removed_from_board" from="Card" to="." method="_on_card_card_removed_from_board"]
