@@ -90,7 +90,7 @@ func clear_cards() -> void:
 			if !(tile is GridTile):
 				continue
 			if tile.get_card() != null:
-				tile.remove_card()
+				tile.get_card().remove_from_board()
 	var children = cards_node.get_children()
 	for child in children:
 		cards_node.remove_child(child)

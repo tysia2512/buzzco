@@ -45,8 +45,7 @@ offset_top = 450.0
 offset_right = 1817.0
 offset_bottom = 536.0
 theme_override_font_sizes/font_size = 30
-text = "Launch the assault!
-"
+text = "Launch assault"
 script = ExtResource("3_obdjb")
 
 [node name="CardMovementManager" type="Node2D" parent="."]

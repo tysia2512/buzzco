@@ -8,6 +8,7 @@ class_name LevelPlay extends Node2D
 @onready var health_label: Label = $HealthLabel
 @onready var grid: Grid = $CardMovementManager/Grid
 @onready var deck: Deck = $CardMovementManager/DeckNHand/Deck
+@onready var launch_attack_button: LaunchAttackButton = $LaunchAttackButton
 
 signal level_cleared
 signal game_over
@@ -17,6 +18,7 @@ var actions_left_in_turn: int
 func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
+	launch_attack_button.grid = grid
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
