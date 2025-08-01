@@ -28,4 +28,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BottomLeftCorner" type="Node2D" parent="."]
-position = Vector2(31, 53)
+position = Vector2(27, 48)

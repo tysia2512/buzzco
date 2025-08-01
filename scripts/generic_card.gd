@@ -37,7 +37,6 @@ signal card_removed_from_board
 
 @onready var name_label: Label = $NameLabel
 @onready var attack_label: Label = $AttackLabel
-@onready var debug_attack_strength_label: Label = $DebugAttackStrengthLabel
 @onready var tile_sprite: GridSprite2D = $GridSprite2D
 @onready var card_display: CardDisplay = $CardDisplay
 @onready var collision_polygon: CardCollisionPolygon = $Area2D/CollisionPolygon2D
@@ -87,7 +86,6 @@ var _is_on_the_board = false:
 		_is_on_the_board = value
 		_is_dragged = false
 		_is_in_hand = false
-		debug_attack_strength_label.visible = value
 		set_process(value)
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
@@ -116,7 +114,7 @@ func set_collision_shape_card(card: TypedCard):
 		card_display.card = card
 
 func _update_labels():
-	debug_attack_strength_label.set_text(str(get_attack_with_effects()))
+	tile_sprite.number_on_display = get_attack_with_effects()
 
 func _set_tile_sprite_visible(v: bool) -> void:
 	tile_sprite.visible = v

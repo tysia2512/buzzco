@@ -4,9 +4,24 @@ class_name GridSprite2D extends Sprite2D
 
 @onready var number_display: GridSpriteNumberDisplay = $GirdSpriteNumberDisplay
 
+@export var show_number_display: bool = false:
+	set(value):
+		show_number_display = value
+		if number_display:
+			number_display.visible = value
+
+@export var number_on_display: int:
+	set(value):
+		number_on_display = value
+		if number_display:
+			number_display.text = str(value)
+
 func _ready():
 	_set_scale()
 	_set_label_scale()
+	number_display.visible = show_number_display
+	if number_display:
+		number_display.text = str(number_on_display)
 	
 func init_texture(t: Texture2D):
 	texture = t
