@@ -1,0 +1,1 @@
+class_name EnemyDetails extends Node2D

@@ -23,6 +23,7 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @onready var area: Area2D = $SpriteWithCollision/EnemyArea
 @onready var collision_polygon: CollisionPolygon2D = $SpriteWithCollision/EnemyArea/CollisionPolygon2D
 @onready var _texture_area: Polygon2D = $TextureArea
+@onready var _enemy_details: EnemyDetails = $EnemyDetails
 
 const SCALE_ON_HOVER_MULTIPLIER = 1.25
 const SCALE_ON_ATTACK_MULTIPIER = 2.0
@@ -114,10 +115,12 @@ func _set_on_hover():
 		return
 		
 	_is_hovered = true
+	_enemy_details.visible = true
 	scale *= SCALE_ON_HOVER_MULTIPLIER
 
 func _set_stop_hover():
 	_is_hovered = false
+	_enemy_details.visible = false
 	scale = _base_scale
 
 func _on_enemy_area_mouse_entered() -> void:

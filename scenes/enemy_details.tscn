@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1oknyvtwdmrl"]
+
+[ext_resource type="Script" uid="uid://bri8id7rr48io" path="res://scripts/enemy_details.gd" id="1_2q3dh"]
+[ext_resource type="Texture2D" uid="uid://cpaily1i6m4p5" path="res://assets/enemy_description_background.png" id="1_t1vk5"]
+
+[node name="EnemyDetails" type="Node2D"]
+script = ExtResource("1_2q3dh")
+
+[node name="BackgroundTexture" type="Sprite2D" parent="."]
+texture = ExtResource("1_t1vk5")
+
+[node name="StatsLabel" type="Label" parent="."]
+offset_left = -283.0
+offset_top = -307.0
+offset_right = 281.0
+offset_bottom = 12.0
+theme_override_colors/font_color = Color(1, 0.823529, 0, 1)
+theme_override_font_sizes/font_size = 55
+text = "fdfgdfg
+dfgdgdg
+fdgfd
+sadasd"
+vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="."]
+offset_left = -259.0
+offset_top = 22.0
+offset_right = 268.0
+offset_bottom = 282.0
+theme_override_colors/font_color = Color(1, 0.823529, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "dasdasdasddasdas"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
