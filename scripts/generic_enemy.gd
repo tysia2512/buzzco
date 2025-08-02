@@ -13,8 +13,11 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @export var max_health: int = 10
 @export var attack_chance = 0.5
 @export var boulder_drop_chance = 0.4
+
 @export var texture: Texture2D
 @export var polygon: PackedVector2Array
+
+@export var description: String
 
 @onready var health_display: HealthDisplay = $HealthDisplay
 
@@ -52,6 +55,31 @@ func _ready():
 	health_display.set_max_health(max_health)
 	health_display.set_current_health(_health)
 	_base_scale = scale
+	_set_enemy_details_dialog()
+
+func _set_enemy_details_dialog() -> void:
+	if _enemy_details == null:
+		return
+
+	var lines = []
+	if max_health != null:
+		lines.append("Health: " + str(max_health))
+	if attack_points != null:
+		lines.append("Attack: " + str(attack_points))
+	if attack_chance != null:
+		lines.append("Attack Chance: %.0f%%" % (attack_chance * 100))
+	if boulder_drop_chance != null:
+		lines.append("Boulder Chance: %.0f%%" % (boulder_drop_chance * 100))
+	
+	var stats_message = ""
+	for i in range(lines.size()):
+		stats_message += lines[i]
+		if i != lines.size() - 1:
+			stats_message += "\n"
+
+	_enemy_details.stats_label.text = stats_message
+	if description:
+		_enemy_details.description_label.text = description
 
 func _should_attack() -> bool:
 	return Utils.rand_with_chance(attack_chance)
