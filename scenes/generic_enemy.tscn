@@ -48,7 +48,6 @@ visible = false
 polygon = PackedVector2Array(-100, -100, 100, -100, 100, 100, -100, 100)
 
 [node name="SpriteWithCollision" type="Node2D" parent="."]
-scale = Vector2(1e-05, 1e-05)
 script = ExtResource("3_h66n4")
 
 [node name="GridSprite2D" parent="SpriteWithCollision" instance=ExtResource("4_h66n4")]

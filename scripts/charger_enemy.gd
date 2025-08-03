@@ -1,7 +1,7 @@
 class_name ChargerEnemy extends Enemy
 
 var charge_chance = 0.5
-const attack_base = 4
+const attack_base: int = 4
 
 func _ready():
 	_enemy = $GenericEnemy
@@ -14,4 +14,8 @@ func attack():
 		_enemy.attack_points = attack_base
 	
 func _charge() -> void:
+	var diff = _enemy.attack_points
 	_enemy.attack_points *= 1.5
+	diff = _enemy.attack_points - diff
+	_enemy.animate_message("Charging: +%d" % diff)
+	

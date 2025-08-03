@@ -8,21 +8,12 @@
 script = ExtResource("1_rvwg5")
 metadata/_custom_type_script = "uid://b0qoggskdttae"
 
-[node name="CurrentAttackLabel" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="ChargerPlaceholder" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("3_6nxsf")
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-visible = false
-polygon = PackedVector2Array(-507, -484, -231, -262, -240, -214, -192, -167, -109, -229, -26, -237, 41, -224, 97, -165, 115, -108, 160, -86, 242, -218, 337, -306, 423, -344, 459, -329, 453, -231, 392, -140, 430, -134, 448, -121, 437, -82, 399, -34, 342, -3, 278, 4, 320, 48, 299, 95, 265, 125, 284, 195, 267, 235, 468, 457, 463, 488, 441, 495, 421, 491, 239, 297, 165, 371, 14, 428, -171, 418, -246, 395, -294, 359, -215, 354, -155, 331, -105, 249, -72, 188, -105, 168, -130, 187, -176, 210, -237, 185, -262, 123, -252, 57, -214, 42, -240, -18, -218, -76, -218, -109, -275, -184, -316, -183, -517, -470, -521, -483)
-
 [node name="GenericEnemy" parent="." instance=ExtResource("4_1lvjs")]
+attack_chance_in_description = false
 max_health = 20
 attack_chance = 1.0
 boulder_drop_chance = 0.0
+stats_description_suffix_lines = ["\"Charge chance: 50%\"", "Charge mult: x1.5"]
 texture = ExtResource("3_6nxsf")
 polygon = PackedVector2Array(-507, -484, -231, -262, -240, -214, -192, -167, -109, -229, -26, -237, 41, -224, 97, -165, 115, -108, 160, -86, 242, -218, 337, -306, 423, -344, 459, -329, 453, -231, 392, -140, 430, -134, 448, -121, 437, -82, 399, -34, 342, -3, 278, 4, 320, 48, 299, 95, 265, 125, 284, 195, 267, 235, 468, 457, 463, 488, 441, 495, 421, 491, 239, 297, 165, 371, 14, 428, -171, 418, -246, 395, -294, 359, -215, 354, -155, 331, -105, 249, -72, 188, -105, 168, -130, 187, -176, 210, -237, 185, -262, 123, -252, 57, -214, 42, -240, -18, -218, -76, -218, -109, -275, -184, -316, -183, -517, -470, -521, -483)
+description = "May charge instead of attacking. The charge increases the attack damage by 50%"

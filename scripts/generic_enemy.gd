@@ -1,4 +1,4 @@
-# @tool
+#@tool
 class_name GenericEnemy extends Node2D
 
 signal deal_damage_to_player
@@ -9,10 +9,18 @@ var tile: Tile
 
 var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tscn")
 
-@export var attack_points: int = 5
+@export var attack_points: int = 5:
+	set(value):
+		attack_points = value
+		if _sprite:
+			_sprite.show_number_display = true
+			_sprite.number_on_display = value
+@export var attack_chance_in_description: bool = true
 @export var max_health: int = 10
 @export var attack_chance = 0.5
 @export var boulder_drop_chance = 0.4
+
+@export var stats_description_suffix_lines: Array = []
 
 @export var texture: Texture2D
 @export var polygon: PackedVector2Array
@@ -25,6 +33,7 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @onready var sprite: Sprite2D = $SpriteWithCollision/GridSprite2D
 @onready var area: Area2D = $SpriteWithCollision/EnemyArea
 @onready var collision_polygon: CollisionPolygon2D = $SpriteWithCollision/EnemyArea/CollisionPolygon2D
+@onready var _sprite: GridSprite2D = $SpriteWithCollision/GridSprite2D
 @onready var _enemy_details: EnemyDetails = $EnemyDetails
 
 const SCALE_ON_HOVER_MULTIPLIER = 1.25
@@ -46,6 +55,9 @@ func receive_damage(attack_points: int) -> void:
 
 func _ready():
 	sprite_with_collision.set_texture(texture)
+	if attack_points:
+		_sprite.number_on_display = attack_points
+		_sprite.show_number_display = true
 	collision_polygon.polygon = polygon
 	area.collision_layer = 2 ** (GameState.EMEMY_COLLISION_LAYER - 1)
 	_health = max_health
@@ -63,10 +75,12 @@ func _set_enemy_details_dialog() -> void:
 		lines.append("Health: " + str(max_health))
 	if attack_points != null:
 		lines.append("Attack: " + str(attack_points))
-	if attack_chance != null:
+	if attack_chance != null and attack_chance_in_description:
 		lines.append("Attack Chance: %.0f%%" % (attack_chance * 100))
 	if boulder_drop_chance != null:
 		lines.append("Boulder Chance: %.0f%%" % (boulder_drop_chance * 100))
+	
+	lines += stats_description_suffix_lines
 	
 	var stats_message = ""
 	for i in range(lines.size()):
@@ -91,9 +105,9 @@ func attack():
 	# TODO: keep the state of hover here
 	if _should_attack():
 		deal_damage_to_player.emit(attack_points)
-		await _animate_damage("Attack: " + str(attack_points))
+		await animate_message("Attack: " + str(attack_points))
 	else:
-		await _animate_damage("Pass")
+		await animate_message("Pass")
 		
 	scale = _base_scale
 
@@ -115,7 +129,7 @@ func _spawn_boulder():
 	if tile and tile.get_bottom_neighbor():
 		boulder_spawned.emit(tile.get_bottom_neighbor())
 	
-func _animate_damage(msg: String):
+func animate_message(msg: String):
 	var label: AnimatedLabel = animated_label_scene.instantiate() as AnimatedLabel
 	label.visible = false
 	add_child(label)
