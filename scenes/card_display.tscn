@@ -62,3 +62,6 @@ metadata/_custom_type_script = "uid://cfercmd3mfvhu"
 polygon = PackedVector2Array(-460, -692, -451, 585, -423, 623, 7, 739, 465, 627, 467, -699)
 script = ExtResource("4_eh4pr")
 metadata/_custom_type_script = "uid://cb42o3fyvhm8o"
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

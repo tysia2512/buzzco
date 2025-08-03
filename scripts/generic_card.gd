@@ -46,13 +46,27 @@ var tween: Tween
 enum CardDisplayMode {
 	CARD,
 	TILE,
-	HOVER
+	HOVER, # Hovered over on the board
+	CARD_IN_FRONT # In hand and hovered over
 }
 
 var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 	set(value):
 		_card_display_mode = value
-		_set_card_display_mode()
+
+		_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE || _card_display_mode == CardDisplayMode.HOVER)
+		
+		if _card_display_mode == CardDisplayMode.HOVER:
+			card_display.position = $HoverOffset.position
+			card_display.z_index = ZLayers.ON_HOVER
+		elif _card_display_mode == CardDisplayMode.CARD_IN_FRONT:
+			card_display.z_index = ZLayers.ON_HOVER
+		else:
+			card_display.position = Vector2.ZERO
+			card_display.z_index = z_index
+
+		_set_card_display_visible(
+			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER || _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
 
 var _is_dragged = false:
 	set(value):
@@ -126,16 +140,6 @@ func _set_card_display_visible(v: bool) -> void:
 	card_display.visible = v
 	card_display.enable_collision = v
 
-func _set_card_display_mode() -> void:
-	_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE || _card_display_mode == CardDisplayMode.HOVER)
-	if _card_display_mode == CardDisplayMode.HOVER:
-		card_display.position = $HoverOffset.position
-		card_display.z_index = ZLayers.ON_HOVER
-	else:
-		card_display.position = Vector2.ZERO
-		card_display.z_index = z_index
-	_set_card_display_visible(_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER)
-	
 func get_texture_size():
 	if _card_display_mode == CardDisplayMode.CARD:
 		return card_display.get_texture_size()
@@ -195,10 +199,21 @@ func _on_area_2d_mouse_entered() -> void:
 	_card_display_mode = CardDisplayMode.HOVER
 
 func _on_area_2d_mouse_exited() -> void:
-	if _card_display_mode != CardDisplayMode.HOVER:
+	_reset_hover()
+
+func _on_card_display_mouse_entered() -> void:
+	if !_is_in_hand or InputStatus.is_card_dragged:
+		return
+	_card_display_mode = CardDisplayMode.CARD_IN_FRONT
+
+func _on_card_display_mouse_exited() -> void:
+	_reset_hover()
+
+func _reset_hover():
+	if _card_display_mode != CardDisplayMode.HOVER && _card_display_mode != CardDisplayMode.CARD_IN_FRONT:
 		return
 
-	if _is_on_the_board:
+	if _is_on_the_board or _is_dragged:
 		_card_display_mode = CardDisplayMode.TILE
 	else:
 		_card_display_mode = CardDisplayMode.CARD

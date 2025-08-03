@@ -1,6 +1,9 @@
 #@tool
 class_name CardDisplay extends Node2D
 
+signal mouse_entered
+signal mouse_exited
+
 @export var texture: Texture2D:
 	set(value):
 		texture = value
@@ -75,3 +78,8 @@ func _resize_texture():
 
 func get_texture_size():
 	return _image_sprite.texture.get_size() * _image_sprite.scale * scale
+
+func _on_area_2d_mouse_entered() -> void:
+	mouse_entered.emit()
+func _on_area_2d_mouse_exited() -> void:
+	mouse_exited.emit()
