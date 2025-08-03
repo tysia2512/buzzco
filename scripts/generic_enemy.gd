@@ -25,7 +25,6 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @onready var sprite: Sprite2D = $SpriteWithCollision/GridSprite2D
 @onready var area: Area2D = $SpriteWithCollision/EnemyArea
 @onready var collision_polygon: CollisionPolygon2D = $SpriteWithCollision/EnemyArea/CollisionPolygon2D
-@onready var _texture_area: Polygon2D = $TextureArea
 @onready var _enemy_details: EnemyDetails = $EnemyDetails
 
 const SCALE_ON_HOVER_MULTIPLIER = 1.25
@@ -33,8 +32,6 @@ const SCALE_ON_ATTACK_MULTIPIER = 2.0
 var _base_scale = Vector2.ONE
 
 var _health: int = 10
-
-var rng = RandomNumberGenerator.new()
 
 func receive_damage(attack_points: int) -> void:
 	var m = sprite.modulate

@@ -1,15 +1,18 @@
 extends Node
 
 var goon_hornet_enemy_scn = preload("res://scenes/goon_hornet_enemy.tscn")
+var charger_enemy_scn = preload("res://scenes/charger_enemy.tscn")
 
-var ENEMY_TYPES = [goon_hornet_enemy_scn]
+var ENEMY_TYPES = [goon_hornet_enemy_scn, charger_enemy_scn]
 
 enum EnemyType {
-	GOON_HORNET_ENEMY
+	GOON_HORNET_ENEMY,
+	CHARGER_ENEMY
 }
 
 var _ENEMY_TYPE_TO_SCENE = {
-	EnemyType.GOON_HORNET_ENEMY: goon_hornet_enemy_scn
+	EnemyType.GOON_HORNET_ENEMY: goon_hornet_enemy_scn,
+	EnemyType.CHARGER_ENEMY: charger_enemy_scn
 }
 
 class IntRange:
@@ -24,7 +27,8 @@ class IntRange:
 var _config = [
 	# 1
 	{
-		EnemyType.GOON_HORNET_ENEMY: IntRange.new(2, 2)
+		EnemyType.GOON_HORNET_ENEMY: IntRange.new(2, 2),
+		EnemyType.CHARGER_ENEMY: IntRange.new(1, 1)
 	},
 	# 2
 	{
