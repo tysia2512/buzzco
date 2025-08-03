@@ -12,7 +12,6 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @export var attack_points: int = 5:
 	set(value):
 		attack_points = value
-		print("Set attack points to: ", value)
 		if _sprite:
 			_sprite.show_number_display = true
 			_sprite.number_on_display = value
