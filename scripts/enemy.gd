@@ -1,6 +1,14 @@
 class_name Enemy extends Node2D
 
-var _enemy: GenericEnemy
+signal deal_damage_to_player
+signal enemy_died
+signal boulder_spawned
+
+var _enemy: GenericEnemy:
+	set(value):
+		_enemy = value
+		_connect_signals()
+		
 var tile: EnemyTile
 
 func attack():
@@ -15,11 +23,10 @@ func highlight() -> void:
 func set_tile(tile: EnemyTile):
 	_enemy.tile = tile
 
-func get_enemy_died_signal():
-	return _enemy.enemy_died
+func _connect_signals():
+	_enemy.deal_damage_to_player.connect(func(pts): deal_damage_to_player.emit(pts))
+	_enemy.enemy_died.connect(func(): enemy_died.emit(self))
+	_enemy.boulder_spawned.connect(func(tile): boulder_spawned.emit(tile))
 
-func get_boulder_spawned_signal():
-	return _enemy.boulder_spawned
-
-func get_deal_damage_to_player_signal():
-	return _enemy.deal_damage_to_player
+func receive_damage(pts: int) -> void:
+	_enemy.receive_damage(pts)

@@ -8,14 +8,14 @@ func _ready():
 
 func attack():
 	if Utils.rand_with_chance(charge_chance):
-		_charge()
+		await _charge()
 	else:
-		super.attack()
+		await super.attack()
 		_enemy.attack_points = attack_base
 	
 func _charge() -> void:
 	var diff = _enemy.attack_points
 	_enemy.attack_points *= 1.5
 	diff = _enemy.attack_points - diff
-	_enemy.animate_message("Charging: +%d" % diff)
+	await _enemy.animate_message("Charging: +%d" % diff)
 	

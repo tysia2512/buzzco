@@ -91,8 +91,7 @@ func _on_launch_attack_button_launch_assault() -> void:
 	_perform_action()
 
 func _attack_enemy(enemy: Enemy, attack_points: int) -> void:
-	enemy.enemy.receive_damage(attack_points)
-	print("Attack enemy: ", enemy, " for: ", attack_points)
+	enemy.receive_damage(attack_points)
 
 
 func _on_enemy_manager_deal_damage_to_player(dmg: int) -> void:

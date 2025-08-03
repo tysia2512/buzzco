@@ -42,9 +42,9 @@ func _handle_boulder_spawned(on_tile: Tile) -> void:
 func set_enemies(enemies: Array) -> void:
 	for e in enemies:
 		assert(e is Enemy)
-		e.get_enemy_died_signal().connect(_handle_enemy_death)
-		e.get_boulder_spawned_signal().connect(func(dmg): deal_damage_to_player.emit(dmg))
-		e.get_deal_damage_to_player_signal().connect(_handle_boulder_spawned)
+		e.enemy_died.connect(_handle_enemy_death)
+		e.deal_damage_to_player.connect(func(dmg): deal_damage_to_player.emit(dmg))
+		e.boulder_spawned.connect(_handle_boulder_spawned)
 	_enemies = enemies
 
 func _input(event: InputEvent) -> void:
