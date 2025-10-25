@@ -9,6 +9,7 @@ script = ExtResource("1_71lds")
 texture = ExtResource("2_ohxm8")
 
 [node name="Card" parent="." instance=ExtResource("2_42lsh")]
+card_type = 1
 description = "Attach to a bee to double the sting. Doubles the attack of the bee above."
 
 [connection signal="card_placed" from="Card" to="." method="_on_card_card_placed"]

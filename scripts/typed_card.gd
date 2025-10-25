@@ -16,6 +16,10 @@ var tween: Tween
 			card.texture = texture
 		card.card_removed_from_board.connect(_remove)
 		card.set_collision_shape_card(self)
+
+var card_type: GenericCard.CardType:
+	get():
+		return card.card_type
 		
 func remove_from_board():
 	card.remove_from_the_board()
