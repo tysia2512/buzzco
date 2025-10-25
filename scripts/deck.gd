@@ -8,7 +8,7 @@ class_name Deck extends Node2D
 @export var basic_bee_card_count: int = 10
 @export var friendly_bee_card_count: int = 6
 @export var second_stinger_card_count: int = 4
-@export var charger_bee_card_count: int = 20
+@export var charger_bee_card_count: int = 4
 
 @onready var hand_spawn_point: CardSpawnPoint = $"../CardSpawnPoint"
 @onready var card_spawn_point: Node2D = $SpawnPoint
