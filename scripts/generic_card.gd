@@ -2,6 +2,7 @@ class_name GenericCard extends Node2D
 
 signal card_placed
 signal card_removed_from_board
+signal player_turn_start
 
 @export var attack_value: int = 1:
 	set(value):
@@ -171,6 +172,9 @@ func remove_from_the_board():
 		_tile_placed = null
 		print("send card_removed_from_board")
 		card_removed_from_board.emit(_tile_placed)
+
+func process_player_turn_start():
+	player_turn_start.emit()
 
 func is_in_hand() -> bool:
 	return _is_in_hand

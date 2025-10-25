@@ -25,7 +25,12 @@ const PLAYER_START_HEALTH: int = 30
 const START_POLLEN: int = 5
 const START_NUMBER_OF_CARDS: int = 5
 
-var turn_stage: TurnStage = TurnStage.PLAYER_MOVE
+var turn_stage: TurnStage = TurnStage.PLAYER_MOVE:
+	set(value):
+		turn_stage = value
+		if value == TurnStage.PLAYER_MOVE:
+			player_turn_start.emit()
+
 var specific_input: SpecificInput
 var enemy_select_for_attack: int
 
