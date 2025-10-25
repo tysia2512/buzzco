@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://clmuftgn43b5h"]
+
+[ext_resource type="Script" uid="uid://crkgsvvrqpfgw" path="res://charger_bee_card.gd" id="1_38cht"]
+[ext_resource type="Texture2D" uid="uid://djvg2lh035wpw" path="res://assets/charger-trans.png" id="2_34w5d"]
+[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="2_srbe3"]
+
+[node name="ChargerBeeCard" type="Node2D"]
+script = ExtResource("1_38cht")
+texture = ExtResource("2_34w5d")
+
+[node name="Card" parent="." instance=ExtResource("2_srbe3")]
+card_name = "Charging Bee"
+description = "Gains +1 to attack every turn"
+
+[connection signal="player_turn_start" from="Card" to="." method="_on_card_player_turn_start"]
