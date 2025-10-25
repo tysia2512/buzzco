@@ -155,6 +155,7 @@ func set_up_new_level(
 	generate_enemies(enemy_tile_generator, enemy_manager)
 
 func process_start_player_turn():
+	print("On grid start player turn")
 	for row in grid:
 		for tile in row:
 			if !(tile is GridTile):

@@ -50,6 +50,7 @@ func start_player_turn():
 	your_turn_label.visible = true
 	await get_tree().create_timer(1.0).timeout
 	your_turn_label.visible = false
+	print("On grid start player turn")
 	grid.process_start_player_turn()
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 
