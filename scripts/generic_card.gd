@@ -4,6 +4,13 @@ signal card_placed
 signal card_removed_from_board
 signal player_turn_start
 
+enum CardType {
+	BEE,
+	MOD
+}
+
+@export var card_type: CardType = CardType.BEE
+
 @export var attack_value: int = 1:
 	set(value):
 		attack_value = value

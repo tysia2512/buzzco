@@ -17,5 +17,5 @@ func _process(delta: float) -> void:
 		return
 	var cards = card.get_grid_tile().get_neighbors().map(
 		func(tile): return tile.get_card()
-		).filter(func(x): return x != null)
+		).filter(func(x): return x != null and x.card_type == GenericCard.CardType.BEE)
 	card.current_attack_points = _attack_value * (1 + cards.size())
