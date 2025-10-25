@@ -154,6 +154,14 @@ func set_up_new_level(
 	set_up_new_grid()
 	generate_enemies(enemy_tile_generator, enemy_manager)
 
+func process_start_player_turn():
+	for row in grid:
+		for tile in row:
+			if !(tile is GridTile):
+				continue
+			if tile.get_card() != null:
+				tile.get_card().card.process_player_turn_start()
+
 func perform_boulder_move():
 	var back_to_front = true
 
