@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://uxr8bwjxrfom"]
+
+[ext_resource type="Script" uid="uid://bv1xss48pj8fy" path="res://shield.gd" id="1_vtru8"]
+[ext_resource type="PackedScene" uid="uid://dh7y3yfmdcg1x" path="res://scenes/global_effect_sprite.tscn" id="2_e3gf5"]
+[ext_resource type="Texture2D" uid="uid://ckqk1234eem6q" path="res://assets/shield.png" id="3_gsp1a"]
+
+[node name="Shield" type="Node2D"]
+script = ExtResource("1_vtru8")
+
+[node name="GlobalEffectSprite" parent="." instance=ExtResource("2_e3gf5")]
+texture = ExtResource("3_gsp1a")

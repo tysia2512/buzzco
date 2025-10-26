@@ -6,6 +6,7 @@ class_name Grid extends Node2D
 @onready var cards_node: Node2D = $Cards
 
 signal boulder_move_finished
+signal add_global_effect(effect: GlobalEffect)
 
 const FLIPPED = false
 const ROWS = [4, 3, 4, 3, 4, 3, 4, 3]
@@ -42,6 +43,7 @@ func _add_grid_tile(row: int, column: int):
 	var tile = grid_tile.instantiate()
 	tile.visible = false
 	add_child(tile)
+	_connect_grid_signals(tile)
 		
 	tile.position = get_coord(row, column)
 	grid[row][column] = tile
@@ -200,3 +202,9 @@ func _clear_for_boulder(to_tile: GridTile) -> void:
 	var card = to_tile.get_card()
 	if card:
 		card.remove_from_board()
+
+func _connect_grid_signals(tile: GridTile) -> void:
+	tile.add_global_effect.connect(_add_global_effect)
+
+func _add_global_effect(effect: GlobalEffect) -> void:
+	add_global_effect.emit(effect)

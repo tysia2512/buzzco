@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh7y3yfmdcg1x"]
+
+[ext_resource type="Script" uid="uid://bt7lgwd8a6b7v" path="res://scenes/global_effect_sprite.gd" id="1_tjm1s"]
+
+[node name="GlobalEffectSprite" type="Sprite2D"]
+script = ExtResource("1_tjm1s")

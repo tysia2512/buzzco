@@ -1,5 +1,7 @@
 class_name GridTile extends Tile
 
+signal add_global_effect(effect: GlobalEffect)
+
 @onready var sprite: Sprite2D = $Sprite2D
 
 var boulder: Boulder = null
@@ -12,12 +14,15 @@ func get_texture_size():
 func put_card(card: TypedCard) -> void:
 	_card = card
 	
-# Shoudl only be called by the card
+# Should only be called by the card
 func remove_card() -> void:
 	_card = null
 	
 func get_card() -> TypedCard:
 	return _card
+
+func place_global_effect(effect: GlobalEffect) -> void:
+	add_global_effect.emit(effect)
 
 func add_effect(effect: Effect) -> void:
 	_effects[effect] = true

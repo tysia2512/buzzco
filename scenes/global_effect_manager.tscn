@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://pecyklvb0byh"]
+
+[ext_resource type="Script" uid="uid://brm6d6amjebq7" path="res://scripts/global_effect_manager.gd" id="1_up86e"]
+
+[node name="GlobalEffectManager" type="Node2D"]
+script = ExtResource("1_up86e")

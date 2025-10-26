@@ -8,7 +8,10 @@ class_name LevelPlay extends Node2D
 @onready var health_label: Label = $HealthLabel
 @onready var grid: Grid = $CardMovementManager/Grid
 @onready var deck: Deck = $CardMovementManager/DeckNHand/Deck
+@onready var _global_effect_manager: GlobalEffectManager = $GlobalEffectManager
 @onready var launch_attack_button: LaunchAttackButton = $LaunchAttackButton
+
+@onready var _debug_label: Label = $DebugLabel
 
 signal level_cleared
 signal game_over
@@ -22,6 +25,8 @@ func _ready() -> void:
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
+	_debug_label.text = "Global Effects: " + str(_global_effect_manager.get_global_effects())
+
 
 func prepare_level(level: int):
 	GameState.set_up_new_level()
@@ -96,11 +101,18 @@ func _attack_enemy(enemy: Enemy, attack_points: int) -> void:
 
 
 func _on_enemy_manager_deal_damage_to_player(dmg: int) -> void:
+	dmg = _process_global_effects_on_damage_to_player(dmg)
 	GameState.player_health = max(0, GameState.player_health - dmg)
 	health_label.animate_health_loss(dmg)
 	if GameState.player_health == 0:
 		game_over.emit()
 
+func _process_global_effects_on_damage_to_player(dmg: int) -> int:
+	for effect in _global_effect_manager.get_global_effects():
+		if effect.should_react_to_damage():
+			dmg = effect.process_damage(dmg)
+			return dmg
+	return dmg
 
 func _on_card_movement_manager_card_placed() -> void:
 	deck.deal_cards(1)
@@ -112,6 +124,9 @@ func _on_enemy_manager_boulder_spawned(on_tile: GridTile) -> void:
 func _on_grid_boulder_move_finished() -> void:
 	GameState.turn_stage = GameState.TurnStage.ENEMY_MOVE
 	start_enemy_turn()
+
+func _on_grid_add_global_effect(effect: GlobalEffect) -> void:
+	_global_effect_manager.add_global_effect(effect)
 
 
 func _on_enemy_manager_all_enemies_dead() -> void:

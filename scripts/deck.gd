@@ -4,11 +4,13 @@ class_name Deck extends Node2D
 @onready var friendly_bee_card_scene: PackedScene = preload("res://scenes/friendly_bee_card.tscn")
 @onready var second_stinger_card_scene: PackedScene = preload("res://scenes/second_stinger_card.tscn")
 @onready var charger_bee_card_scene: PackedScene = preload("res://scenes/charger_bee_card.tscn")
+@onready var protector_bee_card_scene: PackedScene = preload("res://scenes/protector_bee_card.tscn")
 
 @export var basic_bee_card_count: int = 10
 @export var friendly_bee_card_count: int = 6
 @export var second_stinger_card_count: int = 4
 @export var charger_bee_card_count: int = 4
+@export var protector_bee_card_count: int = 5
 
 
 @onready var hand_spawn_point: CardSpawnPoint = $"../CardSpawnPoint"
@@ -29,6 +31,9 @@ func _ready() -> void:
 
 	for i in range(0, charger_bee_card_count):
 		_deck.append(charger_bee_card_scene)
+
+	for i in range(0, protector_bee_card_count):
+		_deck.append(protector_bee_card_scene)
 		
 	_deck.shuffle()
 	_update_label()
