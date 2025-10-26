@@ -71,7 +71,7 @@ visible = false
 position = Vector2(959, 231)
 
 [node name="GlobalEffectManager" parent="." instance=ExtResource("10_obdjb")]
-position = Vector2(145, 162)
+position = Vector2(183, 203)
 
 [node name="CheatButton" type="Button" parent="."]
 offset_left = 1605.0

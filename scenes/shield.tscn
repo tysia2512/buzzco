@@ -8,5 +8,4 @@
 script = ExtResource("1_vtru8")
 
 [node name="GlobalEffectSprite" parent="." instance=ExtResource("2_e3gf5")]
-scale = Vector2(0.15, 0.15)
 texture = ExtResource("3_gsp1a")
