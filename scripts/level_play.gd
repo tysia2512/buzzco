@@ -101,11 +101,18 @@ func _attack_enemy(enemy: Enemy, attack_points: int) -> void:
 
 
 func _on_enemy_manager_deal_damage_to_player(dmg: int) -> void:
+	dmg = _process_global_effects_on_damage_to_player(dmg)
 	GameState.player_health = max(0, GameState.player_health - dmg)
 	health_label.animate_health_loss(dmg)
 	if GameState.player_health == 0:
 		game_over.emit()
 
+func _process_global_effects_on_damage_to_player(dmg: int) -> int:
+	for effect in _global_effects:
+		if effect.should_react_to_damage():
+			dmg = effect.process_damage(dmg)
+			return dmg
+	return dmg
 
 func _on_card_movement_manager_card_placed() -> void:
 	deck.deal_cards(1)
