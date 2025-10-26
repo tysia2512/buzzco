@@ -2,6 +2,8 @@
 # and will queue free
 class_name TypedCard extends Node2D
 
+var global_effect: GlobalEffect = null
+
 var tween: Tween
 @export var texture: Texture2D:
 	set(value):
@@ -30,3 +32,7 @@ func _on_remove(_tile: GridTile) -> void:
 func _remove(_tile: GridTile) -> void:
 	_on_remove(_tile)
 	queue_free()
+
+func remove_global_effect(effect: GlobalEffect) -> void:
+	if global_effect == effect:
+		global_effect = null

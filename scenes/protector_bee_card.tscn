@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://btowmixpl6isa"]
+
+[ext_resource type="Script" uid="uid://w5dtyjf3q4ia" path="res://scripts/protector_bee_card.gd" id="1_tunex"]
+[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="2_nol7j"]
+[ext_resource type="Texture2D" uid="uid://c38sit0gwtbpb" path="res://assets/protector_bee.png" id="2_tryab"]
+
+[node name="ProtectorBeeCard" type="Node2D"]
+script = ExtResource("1_tunex")
+texture = ExtResource("2_tryab")
+
+[node name="Card" parent="." instance=ExtResource("2_nol7j")]
+card_name = "Protector Bee"
+description = "Leave it to me, liege! Gives one shield that nullifies a single attack."
+
+[connection signal="card_placed" from="Card" to="." method="_on_card_card_placed"]

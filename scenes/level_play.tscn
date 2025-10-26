@@ -109,10 +109,21 @@ offset_right = 399.0
 offset_bottom = 978.0
 theme_override_font_sizes/font_size = 30
 
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
+offset_left = 141.0
+offset_top = 150.0
+offset_right = 410.0
+offset_bottom = 280.0
+theme_override_colors/font_color = Color(0.6627451, 0.5882353, 0.85490197, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.93333334)
+theme_override_font_sizes/font_size = 19
+
 [connection signal="launch_assault" from="LaunchAttackButton" to="." method="_on_launch_attack_button_launch_assault"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="card_placed" from="CardMovementManager" to="." method="_on_card_movement_manager_card_placed"]
 [connection signal="perform_player_action" from="CardMovementManager" to="." method="_on_card_movement_manager_perform_player_action"]
+[connection signal="add_global_effect" from="CardMovementManager/Grid" to="." method="_on_grid_add_global_effect"]
 [connection signal="boulder_move_finished" from="CardMovementManager/Grid" to="." method="_on_grid_boulder_move_finished"]
 [connection signal="all_enemies_dead" from="EnemyManager" to="." method="_on_enemy_manager_all_enemies_dead"]
 [connection signal="boulder_spawned" from="EnemyManager" to="." method="_on_enemy_manager_boulder_spawned"]

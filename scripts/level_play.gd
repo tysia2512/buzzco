@@ -10,10 +10,13 @@ class_name LevelPlay extends Node2D
 @onready var deck: Deck = $CardMovementManager/DeckNHand/Deck
 @onready var launch_attack_button: LaunchAttackButton = $LaunchAttackButton
 
+@onready var _debug_label: Label = $DebugLabel
+
 signal level_cleared
 signal game_over
 
 var actions_left_in_turn: int
+var _global_effects = []
 
 func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
@@ -22,6 +25,8 @@ func _ready() -> void:
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
+	_debug_label.text = "Global Effects: " + str(_global_effects)
+
 
 func prepare_level(level: int):
 	GameState.set_up_new_level()
@@ -112,6 +117,14 @@ func _on_enemy_manager_boulder_spawned(on_tile: GridTile) -> void:
 func _on_grid_boulder_move_finished() -> void:
 	GameState.turn_stage = GameState.TurnStage.ENEMY_MOVE
 	start_enemy_turn()
+
+func _on_grid_add_global_effect(effect: GlobalEffect) -> void:
+	add_child(effect)
+	effect.remove.connect(_remove_effect)
+	_global_effects.append(effect)
+
+func _remove_effect(effect: GlobalEffect) -> void:
+	_global_effects.erase(effect)
 
 
 func _on_enemy_manager_all_enemies_dead() -> void:
