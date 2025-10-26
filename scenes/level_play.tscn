@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b0t0ehhi430ol"]
+[gd_scene load_steps=12 format=3 uid="uid://b0t0ehhi430ol"]
 
 [ext_resource type="Script" uid="uid://o4fo1k5fxst8" path="res://scripts/level_play.gd" id="1_1uwbi"]
 [ext_resource type="Script" uid="uid://dupf0687sotgl" path="res://scripts/pollen_count.gd" id="1_2jmw1"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://qm813tqd45mo" path="res://scenes/deck_n_hand.tscn" id="5_1n5cl"]
 [ext_resource type="PackedScene" uid="uid://q1bx0oxeisoc" path="res://scenes/grid.tscn" id="6_rvuek"]
 [ext_resource type="PackedScene" uid="uid://cx2m6md070sfq" path="res://scenes/enemy_manager.tscn" id="9_nk028"]
+[ext_resource type="PackedScene" uid="uid://pecyklvb0byh" path="res://scenes/global_effect_manager.tscn" id="10_obdjb"]
 [ext_resource type="PackedScene" uid="uid://cn0nek0sj8uyd" path="res://scenes/health_label.tscn" id="11_obdjb"]
 
 [node name="LevelPlay" type="Node2D"]
@@ -68,6 +69,9 @@ position = Vector2(969, 483)
 [node name="EnemyManager" parent="." instance=ExtResource("9_nk028")]
 visible = false
 position = Vector2(959, 231)
+
+[node name="GlobalEffectManager" parent="." instance=ExtResource("10_obdjb")]
+position = Vector2(145, 162)
 
 [node name="CheatButton" type="Button" parent="."]
 offset_left = 1605.0

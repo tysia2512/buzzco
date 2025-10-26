@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dh7y3yfmdcg1x"]
+
+[node name="GlobalEffectSprite" type="Sprite2D"]
