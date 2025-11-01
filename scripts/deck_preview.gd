@@ -1,0 +1,59 @@
+class_name DeckPreview extends Node2D
+
+@onready var _flow_container: FlowContainer = $FlowContainer
+
+signal close_preview
+
+
+@onready var deck_preview_card_scene = preload("res://scenes/deck_preview_card.tscn")
+
+#TODO: put on a new top layer
+
+var cards_arranged: bool = false
+func ready() -> void:
+	z_index = ZLayers.DECK_DISPLAY
+
+func load(deck: Deck) -> void:
+	cards_arranged = false
+	var cards = deck.get_all_cards()
+	var card_count = {}
+	for card_scene in cards:
+		var card = card_scene.instantiate()
+		var card_type = card.card_type
+		card.queue_free()
+		if card_type in card_count:
+			card_count[card_type] += 1
+		else:
+			card_count[card_type] = 1
+
+	for card_type in CardIndex.card_scenes:
+		if card_count[card_type] == null || card_count[card_type] == 0:
+			continue
+		var deck_preview_card = deck_preview_card_scene.instantiate() as DeckPreviewCard
+		var card = CardIndex.card_scenes[card_type].instantiate() as TypedCard
+		card.visible = false
+		add_child(card)
+		card.card.set_card_in_display_mode()
+		_flow_container.add_child(deck_preview_card)
+
+
+		deck_preview_card.panel.custom_minimum_size = card.card.get_texture_size()
+		deck_preview_card.label.text = 'x' + str(card_count[card_type])
+		deck_preview_card.card = card
+		
+func _process(delta: float) -> void:
+	if cards_arranged:
+		return
+	for child in _flow_container.get_children():
+		var deck_preview_card = child as DeckPreviewCard
+		deck_preview_card.card.position = deck_preview_card.panel.global_position - position + deck_preview_card.card.card.get_texture_size() / 2
+		deck_preview_card.card.visible = true
+	cards_arranged = true
+
+func _on_close_button_pressed() -> void:
+	for child in _flow_container.get_children():
+		child.queue_free()
+	for child in get_children():
+		if child is TypedCard:
+			child.queue_free()
+	close_preview.emit()

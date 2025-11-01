@@ -7,6 +7,7 @@
 [node name="FriendlyBeeCard" type="Node2D"]
 script = ExtResource("1_l7l4l")
 texture = ExtResource("2_0xwkr")
+card_type = 1
 
 [node name="Card" parent="." instance=ExtResource("1_pqlsq")]
 description = "Keep your friends close. +1 attack for any adjecent bee."

@@ -12,7 +12,6 @@ class_name Deck extends Node2D
 @export var charger_bee_card_count: int = 4
 @export var protector_bee_card_count: int = 5
 
-
 @onready var hand_spawn_point: CardSpawnPoint = $"../CardSpawnPoint"
 @onready var card_spawn_point: Node2D = $SpawnPoint
 @onready var _card_count_label: Label = $CardCountLabel
@@ -20,21 +19,12 @@ class_name Deck extends Node2D
 var _deck = []
 
 func _ready() -> void:
-	for i in range(0, basic_bee_card_count):
-		_deck.append(basic_bee_card_scene)
-	
-	for i in range(0, friendly_bee_card_count):
-		_deck.append(friendly_bee_card_scene)
-		
-	for i in range(0, second_stinger_card_count):
-		_deck.append(second_stinger_card_scene)
+	for card_type in CardIndex.starter_deck:
+		var count = CardIndex.starter_deck[card_type]
+		var scene = CardIndex.card_scenes[card_type]
+		for i in range(count):
+			_deck.append(scene)
 
-	for i in range(0, charger_bee_card_count):
-		_deck.append(charger_bee_card_scene)
-
-	for i in range(0, protector_bee_card_count):
-		_deck.append(protector_bee_card_scene)
-		
 	_deck.shuffle()
 	_update_label()
 
@@ -61,3 +51,8 @@ func _update_label() -> void:
 
 func get_cards_in_hand_count() -> int:
 	return hand_spawn_point.get_cards().size()
+
+func get_all_cards() -> Array:
+	var cards = []
+	cards.append_array(_deck)
+	return cards

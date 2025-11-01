@@ -41,6 +41,7 @@ signal mouse_exited
 			_collision_polygon.disabled = !value
 
 @onready var _image_sprite: Sprite2D = $ImageSprite
+@onready var _card_template_sprite: Sprite2D = $CardTemplateSprite
 @onready var _image_polygon: Polygon2D = $CardTemplateSprite/Polygon2D
 @onready var _collision_polygon: CardCollisionPolygon = $Area2D/CollisionPolygon2D
 
@@ -77,7 +78,7 @@ func _resize_texture():
 	_image_sprite.scale = Vector2(s, s)
 
 func get_texture_size():
-	return _image_sprite.texture.get_size() * _image_sprite.scale * scale
+	return _card_template_sprite.texture.get_size() * _card_template_sprite.scale * scale
 
 func _on_area_2d_mouse_entered() -> void:
 	mouse_entered.emit()

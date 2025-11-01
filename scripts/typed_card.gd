@@ -19,9 +19,14 @@ var tween: Tween
 		card.card_removed_from_board.connect(_remove)
 		card.set_collision_shape_card(self)
 
-var card_type: GenericCard.CardType:
+@export var card_type: CardIndex.CardType
+
+@export var card_class: GenericCard.CardClass:
 	get():
-		return card.card_type
+		return card.card_class
+
+func _ready():
+	assert(card != null, "TypedCard: card is not set")	
 		
 func remove_from_board():
 	card.remove_from_the_board()
