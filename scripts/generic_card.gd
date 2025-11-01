@@ -4,12 +4,12 @@ signal card_placed
 signal card_removed_from_board
 signal player_turn_start
 
-enum CardType {
+enum CardClass {
 	BEE,
 	MOD
 }
 
-@export var card_type: CardType = CardType.BEE
+@export var card_class: CardClass = CardClass.BEE
 
 @export var attack_value: int = 1:
 	set(value):
@@ -55,8 +55,12 @@ enum CardDisplayMode {
 	CARD,
 	TILE,
 	HOVER, # Hovered over on the board
-	CARD_IN_FRONT # In hand and hovered over
+	CARD_IN_FRONT, # In hand and hovered over
+	CARD_IN_DISPLAY
 }
+
+func set_card_in_display_mode() -> void:
+	_card_display_mode = CardDisplayMode.CARD_IN_DISPLAY
 
 var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 	set(value):
@@ -74,7 +78,13 @@ var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 			card_display.z_index = z_index
 
 		_set_card_display_visible(
-			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER || _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
+			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER 
+			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
+		
+		if _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
+			card_display.visible = true
+			card_display.z_index = ZLayers.DECK_DISPLAY
+			card_display.enable_collision = false
 
 var _is_dragged = false:
 	set(value):
@@ -149,7 +159,8 @@ func _set_card_display_visible(v: bool) -> void:
 	card_display.enable_collision = v
 
 func get_texture_size():
-	if _card_display_mode == CardDisplayMode.CARD:
+	if _card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
+		print( "Getting texture size from card display")
 		return card_display.get_texture_size()
 	return tile_sprite.scale * tile_sprite.texture.get_size()
 

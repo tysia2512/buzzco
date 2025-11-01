@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b0t0ehhi430ol"]
+[gd_scene load_steps=13 format=3 uid="uid://b0t0ehhi430ol"]
 
 [ext_resource type="Script" uid="uid://o4fo1k5fxst8" path="res://scripts/level_play.gd" id="1_1uwbi"]
 [ext_resource type="Script" uid="uid://dupf0687sotgl" path="res://scripts/pollen_count.gd" id="1_2jmw1"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cx2m6md070sfq" path="res://scenes/enemy_manager.tscn" id="9_nk028"]
 [ext_resource type="PackedScene" uid="uid://pecyklvb0byh" path="res://scenes/global_effect_manager.tscn" id="10_obdjb"]
 [ext_resource type="PackedScene" uid="uid://cn0nek0sj8uyd" path="res://scenes/health_label.tscn" id="11_obdjb"]
+[ext_resource type="PackedScene" uid="uid://55rxg0iw0xwg" path="res://scenes/deck_preview.tscn" id="12_5espj"]
 
 [node name="LevelPlay" type="Node2D"]
 script = ExtResource("1_1uwbi")
@@ -58,7 +59,15 @@ position = Vector2(973, 983)
 [node name="Deck" parent="CardMovementManager/DeckNHand" index="3"]
 position = Vector2(722, -15)
 
-[node name="SpawnPoint" parent="CardMovementManager/DeckNHand/Deck" index="1"]
+[node name="ShowDeckPreviewButton" type="Button" parent="CardMovementManager/DeckNHand/Deck" index="0"]
+offset_left = 58.0
+offset_top = -139.0
+offset_right = 176.0
+offset_bottom = -94.0
+theme_override_font_sizes/font_size = 21
+text = "See deck"
+
+[node name="SpawnPoint" parent="CardMovementManager/DeckNHand/Deck" index="2"]
 position = Vector2(-48.2, -116)
 
 [node name="Grid" parent="CardMovementManager" instance=ExtResource("6_rvuek")]
@@ -72,6 +81,9 @@ position = Vector2(959, 231)
 
 [node name="GlobalEffectManager" parent="." instance=ExtResource("10_obdjb")]
 position = Vector2(183, 203)
+
+[node name="DeckPreview" parent="." instance=ExtResource("12_5espj")]
+visible = false
 
 [node name="CheatButton" type="Button" parent="."]
 offset_left = 1605.0
@@ -114,6 +126,7 @@ offset_bottom = 978.0
 theme_override_font_sizes/font_size = 30
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 offset_left = 141.0
 offset_top = 150.0
 offset_right = 410.0
@@ -126,12 +139,14 @@ theme_override_font_sizes/font_size = 19
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="card_placed" from="CardMovementManager" to="." method="_on_card_movement_manager_card_placed"]
 [connection signal="perform_player_action" from="CardMovementManager" to="." method="_on_card_movement_manager_perform_player_action"]
+[connection signal="pressed" from="CardMovementManager/DeckNHand/Deck/ShowDeckPreviewButton" to="." method="_on_show_deck_preview_button_pressed"]
 [connection signal="add_global_effect" from="CardMovementManager/Grid" to="." method="_on_grid_add_global_effect"]
 [connection signal="boulder_move_finished" from="CardMovementManager/Grid" to="." method="_on_grid_boulder_move_finished"]
 [connection signal="all_enemies_dead" from="EnemyManager" to="." method="_on_enemy_manager_all_enemies_dead"]
 [connection signal="boulder_spawned" from="EnemyManager" to="." method="_on_enemy_manager_boulder_spawned"]
 [connection signal="deal_damage_to_player" from="EnemyManager" to="." method="_on_enemy_manager_deal_damage_to_player"]
 [connection signal="enemy_turn_finished" from="EnemyManager" to="." method="_on_enemy_manager_enemy_turn_finished"]
+[connection signal="close_preview" from="DeckPreview" to="." method="_on_deck_preview_close_preview"]
 [connection signal="pressed" from="CheatButton" to="." method="_on_cheat_button_pressed"]
 
 [editable path="CardMovementManager/DeckNHand"]

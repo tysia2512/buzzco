@@ -10,6 +10,7 @@ class_name LevelPlay extends Node2D
 @onready var deck: Deck = $CardMovementManager/DeckNHand/Deck
 @onready var _global_effect_manager: GlobalEffectManager = $GlobalEffectManager
 @onready var launch_attack_button: LaunchAttackButton = $LaunchAttackButton
+@onready var _deck_preview: DeckPreview = $DeckPreview
 
 @onready var _debug_label: Label = $DebugLabel
 
@@ -22,6 +23,7 @@ func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	launch_attack_button.grid = grid
+	print(_deck_preview)
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
@@ -131,3 +133,11 @@ func _on_grid_add_global_effect(effect: GlobalEffect) -> void:
 
 func _on_enemy_manager_all_enemies_dead() -> void:
 	level_cleared.emit()
+
+
+func _on_show_deck_preview_button_pressed() -> void:
+	_deck_preview.load(deck)
+	_deck_preview.visible = true
+
+func _on_deck_preview_close_preview() -> void:
+	_deck_preview.visible = false
