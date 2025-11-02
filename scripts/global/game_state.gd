@@ -28,7 +28,10 @@ const START_NUMBER_OF_CARDS: int = 5
 
 var turn_stage: TurnStage = TurnStage.PLAYER_MOVE:
 	set(value):
+		var old_value = turn_stage
 		turn_stage = value
+		if old_value == TurnStage.SPECIFIC_INPUT:
+			return
 		if value == TurnStage.PLAYER_MOVE:
 			player_turn_start.emit()
 
