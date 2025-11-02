@@ -1,3 +1,4 @@
+@tool
 class_name GridSprite2D extends Sprite2D
 
 @onready var grid_tile_scene = preload("res://scenes/grid_tile.tscn")
