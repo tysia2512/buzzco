@@ -1,4 +1,4 @@
-class_name DeckPreview extends Node2D
+class_name DeckPreview extends Control
 
 @onready var _flow_container: FlowContainer = $FlowContainer
 

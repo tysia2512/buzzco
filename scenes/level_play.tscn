@@ -82,10 +82,8 @@ position = Vector2(959, 231)
 [node name="GlobalEffectManager" parent="." instance=ExtResource("10_obdjb")]
 position = Vector2(183, 203)
 
-[node name="DeckPreview" parent="." instance=ExtResource("12_5espj")]
-visible = false
-
 [node name="CheatButton" type="Button" parent="."]
+visible = false
 offset_left = 1605.0
 offset_top = 589.0
 offset_right = 1776.0
@@ -135,6 +133,9 @@ theme_override_colors/font_color = Color(0.6627451, 0.5882353, 0.85490197, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.93333334)
 theme_override_font_sizes/font_size = 19
 
+[node name="DeckPreview" parent="." instance=ExtResource("12_5espj")]
+visible = false
+
 [connection signal="launch_assault" from="LaunchAttackButton" to="." method="_on_launch_attack_button_launch_assault"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
 [connection signal="card_placed" from="CardMovementManager" to="." method="_on_card_movement_manager_card_placed"]
@@ -146,7 +147,7 @@ theme_override_font_sizes/font_size = 19
 [connection signal="boulder_spawned" from="EnemyManager" to="." method="_on_enemy_manager_boulder_spawned"]
 [connection signal="deal_damage_to_player" from="EnemyManager" to="." method="_on_enemy_manager_deal_damage_to_player"]
 [connection signal="enemy_turn_finished" from="EnemyManager" to="." method="_on_enemy_manager_enemy_turn_finished"]
-[connection signal="close_preview" from="DeckPreview" to="." method="_on_deck_preview_close_preview"]
 [connection signal="pressed" from="CheatButton" to="." method="_on_cheat_button_pressed"]
+[connection signal="close_preview" from="DeckPreview" to="." method="_on_deck_preview_close_preview"]
 
 [editable path="CardMovementManager/DeckNHand"]

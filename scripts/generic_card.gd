@@ -160,7 +160,6 @@ func _set_card_display_visible(v: bool) -> void:
 
 func get_texture_size():
 	if _card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
-		print( "Getting texture size from card display")
 		return card_display.get_texture_size()
 	return tile_sprite.scale * tile_sprite.texture.get_size()
 
