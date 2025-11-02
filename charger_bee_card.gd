@@ -1,6 +1,7 @@
 class_name ChargerBeeCard extends TypedCard
 
 const _attack_value = 1
+const _charge_value = 3
 const _name = "Charger Bee"
 
 func _init() -> void:
@@ -14,4 +15,4 @@ func _ready():
 
 func _on_card_player_turn_start() -> void:
 	print("Increase the attack")
-	card.current_attack_points += 1
+	card.current_attack_points += _charge_value
