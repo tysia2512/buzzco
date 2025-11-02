@@ -7,6 +7,7 @@ class_name Grid extends Node2D
 
 signal boulder_move_finished
 signal add_global_effect(effect: GlobalEffect)
+signal card_selected_for_attack(card: TypedCard)
 
 const FLIPPED = false
 const ROWS = [4, 3, 4, 3, 4, 3, 4, 3]
@@ -31,7 +32,7 @@ func set_up_new_grid():
 	tile_height = size_tile.get_texture_size().y
 	tile_width = size_tile.get_texture_size().x
 	size_tile.queue_free()
-	
+
 	W = ROWS.max() * tile_width + tile_width / 2
 	H = (tile_height * (ROWS.size() + 2) + 1) / 2
 	
@@ -62,6 +63,9 @@ func get_coord(row: int, column: int) -> Vector2:
 func place_card(card: TypedCard, grid_tile: GridTile) -> void:
 	card.reparent(cards_node)
 	card.card.set_on_the_board(grid_tile)
+	card.card_selected_for_attack.connect(func (card: TypedCard) -> void:
+		card_selected_for_attack.emit(card)
+	)
 		
 	grid_tile.put_card(card)
 	card.position = grid_tile.position

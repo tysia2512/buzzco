@@ -50,6 +50,14 @@ theme_override_font_sizes/font_size = 30
 text = "Launch assault"
 script = ExtResource("3_obdjb")
 
+[node name="ConfirmAttackButton" type="Button" parent="."]
+visible = false
+offset_left = 1682.0
+offset_top = 125.0
+offset_right = 1792.0
+offset_bottom = 168.0
+text = "Confirm"
+
 [node name="CardMovementManager" type="Node2D" parent="."]
 script = ExtResource("4_5espj")
 
@@ -143,6 +151,7 @@ visible = false
 [connection signal="pressed" from="CardMovementManager/DeckNHand/Deck/ShowDeckPreviewButton" to="." method="_on_show_deck_preview_button_pressed"]
 [connection signal="add_global_effect" from="CardMovementManager/Grid" to="." method="_on_grid_add_global_effect"]
 [connection signal="boulder_move_finished" from="CardMovementManager/Grid" to="." method="_on_grid_boulder_move_finished"]
+[connection signal="card_selected_for_attack" from="CardMovementManager/Grid" to="." method="_on_grid_card_selected_for_attack"]
 [connection signal="all_enemies_dead" from="EnemyManager" to="." method="_on_enemy_manager_all_enemies_dead"]
 [connection signal="boulder_spawned" from="EnemyManager" to="." method="_on_enemy_manager_boulder_spawned"]
 [connection signal="deal_damage_to_player" from="EnemyManager" to="." method="_on_enemy_manager_deal_damage_to_player"]
