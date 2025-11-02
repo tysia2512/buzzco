@@ -2,6 +2,8 @@
 # and will queue free
 class_name TypedCard extends Node2D
 
+signal card_selected_for_attack(card: TypedCard)
+
 var global_effect: GlobalEffect = null
 
 var tween: Tween
@@ -17,6 +19,9 @@ var tween: Tween
 		if texture:
 			card.texture = texture
 		card.card_removed_from_board.connect(_remove)
+		card.card_selected_for_attack.connect(func ():
+			card_selected_for_attack.emit(self)
+		)
 		card.set_collision_shape_card(self)
 
 @export var card_type: CardIndex.CardType

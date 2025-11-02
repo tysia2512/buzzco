@@ -3,6 +3,7 @@ class_name GenericCard extends Node2D
 signal card_placed
 signal card_removed_from_board
 signal player_turn_start
+signal card_selected_for_attack
 
 enum CardClass {
 	BEE,
@@ -58,6 +59,8 @@ enum CardDisplayMode {
 	CARD_IN_FRONT, # In hand and hovered over
 	CARD_IN_DISPLAY
 }
+
+var _is_selected_for_attack = false
 
 func set_card_in_display_mode() -> void:
 	_card_display_mode = CardDisplayMode.CARD_IN_DISPLAY
@@ -127,7 +130,10 @@ var _is_on_the_board = false:
 
 var _tile_placed: GridTile = null
 
+var _sprite_modulate: Color
+
 func _ready():
+	_sprite_modulate = tile_sprite.modulate
 	_card_display_mode = CardDisplayMode.CARD
 	tile_sprite.init_texture(texture)
 	card_display.texture = texture
@@ -137,6 +143,12 @@ func _ready():
 
 
 func _process(_delta: float) -> void:
+	if !can_be_selected_for_attack():
+		_is_selected_for_attack = false
+	if _is_selected_for_attack:
+		tile_sprite.modulate = Color.RED
+	else:
+		tile_sprite.modulate = _sprite_modulate
 	_update_labels()
 
 func set_collision_shape_card(card: TypedCard):
@@ -160,7 +172,6 @@ func _set_card_display_visible(v: bool) -> void:
 
 func get_texture_size():
 	if _card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
-		print( "Getting texture size from card display")
 		return card_display.get_texture_size()
 	return tile_sprite.scale * tile_sprite.texture.get_size()
 
@@ -238,3 +249,20 @@ func _reset_hover():
 		_card_display_mode = CardDisplayMode.TILE
 	else:
 		_card_display_mode = CardDisplayMode.CARD
+
+func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
+	if !can_be_selected_for_attack():
+		return
+
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_is_selected_for_attack = !_is_selected_for_attack
+		card_selected_for_attack.emit()
+
+func can_be_selected_for_attack() -> bool:
+	if !_is_on_the_board:
+		return false
+	if GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
+		return false
+	if GameState.specific_input != GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT and GameState.specific_input != GameState.SpecificInput.ENEMY_OR_BEE_SELECT:
+		return false
+	return true

@@ -23,7 +23,7 @@ func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	launch_attack_button.grid = grid
-	print(_deck_preview)
+	enemy_manager.enemy_selected.connect(_enemy_selected)
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
@@ -81,26 +81,43 @@ func _on_enemy_manager_enemy_turn_finished() -> void:
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
 
+var _cards_selected_for_attack: Array = []
+
+var _interrupted_stage_by_attack: GameState.TurnStage
 func _on_launch_attack_button_launch_assault() -> void:
-	var attack_points = grid.get_points()
-	var enemy: Enemy
-	var interrupted_stage = GameState.turn_stage 
-	if enemy_manager.get_enemies().size() == 1:
-		enemy = enemy_manager.get_enemies()[0]
+	_interrupted_stage_by_attack = GameState.turn_stage 
+	GameState.turn_stage = GameState.TurnStage.SPECIFIC_INPUT
+	GameState.specific_input = GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT
+
+func _enemy_selected(enemy: Enemy) -> void:
+	_perform_attack(enemy)
+
+func _on_grid_card_selected_for_attack(card: TypedCard) -> void:
+	if _cards_selected_for_attack.has(card):
+		_cards_selected_for_attack.erase(card)
 	else:
-		GameState.turn_stage = GameState.TurnStage.SPECIFIC_INPUT
-		GameState.specific_input = GameState.SpecificInput.ENEMY_SELECT
-		enemy = await enemy_manager.enemy_selected
+		_cards_selected_for_attack.append(card)
 	
-	GameState.turn_stage = interrupted_stage
+	if _cards_selected_for_attack.is_empty():
+		GameState.specific_input = GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT
+	else:
+		GameState.specific_input = GameState.SpecificInput.ENEMY_OR_BEE_SELECT
+
+func _perform_attack(enemy: Enemy):
+	var attack_points: int = 0
+	for card in _cards_selected_for_attack:
+		attack_points += card.card.get_attack_with_effects()
+
+	for card in _cards_selected_for_attack:
+		card.remove_from_board()
+	_cards_selected_for_attack.clear()
+	
 	_attack_enemy(enemy, attack_points)
-	grid.clear_cards()
-	
+	GameState.turn_stage = _interrupted_stage_by_attack
 	_perform_action()
 
 func _attack_enemy(enemy: Enemy, attack_points: int) -> void:
 	enemy.receive_damage(attack_points)
-
 
 func _on_enemy_manager_deal_damage_to_player(dmg: int) -> void:
 	dmg = _process_global_effects_on_damage_to_player(dmg)

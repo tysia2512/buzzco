@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 		var p = get_global_mouse_position()
 		dragged_card.position = Vector2(clamp(p.x, 0, screen_size.x), clamp(p.y, 0, screen_size.y))
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if GameState.turn_stage != GameState.TurnStage.PLAYER_MOVE:
 		return
 

@@ -11,7 +11,8 @@ enum TurnStage {
 }
 
 enum SpecificInput {
-	ENEMY_SELECT,
+	ENEMY_OR_BEE_SELECT,
+	LAUNCH_ATTACK_BEE_SELECT,
 	GRID_CARD_SELECT
 }
 const DEBUG_MODE: bool = false
@@ -27,12 +28,14 @@ const START_NUMBER_OF_CARDS: int = 5
 
 var turn_stage: TurnStage = TurnStage.PLAYER_MOVE:
 	set(value):
+		var old_value = turn_stage
 		turn_stage = value
+		if old_value == TurnStage.SPECIFIC_INPUT:
+			return
 		if value == TurnStage.PLAYER_MOVE:
 			player_turn_start.emit()
 
 var specific_input: SpecificInput
-var enemy_select_for_attack: int
 
 var player_health: int = 30
 
