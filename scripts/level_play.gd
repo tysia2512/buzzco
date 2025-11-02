@@ -23,7 +23,6 @@ func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	launch_attack_button.grid = grid
-	print(_deck_preview)
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
