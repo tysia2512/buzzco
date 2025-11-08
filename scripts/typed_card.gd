@@ -30,7 +30,7 @@ var tween: Tween
 
 @export var card_type: CardIndex.CardType
 
-@export var card_class: GenericCard.CardClass:
+var card_class: GenericCard.CardClass:
 	get():
 		return card.card_class
 
