@@ -140,6 +140,9 @@ func spawn_boulder(on_tile: GridTile):
 	if on_tile.boulder != null:
 		return
 
+	if _is_boulder_crushed(on_tile):
+		return
+
 	_clear_for_boulder(on_tile)
 	
 	on_tile.boulder = boulder
@@ -194,6 +197,10 @@ func perform_boulder_move():
 
 func _move_boulder(b: Boulder, from_tile: GridTile, to_tile: GridTile) -> void:
 	assert(to_tile != null and to_tile.boulder == null)
+	if _is_boulder_crushed(to_tile):
+		from_tile.remove_boulder()
+		return
+
 	_clear_for_boulder(to_tile)
 	b.reparent(to_tile)
 	b.position = Vector2.ZERO
@@ -201,6 +208,13 @@ func _move_boulder(b: Boulder, from_tile: GridTile, to_tile: GridTile) -> void:
 	from_tile.boulder = null
 
 	await get_tree().create_timer(0.1).timeout
+
+func _is_boulder_crushed(to_tile: GridTile) -> bool:
+	var card = to_tile.get_card()
+	if card != null and card.get_boulder_crusher() != null and card.get_boulder_crusher().can_destroy_boulder():
+		card.get_boulder_crusher().on_destroy_boulder()
+		return true
+	return false
 
 func _clear_for_boulder(to_tile: GridTile) -> void:
 	var card = to_tile.get_card()

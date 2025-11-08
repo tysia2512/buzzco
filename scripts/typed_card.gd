@@ -50,3 +50,9 @@ func _remove(_tile: GridTile) -> void:
 func remove_global_effect(effect: GlobalEffect) -> void:
 	if global_effect == effect:
 		global_effect = null
+
+func get_boulder_crusher() -> BoulderCrusher:
+	for child in get_children():
+		if child is BoulderCrusher:
+			return child as BoulderCrusher
+	return null

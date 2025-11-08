@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsplx4sa4571a"]
+
+[ext_resource type="Script" uid="uid://dvv20syjh6e01" path="res://scripts/drill_operator_bee_card.gd" id="1_g73b0"]
+[ext_resource type="Texture2D" uid="uid://b30lsrlgx7kp1" path="res://assets/drill_operator_bee.png" id="2_l04mw"]
+[ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="3_l04mw"]
+[ext_resource type="Script" uid="uid://k6e28sy7krl" path="res://scripts/boulder_crusher.gd" id="4_jjvuw"]
+
+[node name="DrillOperatorBeeCard" type="Node2D"]
+script = ExtResource("1_g73b0")
+texture = ExtResource("2_l04mw")
+card_type = 5
+
+[node name="Card" parent="." instance=ExtResource("3_l04mw")]
+card_name = "Drill Operator"
+description = "His drill can crush the hardest rock. If only it didn't break after one use..."
+
+[node name="BoulderCrusher" type="Node2D" parent="."]
+script = ExtResource("4_jjvuw")
+
+[connection signal="boulder_destroyed" from="BoulderCrusher" to="." method="_on_boulder_crusher_boulder_destroyed"]

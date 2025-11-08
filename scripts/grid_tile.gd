@@ -37,3 +37,8 @@ func get_effects() -> Array:
 
 func get_bottom_left_corner_position() -> Vector2:
 	return $BottomLeftCorner.position
+
+func remove_boulder() -> void:
+	boulder.queue_free()
+	boulder = null
+	

@@ -23,11 +23,8 @@ func _on_start_game_button_pressed() -> void:
 func _on_level_play_level_cleared() -> void:
 	level += 1
 	level_play.queue_free()
-	if level % 2 == 1:
-		card_shop.load()
-		card_shop.visible = true
-	else:
-		_show_next_level_page()
+	card_shop.load()
+	card_shop.visible = true
 
 func _on_card_shop_card_shop_closed() -> void:
 	card_shop.visible = false
