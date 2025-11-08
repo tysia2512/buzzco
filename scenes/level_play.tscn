@@ -91,7 +91,6 @@ position = Vector2(959, 231)
 position = Vector2(183, 203)
 
 [node name="CheatButton" type="Button" parent="."]
-visible = false
 offset_left = 1605.0
 offset_top = 589.0
 offset_right = 1776.0

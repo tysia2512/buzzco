@@ -3,6 +3,7 @@ class_name CardDisplay extends Node2D
 
 signal mouse_entered
 signal mouse_exited
+signal card_clicked
 
 @export var texture: Texture2D:
 	set(value):
@@ -84,3 +85,7 @@ func _on_area_2d_mouse_entered() -> void:
 	mouse_entered.emit()
 func _on_area_2d_mouse_exited() -> void:
 	mouse_exited.emit()
+
+func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		card_clicked.emit()

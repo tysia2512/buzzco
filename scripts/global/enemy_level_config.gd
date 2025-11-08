@@ -30,18 +30,17 @@ class IntRange:
 var _config = [
 	# 1
 	{
-		EnemyType.GOON_HORNET_ENEMY: IntRange.new(2, 2),
-		EnemyType.CHARGER_ENEMY: IntRange.new(1, 1)
+		EnemyType.GOON_HORNET_ENEMY: IntRange.new(1, 1),
 	},
 	# 2
 	{
-		EnemyType.SHIELD_HORNET_ENEMY: IntRange.new(1, 1),
-		EnemyType.GOON_HORNET_ENEMY: IntRange.new(3, 3)
+		EnemyType.GOON_HORNET_ENEMY: IntRange.new(1, 1),
+		EnemyType.CHARGER_ENEMY: IntRange.new(1, 1),
 	},
 	# 3
 	{
 		EnemyType.SHIELD_HORNET_ENEMY: IntRange.new(1, 1),
-		EnemyType.GOON_HORNET_ENEMY: IntRange.new(4, 5)
+		EnemyType.GOON_HORNET_ENEMY: IntRange.new(2, 2)
 	}
 ]
 

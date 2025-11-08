@@ -31,7 +31,6 @@ func _process(_delta):
 
 
 func prepare_level(level: int):
-	GameState.set_up_new_level()
 	enemy_tile_generator.prepare_level(level)
 	grid.set_up_new_level(level, enemy_tile_generator, enemy_manager)
 	deck.deal_cards(GameState.START_NUMBER_OF_CARDS)

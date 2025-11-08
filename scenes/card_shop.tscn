@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cy37pg13hes02"]
+
+[ext_resource type="Script" uid="uid://d0rrb3va3l3tm" path="res://scenes/card_shop.gd" id="1_tn3u7"]
+
+[node name="CardShop" type="Node2D"]
+script = ExtResource("1_tn3u7")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="."]
+offset_left = 321.0
+offset_top = 156.0
+offset_right = 1630.0
+offset_bottom = 857.0
+alignment = 1
