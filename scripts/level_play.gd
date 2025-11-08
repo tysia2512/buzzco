@@ -21,6 +21,7 @@ var actions_left_in_turn: int
 
 func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
+	DeckState.current_deck = DeckState.starter_deck.duplicate()
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	launch_attack_button.grid = grid
 	enemy_manager.enemy_selected.connect(_enemy_selected)

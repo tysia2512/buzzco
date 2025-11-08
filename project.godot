@@ -24,6 +24,7 @@ Utils="*res://scripts/global/utils.gd"
 ZLayers="*res://scripts/global/z_layers.gd"
 InputStatus="*res://scripts/global/input_status.gd"
 CardIndex="*res://scripts/global/card_index.gd"
+DeckState="*res://scripts/global/deck_state.gd"
 
 [display]
 

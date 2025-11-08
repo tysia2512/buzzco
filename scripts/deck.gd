@@ -19,8 +19,8 @@ class_name Deck extends Node2D
 var _deck = []
 
 func _ready() -> void:
-	for card_type in CardIndex.starter_deck:
-		var count = CardIndex.starter_deck[card_type]
+	for card_type in DeckState.current_deck:
+		var count = DeckState.current_deck[card_type]
 		var scene = CardIndex.card_scenes[card_type]
 		for i in range(count):
 			_deck.append(scene)
