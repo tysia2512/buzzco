@@ -41,6 +41,7 @@ func _process(delta: float) -> void:
 		card.visible = true
 		card.card_selected_in_shop.connect(_select_card)
 	_cards_arranged = true
+	_flow_container.visible = false
 
 
 func _get_random_cards() -> Array:
@@ -51,6 +52,7 @@ func _get_random_cards() -> Array:
 
 func _clear():
 	_cards_arranged = false
+	_flow_container.visible = true
 	for child in _flow_container.get_children():
 		child.queue_free()
 	for card in _cards:

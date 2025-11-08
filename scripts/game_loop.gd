@@ -30,6 +30,7 @@ func _on_level_play_level_cleared() -> void:
 	# 	_show_next_level_page()
 
 func _on_card_shop_card_shop_closed() -> void:
+	card_shop.visible = false
 	_show_next_level_page()
 
 func _show_next_level_page() -> void:
@@ -51,6 +52,7 @@ func _on_new_game_button_pressed() -> void:
 
 func instantiate_level(lvl: int) -> void:
 	level_play = level_play_scene.instantiate() as LevelPlay
+	GameState.set_up_new_level(lvl)
 	add_child(level_play)
 	level_play.game_over.connect(_on_level_play_game_over)
 	level_play.level_cleared.connect(_on_level_play_level_cleared)

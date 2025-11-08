@@ -50,7 +50,9 @@ func is_player_turn() -> bool:
 # only the assault triggers the enemy attack
 # the assault takes 3 actions
 
-func set_up_new_level():
+func set_up_new_level(level: int) -> void:
+	if level == 1:
+		DeckState.current_deck = DeckState.starter_deck.duplicate()
 	turn_stage = GameState.TurnStage.PLAYER_MOVE
 	player_health = GameState.PLAYER_START_HEALTH
 	PollenManager.set_up_new_level()

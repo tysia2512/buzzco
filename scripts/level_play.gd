@@ -21,7 +21,6 @@ var actions_left_in_turn: int
 
 func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
-	DeckState.current_deck = DeckState.starter_deck.duplicate()
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	launch_attack_button.grid = grid
 	enemy_manager.enemy_selected.connect(_enemy_selected)
@@ -32,7 +31,6 @@ func _process(_delta):
 
 
 func prepare_level(level: int):
-	GameState.set_up_new_level()
 	enemy_tile_generator.prepare_level(level)
 	grid.set_up_new_level(level, enemy_tile_generator, enemy_manager)
 	deck.deal_cards(GameState.START_NUMBER_OF_CARDS)
