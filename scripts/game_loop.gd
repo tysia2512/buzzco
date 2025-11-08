@@ -6,6 +6,7 @@ extends Node2D
 @onready var level_play: Node2D = $LevelPlay
 @onready var next_level_page: NextLeveLPage = $NextLevelPage
 @onready var game_over_page: Node2D = $GameOverPage
+@onready var card_shop: Control = $CardShop
 
 var level: int = 1
 
@@ -22,6 +23,16 @@ func _on_start_game_button_pressed() -> void:
 func _on_level_play_level_cleared() -> void:
 	level += 1
 	level_play.queue_free()
+	# if level % 2 == 1 or:
+	card_shop.load()
+	card_shop.visible = true
+	# else:
+	# 	_show_next_level_page()
+
+func _on_card_shop_card_shop_closed() -> void:
+	_show_next_level_page()
+
+func _show_next_level_page() -> void:
 	next_level_page.next_level_button.text = "Start level " + str(level)
 	next_level_page.visible = true
 

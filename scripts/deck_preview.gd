@@ -1,11 +1,10 @@
 class_name DeckPreview extends Control
 
-@onready var _flow_container: FlowContainer = $FlowContainer
-
 signal close_preview
 
-
 @onready var deck_preview_card_scene = preload("res://scenes/deck_preview_card.tscn")
+
+@onready var _flow_container: FlowContainer = $FlowContainer
 
 #TODO: put on a new top layer
 

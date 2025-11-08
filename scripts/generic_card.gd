@@ -4,6 +4,7 @@ signal card_placed
 signal card_removed_from_board
 signal player_turn_start
 signal card_selected_for_attack
+signal card_selected_in_shop
 
 enum CardClass {
 	BEE,
@@ -59,6 +60,7 @@ enum CardDisplayMode {
 	CARD_IN_FRONT, # In hand and hovered over
 	CARD_IN_DISPLAY
 }
+var is_in_shop = false
 
 var _is_selected_for_attack = false
 
@@ -251,12 +253,12 @@ func _reset_hover():
 		_card_display_mode = CardDisplayMode.CARD
 
 func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
-	if !can_be_selected_for_attack():
-		return
-
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		_is_selected_for_attack = !_is_selected_for_attack
-		card_selected_for_attack.emit()
+		if can_be_selected_for_attack():
+			_is_selected_for_attack = !_is_selected_for_attack
+			card_selected_for_attack.emit()
+		if is_in_shop:
+			card_selected_in_shop.emit()
 
 func can_be_selected_for_attack() -> bool:
 	if !_is_on_the_board:
