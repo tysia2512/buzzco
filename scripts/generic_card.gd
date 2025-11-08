@@ -84,12 +84,10 @@ var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 
 		_set_card_display_visible(
 			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER 
-			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
+			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY)
 		
 		if _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
-			card_display.visible = true
 			card_display.z_index = ZLayers.DECK_DISPLAY
-			card_display.enable_collision = false
 
 var _is_dragged = false:
 	set(value):
@@ -252,6 +250,7 @@ func _reset_hover():
 	else:
 		_card_display_mode = CardDisplayMode.CARD
 
+# If the tile is clicked (in grid display mode)
 func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if can_be_selected_for_attack():
@@ -268,3 +267,9 @@ func can_be_selected_for_attack() -> bool:
 	if GameState.specific_input != GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT and GameState.specific_input != GameState.SpecificInput.ENEMY_OR_BEE_SELECT:
 		return false
 	return true
+
+# Handle the card click in the card display mode
+func _on_card_display_card_clicked() -> void:
+	print("Clicked on card: ", card_name)
+	if is_in_shop:
+			card_selected_in_shop.emit()

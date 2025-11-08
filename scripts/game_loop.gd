@@ -6,7 +6,7 @@ extends Node2D
 @onready var level_play: Node2D = $LevelPlay
 @onready var next_level_page: NextLeveLPage = $NextLevelPage
 @onready var game_over_page: Node2D = $GameOverPage
-@onready var card_shop: Control = $CardShop
+@onready var card_shop: Node2D = $CardShop
 
 var level: int = 1
 

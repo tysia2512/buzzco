@@ -1,4 +1,4 @@
-class_name DeckPreview extends Control
+class_name DeckPreview extends Node2D
 
 signal close_preview
 
