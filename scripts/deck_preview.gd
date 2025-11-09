@@ -5,6 +5,7 @@ signal close_preview
 @onready var deck_preview_card_scene = preload("res://scenes/deck_preview_card.tscn")
 
 @onready var _flow_container: FlowContainer = $FlowContainer
+@onready var _close_button: Button = $CloseButton
 
 #TODO: put on a new top layer
 
@@ -18,6 +19,11 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 	_clear()
 
 	_processor = processor
+
+	if processor != null and !processor.get_allow_skip_selection():
+		_close_button.visible = false
+	else:
+		_close_button.visible = true
 
 	var cards = deck.get_all_cards()
 	var card_count = {}

@@ -141,10 +141,8 @@ func _on_grid_boulder_move_finished() -> void:
 func _on_grid_add_global_effect(effect: GlobalEffect) -> void:
 	_global_effect_manager.add_global_effect(effect)
 
-
 func _on_enemy_manager_all_enemies_dead() -> void:
 	level_cleared.emit()
-
 
 func _on_show_deck_preview_button_pressed() -> void:
 	_deck_preview.load(deck, null)
@@ -152,7 +150,6 @@ func _on_show_deck_preview_button_pressed() -> void:
 	
 var _interrupted_stage_by_deck_select
 func _on_deck_preview_close_preview() -> void:
-	print("_on_deck_preview_close_preview: ", _interrupted_stage_by_deck_select)
 	if _interrupted_stage_by_deck_select != null:
 		GameState.turn_stage = _interrupted_stage_by_deck_select
 		_interrupted_stage_by_deck_select = null
