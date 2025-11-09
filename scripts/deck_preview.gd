@@ -10,15 +10,15 @@ signal close_preview
 
 var _processor: CardSelectionProcessor = null
 
-var cards_arranged: bool = false
+var _cards_arranged: bool = false
 func ready() -> void:
 	z_index = ZLayers.DECK_DISPLAY
 
 func load(deck: Deck, processor: CardSelectionProcessor) -> void:
-	cards_arranged = false
-	_flow_container.visible = true
+	_clear()
 
 	_processor = processor
+	print("Deck: ", DeckState.current_deck)
 
 	var cards = deck.get_all_cards()
 	var card_count = {}
@@ -53,13 +53,13 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 		deck_preview_card.card = card
 		
 func _process(delta: float) -> void:
-	if cards_arranged:
+	if _cards_arranged:
 		return
 	for child in _flow_container.get_children():
 		var deck_preview_card = child as DeckPreviewCard
 		deck_preview_card.card.position = deck_preview_card.panel.global_position - position + deck_preview_card.card.card.get_texture_size() / 2
 		deck_preview_card.card.visible = true
-	cards_arranged = true
+	_cards_arranged = true
 	_flow_container.visible = false
 
 func _on_close_button_pressed() -> void:
@@ -73,3 +73,12 @@ func _on_close_button_pressed() -> void:
 func _select_card(card: TypedCard) -> void:
 	await _processor.process_card(card)
 	close_preview.emit()
+
+func _clear():
+	_cards_arranged = false
+	_flow_container.visible = true
+	for child in _flow_container.get_children():
+		child.queue_free()
+	for child in get_children():
+		if child is TypedCard:
+			child.queue_free()

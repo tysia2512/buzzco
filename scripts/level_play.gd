@@ -159,7 +159,6 @@ func _on_show_deck_preview_button_pressed() -> void:
 func _on_deck_preview_close_preview() -> void:
 	_deck_preview.visible = false
 
-
 func _on_select_card_from_deck(processor: CardSelectionProcessor) -> void:
 	_deck_preview.load(deck, processor)
 	_deck_preview.visible = true
