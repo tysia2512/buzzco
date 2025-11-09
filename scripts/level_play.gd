@@ -23,8 +23,8 @@ func _ready() -> void:
 	GameState.player_turn_start.connect(start_player_turn)
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	launch_attack_button.grid = grid
-	enemy_manager.enemy_selected.connect(_enemy_selected)
 	CardEventBus.select_card_from_deck.connect(_on_select_card_from_deck)
+	ActionEventBus.perform_player_action.connect(_perform_action)
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
@@ -60,12 +60,6 @@ func start_player_turn():
 	grid.process_start_player_turn()
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 
-func _on_card_movement_manager_perform_player_action() -> void:
-	_perform_action()
-
-func _on_launch_attack_button_perform_player_action() -> void:
-	_perform_action()
-
 func _perform_action():
 	actions_left_in_turn -= 1
 	_check_game_lost()
@@ -97,7 +91,7 @@ func _on_grid_card_selected_for_attack(card: TypedCard) -> void:
 		_cards_selected_for_attack.erase(card)
 	else:
 		_cards_selected_for_attack.append(card)
-	
+
 	if _cards_selected_for_attack.is_empty():
 		GameState.specific_input = GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT
 	else:
@@ -155,10 +149,18 @@ func _on_enemy_manager_all_enemies_dead() -> void:
 func _on_show_deck_preview_button_pressed() -> void:
 	_deck_preview.load(deck, null)
 	_deck_preview.visible = true
-
+	
+var _interrupted_stage_by_deck_select
 func _on_deck_preview_close_preview() -> void:
+	print("_on_deck_preview_close_preview: ", _interrupted_stage_by_deck_select)
+	if _interrupted_stage_by_deck_select != null:
+		GameState.turn_stage = _interrupted_stage_by_deck_select
+		_interrupted_stage_by_deck_select = null
 	_deck_preview.visible = false
 
 func _on_select_card_from_deck(processor: CardSelectionProcessor) -> void:
+	_interrupted_stage_by_deck_select = GameState.turn_stage
+	GameState.turn_stage = GameState.TurnStage.SPECIFIC_INPUT
+	GameState.specific_input = GameState.SpecificInput.DIALOG_CARD_SELECT
 	_deck_preview.load(deck, processor)
 	_deck_preview.visible = true

@@ -41,7 +41,7 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 		card.visible = false
 		add_child(card)
 		card.card.set_card_in_display_mode()
-		card.card.is_in_deck_preview = true
+		card.card.is_in_dialog = true
 		card.card.set_in_hand(false)
 		if _processor != null:
 			card.card_selected.connect(_select_card)

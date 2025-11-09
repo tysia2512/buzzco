@@ -61,7 +61,7 @@ enum CardDisplayMode {
 	CARD_IN_DISPLAY
 }
 var is_in_shop = false
-var is_in_deck_preview = false
+var is_in_dialog = false
 
 var _is_selected_for_attack = false
 
@@ -257,7 +257,7 @@ func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
 		if can_be_selected_for_attack():
 			_is_selected_for_attack = !_is_selected_for_attack
 			card_selected_for_attack.emit()
-		if is_in_shop:
+		if can_be_selected_for_dialog() or can_be_selected_for_shop():
 			card_selected.emit()
 
 func can_be_selected_for_attack() -> bool:
@@ -269,7 +269,12 @@ func can_be_selected_for_attack() -> bool:
 		return false
 	return true
 
+func can_be_selected_for_dialog() -> bool:
+	return is_in_dialog and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
+
+func can_be_selected_for_shop() -> bool:
+	return is_in_shop and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
+
 # Handle the card click in the card display mode
 func _on_card_display_card_clicked() -> void:
-	print("Clicked on card: ", card_name)
 	card_selected.emit()

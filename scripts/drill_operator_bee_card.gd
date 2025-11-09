@@ -10,10 +10,10 @@ func _init() -> void:
 	visible = false
 
 func _ready():
-	card = $Card
 	card.attack_value = _attack_value
 	card.card_name = _name
 	visible = true
+	super._ready()
 
 func _on_boulder_crusher_boulder_destroyed() -> void:
 	_has_drill = false

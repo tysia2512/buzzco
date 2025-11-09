@@ -26,8 +26,6 @@ func _ready():
 	assert(card != null, "TypedCard: card is not set")
 	assert(texture != null, "TypedCard: texture is not set")
 
-
-
 	card.texture = texture
 	card.set_collision_shape_card(self)
 
@@ -36,17 +34,19 @@ func _ready():
 		card_selected.emit(self)
 	)
 	card.card_selected_for_attack.connect(func ():
-		print("TypedCard emitting card_selected_for_attack")
 		card_selected_for_attack.emit(self)
 	)
 
-	for child in get_children():
-		if child is OnCardPlaced:
-			card.card_placed.connect(child.on_card_placed)
-		else:
-			card.card_placed.connect(func (tile: GridTile):
-				ActionEventBus.perform_player_action.emit()
-			)
+	var on_card_placed = get_children().filter(func(c): return c is OnCardPlaced)
+	assert(on_card_placed.size() <= 1, "TypedCard: only one OnCardPlaced allowed per TypedCard")
+	if on_card_placed.size() == 0:
+		card.card_placed.connect(func (_tile: GridTile):
+			ActionEventBus.perform_player_action.emit()
+		)
+	else:
+		assert(on_card_placed[0] is OnCardPlaced)
+		card.card_placed.connect((on_card_placed[0] as OnCardPlaced).on_card_placed)
+
 
 		
 func remove_from_board():

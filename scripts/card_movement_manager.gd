@@ -1,6 +1,5 @@
 class_name CardMovementManager extends Node2D
 
-signal perform_player_action
 signal card_placed
 
 @onready var grid: Grid = $Grid
@@ -66,7 +65,6 @@ func place_card(tile: GridTile):
 	grid.place_card(dragged_card, tile)
 	dragged_card = null
 	InputStatus.is_card_dragged = false
-	perform_player_action.emit()
 	card_placed.emit()
 
 func drop_card():

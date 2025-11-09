@@ -26,6 +26,7 @@ InputStatus="*res://scripts/global/input_status.gd"
 CardIndex="*res://scripts/global/card_index.gd"
 DeckState="*res://scripts/global/deck_state.gd"
 CardEventBus="*res://scripts/global/card_event_bus.gd"
+ActionEventBus="*res://scripts/global/action_event_bus.gd"
 
 [display]
 
