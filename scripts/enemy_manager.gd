@@ -51,7 +51,7 @@ func _input(event: InputEvent) -> void:
 	if GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
 		return
 
-	if GameState.specific_input != GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT:
+	if GameState.specific_input != GameState.SpecificInput.ENEMY_OR_BEE_SELECT:
 		return
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:

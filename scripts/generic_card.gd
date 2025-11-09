@@ -16,6 +16,7 @@ enum CardClass {
 @export var attack_value: int = 1:
 	set(value):
 		attack_value = value
+		current_attack_points = value
 		if card_display:
 			card_display.attack = value
 		if attack_label:
@@ -35,7 +36,7 @@ enum CardClass {
 		if card_display:
 			card_display.description = value
 
-@export var current_attack_points: int = 1
+var current_attack_points: int = 1
 @export var pollen_cost: int = 2
 @export var texture: Texture2D:
 	set(value):
