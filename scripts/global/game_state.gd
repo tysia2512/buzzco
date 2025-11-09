@@ -14,7 +14,7 @@ enum SpecificInput {
 	ENEMY_OR_BEE_SELECT,
 	LAUNCH_ATTACK_BEE_SELECT,
 	GRID_CARD_SELECT,
-	SHOP_SELECT
+	DIALOG_CARD_SELECT
 }
 const DEBUG_MODE: bool = false
 const POLLEN_ENABLED: bool = false

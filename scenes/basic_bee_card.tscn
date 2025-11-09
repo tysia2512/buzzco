@@ -4,11 +4,13 @@
 [ext_resource type="Script" uid="uid://bpnvof5tcbxpo" path="res://scripts/basic_bee_card.gd" id="1_xb5wf"]
 [ext_resource type="Texture2D" uid="uid://d06eebyjlfkm" path="res://assets/basic bee.png" id="2_2j53c"]
 
-[node name="BasicBeeCard" type="Node2D"]
+[node name="BasicBeeCard" type="Node2D" node_paths=PackedStringArray("card")]
 script = ExtResource("1_xb5wf")
 texture = ExtResource("2_2j53c")
+card = NodePath("Card")
 
 [node name="Card" parent="." instance=ExtResource("1_rdu3o")]
+card_name = "Worker Bee"
 description = "Just a bee. Let him bee."
 
 [connection signal="card_removed_from_board" from="Card" to="." method="_on_card_card_removed_from_board"]

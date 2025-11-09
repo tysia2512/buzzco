@@ -1,17 +1,7 @@
 class_name FriendlyBeeCard extends TypedCard
 
-const _attack_value = 1
-const _name = "Friendly Bee"
+var _attack_value = 1
 
-func _init() -> void:
-	visible = false
-
-func _ready():
-	card = $Card
-	card.attack_value = _attack_value
-	card.card_name = _name
-	visible = true
-	
 func _process(delta: float) -> void:
 	if card.get_grid_tile() == null:
 		return

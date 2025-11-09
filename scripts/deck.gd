@@ -1,17 +1,5 @@
 class_name Deck extends Node2D
 
-@onready var basic_bee_card_scene: PackedScene = preload("res://scenes/basic_bee_card.tscn")
-@onready var friendly_bee_card_scene: PackedScene = preload("res://scenes/friendly_bee_card.tscn")
-@onready var second_stinger_card_scene: PackedScene = preload("res://scenes/second_stinger_card.tscn")
-@onready var charger_bee_card_scene: PackedScene = preload("res://scenes/charger_bee_card.tscn")
-@onready var protector_bee_card_scene: PackedScene = preload("res://scenes/protector_bee_card.tscn")
-
-@export var basic_bee_card_count: int = 10
-@export var friendly_bee_card_count: int = 6
-@export var second_stinger_card_count: int = 4
-@export var charger_bee_card_count: int = 4
-@export var protector_bee_card_count: int = 5
-
 @onready var hand_spawn_point: CardSpawnPoint = $"../CardSpawnPoint"
 @onready var card_spawn_point: Node2D = $SpawnPoint
 @onready var _card_count_label: Label = $CardCountLabel

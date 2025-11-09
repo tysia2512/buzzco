@@ -5,9 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="3_l04mw"]
 [ext_resource type="Script" uid="uid://k6e28sy7krl" path="res://scripts/boulder_crusher.gd" id="4_jjvuw"]
 
-[node name="DrillOperatorBeeCard" type="Node2D"]
+[node name="DrillOperatorBeeCard" type="Node2D" node_paths=PackedStringArray("card")]
 script = ExtResource("1_g73b0")
 texture = ExtResource("2_l04mw")
+card = NodePath("Card")
 card_type = 5
 
 [node name="Card" parent="." instance=ExtResource("3_l04mw")]

@@ -6,7 +6,8 @@ enum CardType {
 	SECOND_STINGER,
 	CHARGER_BEE,
 	PROTECTOR_BEE,
-	DRILL_OPERATOR_BEE
+	DRILL_OPERATOR_BEE,
+	SECRET_POLICE_BEE
 }
 
 var card_scenes: Dictionary = {
@@ -15,5 +16,6 @@ var card_scenes: Dictionary = {
 	CardType.SECOND_STINGER: preload("res://scenes/second_stinger_card.tscn"),
 	CardType.CHARGER_BEE: preload("res://scenes/charger_bee_card.tscn"),
 	CardType.PROTECTOR_BEE: preload("res://scenes/protector_bee_card.tscn"),
-	CardType.DRILL_OPERATOR_BEE: preload("res://scenes/drill_operator_bee_card.tscn")
+	CardType.DRILL_OPERATOR_BEE: preload("res://scenes/drill_operator_bee_card.tscn"),
+	CardType.SECRET_POLICE_BEE: preload("res://scenes/secret_police_bee_card.tscn")
 }

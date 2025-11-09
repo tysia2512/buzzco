@@ -4,7 +4,7 @@ signal card_placed
 signal card_removed_from_board
 signal player_turn_start
 signal card_selected_for_attack
-signal card_selected_in_shop
+signal card_selected
 
 enum CardClass {
 	BEE,
@@ -16,12 +16,13 @@ enum CardClass {
 @export var attack_value: int = 1:
 	set(value):
 		attack_value = value
+		current_attack_points = value
 		if card_display:
 			card_display.attack = value
 		if attack_label:
 			attack_label.set_text(str(attack_value))
 
-@export var card_name: String = "Card":
+@export var card_name: String:
 	set(value):
 		card_name = value
 		if card_display:
@@ -35,7 +36,7 @@ enum CardClass {
 		if card_display:
 			card_display.description = value
 
-@export var current_attack_points: int = 1
+var current_attack_points: int = 1
 @export var pollen_cost: int = 2
 @export var texture: Texture2D:
 	set(value):
@@ -61,6 +62,7 @@ enum CardDisplayMode {
 	CARD_IN_DISPLAY
 }
 var is_in_shop = false
+var is_in_dialog = false
 
 var _is_selected_for_attack = false
 
@@ -137,7 +139,7 @@ func _ready():
 	_card_display_mode = CardDisplayMode.CARD
 	tile_sprite.init_texture(texture)
 	card_display.texture = texture
-	card_display.name = card_name
+	card_display.card_name = card_name
 	card_display.description = description
 	_update_labels()
 
@@ -181,8 +183,8 @@ func set_is_dragged():
 		
 	_is_dragged = true
 
-func set_in_hand():
-	_is_in_hand = true
+func set_in_hand(v: bool = true):
+	_is_in_hand = v
 	
 func set_on_the_board(tile: GridTile):
 	assert(_tile_placed == null)
@@ -256,8 +258,8 @@ func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
 		if can_be_selected_for_attack():
 			_is_selected_for_attack = !_is_selected_for_attack
 			card_selected_for_attack.emit()
-		if is_in_shop:
-			card_selected_in_shop.emit()
+		if can_be_selected_for_dialog() or can_be_selected_for_shop():
+			card_selected.emit()
 
 func can_be_selected_for_attack() -> bool:
 	if !_is_on_the_board:
@@ -268,8 +270,12 @@ func can_be_selected_for_attack() -> bool:
 		return false
 	return true
 
+func can_be_selected_for_dialog() -> bool:
+	return is_in_dialog and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
+
+func can_be_selected_for_shop() -> bool:
+	return is_in_shop and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
+
 # Handle the card click in the card display mode
 func _on_card_display_card_clicked() -> void:
-	print("Clicked on card: ", card_name)
-	if is_in_shop:
-			card_selected_in_shop.emit()
+	card_selected.emit()

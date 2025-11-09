@@ -4,9 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://djvg2lh035wpw" path="res://assets/charger-trans.png" id="2_34w5d"]
 [ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="2_srbe3"]
 
-[node name="ChargerBeeCard" type="Node2D"]
+[node name="ChargerBeeCard" type="Node2D" node_paths=PackedStringArray("card")]
 script = ExtResource("1_38cht")
 texture = ExtResource("2_34w5d")
+card = NodePath("Card")
 card_type = 3
 
 [node name="Card" parent="." instance=ExtResource("2_srbe3")]
