@@ -14,6 +14,7 @@ func ready() -> void:
 
 func load(deck: Deck) -> void:
 	cards_arranged = false
+	_flow_container.visible = true
 	var cards = deck.get_all_cards()
 	var card_count = {}
 	for card_scene in cards:
@@ -26,6 +27,8 @@ func load(deck: Deck) -> void:
 			card_count[card_type] = 1
 
 	for card_type in CardIndex.card_scenes:
+		if !card_count.has(card_type):
+			continue
 		if card_count[card_type] == null || card_count[card_type] == 0:
 			continue
 		var deck_preview_card = deck_preview_card_scene.instantiate() as DeckPreviewCard
@@ -33,6 +36,10 @@ func load(deck: Deck) -> void:
 		card.visible = false
 		add_child(card)
 		card.card.set_card_in_display_mode()
+		card.card.is_in_deck_preview = true
+		card.card.set_in_hand(false)
+		card.card_selected.connect(_select_card)
+
 		_flow_container.add_child(deck_preview_card)
 
 
@@ -48,6 +55,7 @@ func _process(delta: float) -> void:
 		deck_preview_card.card.position = deck_preview_card.panel.global_position - position + deck_preview_card.card.card.get_texture_size() / 2
 		deck_preview_card.card.visible = true
 	cards_arranged = true
+	_flow_container.visible = false
 
 func _on_close_button_pressed() -> void:
 	for child in _flow_container.get_children():
@@ -56,3 +64,6 @@ func _on_close_button_pressed() -> void:
 		if child is TypedCard:
 			child.queue_free()
 	close_preview.emit()
+
+func _select_card(card: TypedCard) -> void:
+	pass

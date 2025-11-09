@@ -4,7 +4,7 @@ signal card_placed
 signal card_removed_from_board
 signal player_turn_start
 signal card_selected_for_attack
-signal card_selected_in_shop
+signal card_selected
 
 enum CardClass {
 	BEE,
@@ -61,6 +61,7 @@ enum CardDisplayMode {
 	CARD_IN_DISPLAY
 }
 var is_in_shop = false
+var is_in_deck_preview = false
 
 var _is_selected_for_attack = false
 
@@ -181,8 +182,8 @@ func set_is_dragged():
 		
 	_is_dragged = true
 
-func set_in_hand():
-	_is_in_hand = true
+func set_in_hand(v: bool = true):
+	_is_in_hand = v
 	
 func set_on_the_board(tile: GridTile):
 	assert(_tile_placed == null)
@@ -257,7 +258,7 @@ func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
 			_is_selected_for_attack = !_is_selected_for_attack
 			card_selected_for_attack.emit()
 		if is_in_shop:
-			card_selected_in_shop.emit()
+			card_selected.emit()
 
 func can_be_selected_for_attack() -> bool:
 	if !_is_on_the_board:
@@ -271,5 +272,4 @@ func can_be_selected_for_attack() -> bool:
 # Handle the card click in the card display mode
 func _on_card_display_card_clicked() -> void:
 	print("Clicked on card: ", card_name)
-	if is_in_shop:
-			card_selected_in_shop.emit()
+	card_selected.emit()

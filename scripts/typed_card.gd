@@ -3,7 +3,7 @@
 class_name TypedCard extends Node2D
 
 signal card_selected_for_attack(card: TypedCard)
-signal card_selected_in_shop(card: TypedCard)
+signal card_selected(card: TypedCard)
 
 var global_effect: GlobalEffect = null
 
@@ -23,8 +23,8 @@ var tween: Tween
 		card.card_selected_for_attack.connect(func ():
 			card_selected_for_attack.emit(self)
 		)
-		card.card_selected_in_shop.connect(func ():
-			card_selected_in_shop.emit(self)
+		card.card_selected.connect(func ():
+			card_selected.emit(self)
 		)
 		card.set_collision_shape_card(self)
 

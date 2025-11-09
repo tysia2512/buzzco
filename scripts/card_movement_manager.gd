@@ -88,7 +88,7 @@ func check_for_card() -> TypedCard:
 	var card = (card_area as CardArea).get_card()
 	assert(card != null)
 	assert(card is TypedCard)
-	if card.card.is_on_the_board():
+	if !card.card.is_in_hand():
 		return null
 	return card
 	

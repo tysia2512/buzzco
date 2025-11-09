@@ -23,7 +23,9 @@ func load() -> void:
 		add_child(card)
 		_cards.append(card)
 		card.card.set_card_in_display_mode()
+		card.card.set_in_hand(false)
 		card.card.is_in_shop = true
+		card.card_selected.connect(_select_card)
 		_flow_container.add_child(panel)
 
 		panel.custom_minimum_size = card.card.get_texture_size()
@@ -39,7 +41,6 @@ func _process(delta: float) -> void:
 		var card = _cards[i]
 		card.position = panel.global_position - position + card.card.get_texture_size() / 2
 		card.visible = true
-		card.card_selected_in_shop.connect(_select_card)
 	_cards_arranged = true
 	_flow_container.visible = false
 
