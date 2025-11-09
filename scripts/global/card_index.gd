@@ -19,3 +19,11 @@ var card_scenes: Dictionary = {
 	CardType.DRILL_OPERATOR_BEE: preload("res://scenes/drill_operator_bee_card.tscn"),
 	CardType.SECRET_POLICE_BEE: preload("res://scenes/secret_police_bee_card.tscn")
 }
+
+enum CardTrait {
+	DOUBLE_ATTACK
+}
+
+var trait_chances: Dictionary = {
+	CardTrait.DOUBLE_ATTACK: 0.1
+}

@@ -7,13 +7,10 @@ class_name Deck extends Node2D
 var _card_count = 0
 var working_deck: Dictionary = {}
 
-# func _ready() -> void:
-
 func _on_spawn_card_button_pressed() -> void:
 	_deal_card()
 
 func load_deck() -> void:
-	print("Deck ready")
 	working_deck = DeckState.current_deck.duplicate()
 
 	_card_count = 0
@@ -23,7 +20,6 @@ func load_deck() -> void:
 	_update_label()
 
 func _deal_card():
-	print("Dealing card")
 	#TODO: handle empty deck case
 	assert(_card_count > 0)
 
