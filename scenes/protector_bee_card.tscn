@@ -4,9 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://dpctul3yh8g03" path="res://scenes/generic_card.tscn" id="2_nol7j"]
 [ext_resource type="Texture2D" uid="uid://c38sit0gwtbpb" path="res://assets/protector_bee.png" id="2_tryab"]
 
-[node name="ProtectorBeeCard" type="Node2D"]
+[node name="ProtectorBeeCard" type="Node2D" node_paths=PackedStringArray("card")]
 script = ExtResource("1_tunex")
 texture = ExtResource("2_tryab")
+card = NodePath("Card")
 card_type = 4
 
 [node name="Card" parent="." instance=ExtResource("2_nol7j")]

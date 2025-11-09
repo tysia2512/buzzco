@@ -14,19 +14,7 @@ var tween: Tween
 		if card != null:
 			card.texture = value
 
-@export var card: GenericCard:
-	set(value):
-		card = value
-		if texture:
-			card.texture = texture
-		card.card_removed_from_board.connect(_remove)
-		card.card_selected_for_attack.connect(func ():
-			card_selected_for_attack.emit(self)
-		)
-		card.card_selected.connect(func ():
-			card_selected.emit(self)
-		)
-		card.set_collision_shape_card(self)
+@export var card: GenericCard
 
 @export var card_type: CardIndex.CardType
 
@@ -35,7 +23,31 @@ var card_class: GenericCard.CardClass:
 		return card.card_class
 
 func _ready():
-	assert(card != null, "TypedCard: card is not set")	
+	assert(card != null, "TypedCard: card is not set")
+	assert(texture != null, "TypedCard: texture is not set")
+
+
+
+	card.texture = texture
+	card.set_collision_shape_card(self)
+
+	card.card_removed_from_board.connect(_remove)
+	card.card_selected.connect(func ():
+		card_selected.emit(self)
+	)
+	card.card_selected_for_attack.connect(func ():
+		print("TypedCard emitting card_selected_for_attack")
+		card_selected_for_attack.emit(self)
+	)
+
+	for child in get_children():
+		if child is OnCardPlaced:
+			card.card_placed.connect(child.on_card_placed)
+		else:
+			card.card_placed.connect(func (tile: GridTile):
+				ActionEventBus.perform_player_action.emit()
+			)
+
 		
 func remove_from_board():
 	card.remove_from_the_board()

@@ -7,10 +7,10 @@ func _init() -> void:
 	visible = false
 
 func _ready():
-	card = $Card
 	card.attack_value = _attack_value
 	card.card_name = _name
 	visible = true
+	super._ready()
 	
 func _process(delta: float) -> void:
 	if card.get_grid_tile() == null:

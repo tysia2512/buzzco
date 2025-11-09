@@ -8,11 +8,11 @@ func _init():
 	visible = false
 
 func _ready():
-	card = $Card
 	card.attack_value = _attack_value
 	card.card_name = _name
 	card.pollen_cost = _cost
 	visible = true
+	super._ready()
 	
 func _process(delta: float) -> void:
 	card.current_attack_points = _attack_value
