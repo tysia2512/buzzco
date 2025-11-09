@@ -18,7 +18,6 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 	_clear()
 
 	_processor = processor
-	print("Deck: ", DeckState.current_deck)
 
 	var cards = deck.get_all_cards()
 	var card_count = {}
