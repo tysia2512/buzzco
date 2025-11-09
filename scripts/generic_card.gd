@@ -21,7 +21,7 @@ enum CardClass {
 		if attack_label:
 			attack_label.set_text(str(attack_value))
 
-@export var card_name: String = "Card":
+@export var card_name: String:
 	set(value):
 		card_name = value
 		if card_display:
@@ -138,7 +138,7 @@ func _ready():
 	_card_display_mode = CardDisplayMode.CARD
 	tile_sprite.init_texture(texture)
 	card_display.texture = texture
-	card_display.name = card_name
+	card_display.card_name = card_name
 	card_display.description = description
 	_update_labels()
 

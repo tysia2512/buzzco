@@ -12,7 +12,7 @@ signal card_clicked
 			_image_sprite.texture = value
 			_resize_texture()
 			
-@export var card_name: String = "Card name":
+@export var card_name: String:
 	set(value):
 		card_name = value
 		if _image_sprite:
