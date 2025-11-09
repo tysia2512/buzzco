@@ -8,13 +8,18 @@ signal close_preview
 
 #TODO: put on a new top layer
 
+var _processor: CardSelectionProcessor = null
+
 var cards_arranged: bool = false
 func ready() -> void:
 	z_index = ZLayers.DECK_DISPLAY
 
-func load(deck: Deck) -> void:
+func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 	cards_arranged = false
 	_flow_container.visible = true
+
+	_processor = processor
+
 	var cards = deck.get_all_cards()
 	var card_count = {}
 	for card_scene in cards:
@@ -38,10 +43,10 @@ func load(deck: Deck) -> void:
 		card.card.set_card_in_display_mode()
 		card.card.is_in_deck_preview = true
 		card.card.set_in_hand(false)
-		card.card_selected.connect(_select_card)
+		if _processor != null:
+			card.card_selected.connect(_select_card)
 
 		_flow_container.add_child(deck_preview_card)
-
 
 		deck_preview_card.panel.custom_minimum_size = card.card.get_texture_size()
 		deck_preview_card.label.text = 'x' + str(card_count[card_type])
@@ -66,4 +71,5 @@ func _on_close_button_pressed() -> void:
 	close_preview.emit()
 
 func _select_card(card: TypedCard) -> void:
-	pass
+	await _processor.process_card(card)
+	close_preview.emit()

@@ -24,6 +24,7 @@ func _ready() -> void:
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	launch_attack_button.grid = grid
 	enemy_manager.enemy_selected.connect(_enemy_selected)
+	CardEventBus.select_card_from_deck.connect(_on_select_card_from_deck)
 
 func _process(_delta):
 	actions_left_label.text = "Actions left: " + str(actions_left_in_turn)
@@ -152,8 +153,13 @@ func _on_enemy_manager_all_enemies_dead() -> void:
 
 
 func _on_show_deck_preview_button_pressed() -> void:
-	_deck_preview.load(deck)
+	_deck_preview.load(deck, null)
 	_deck_preview.visible = true
 
 func _on_deck_preview_close_preview() -> void:
 	_deck_preview.visible = false
+
+
+func _on_select_card_from_deck(processor: CardSelectionProcessor) -> void:
+	_deck_preview.load(deck, processor)
+	_deck_preview.visible = true

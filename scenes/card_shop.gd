@@ -65,8 +65,6 @@ var _selected_card: TypedCard = null
 func _select_card(card: TypedCard) -> void:
 	if _selected_card != null:
 		return
-	_selected_card = card
-	card.scale *= 1.2
-	await get_tree().create_timer(1.0).timeout
+	await card.animate_selection()
 	DeckState.current_deck[card.card_type] += 1
 	card_shop_closed.emit()

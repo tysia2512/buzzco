@@ -56,3 +56,10 @@ func get_boulder_crusher() -> BoulderCrusher:
 		if child is BoulderCrusher:
 			return child as BoulderCrusher
 	return null
+
+
+func animate_selection() -> void:
+	var s = scale
+	scale = s * 1.2
+	await get_tree().create_timer(0.8).timeout
+	scale = s
