@@ -10,6 +10,7 @@ texture = ExtResource("2_2j53c")
 card = NodePath("Card")
 
 [node name="Card" parent="." instance=ExtResource("1_rdu3o")]
+card_name = "Worker Bee"
 description = "Just a bee. Let him bee."
 
 [connection signal="card_removed_from_board" from="Card" to="." method="_on_card_card_removed_from_board"]

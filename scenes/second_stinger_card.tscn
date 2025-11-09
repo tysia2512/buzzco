@@ -12,6 +12,8 @@ card_type = 2
 
 [node name="Card" parent="." instance=ExtResource("2_42lsh")]
 card_class = 1
+attack_value = 0
+card_name = "Second Stinger"
 description = "Attach to a bee to double the sting. Doubles the attack of the bee above."
 
 [connection signal="card_placed" from="Card" to="." method="_on_card_card_placed"]

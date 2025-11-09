@@ -2,18 +2,6 @@ class_name PortectorBeeCard extends TypedCard
 
 @onready var shield_scene: PackedScene = preload("res://scenes/shield.tscn")
 
-const _attack_value = 1
-const _name = "Protector Bee"
-
-func _init() -> void:
-	visible = false
-
-func _ready():
-	card.attack_value = _attack_value
-	card.card_name = _name
-	visible = true
-	super._ready()
-
 func remove_shield() -> void:
 	global_effect = null
 
