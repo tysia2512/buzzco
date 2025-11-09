@@ -25,16 +25,7 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 	else:
 		_close_button.visible = true
 
-	var cards = deck.get_all_cards()
-	var card_count = {}
-	for card_scene in cards:
-		var card = card_scene.instantiate()
-		var card_type = card.card_type
-		card.queue_free()
-		if card_type in card_count:
-			card_count[card_type] += 1
-		else:
-			card_count[card_type] = 1
+	var card_count = deck.get_all_cards()
 
 	for card_type in CardIndex.card_scenes:
 		if !card_count.has(card_type):

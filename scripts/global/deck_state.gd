@@ -11,3 +11,5 @@ var starter_deck: Dictionary = {
 }
 
 var current_deck: Dictionary = {}
+
+var working_deck: Dictionary = {}
