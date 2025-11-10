@@ -25,22 +25,17 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 	else:
 		_close_button.visible = true
 
-	var cards = deck.get_all_cards()
-	var card_count = {}
-	for card_scene in cards:
-		var card = card_scene.instantiate()
-		var card_type = card.card_type
-		card.queue_free()
-		if card_type in card_count:
-			card_count[card_type] += 1
-		else:
-			card_count[card_type] = 1
+	var cards_in_deck = deck.get_all_cards()
 
-	for card_type in CardIndex.card_scenes:
-		if !card_count.has(card_type):
-			continue
-		if card_count[card_type] == null || card_count[card_type] == 0:
-			continue
+	var card_types = {}
+	for crd in cards_in_deck:
+		assert(crd is CardDetails)
+		if card_types.has(crd.card_type):
+			card_types[crd.card_type] += 1
+		else:
+			card_types[crd.card_type] = 1
+
+	for card_type in card_types:
 		var deck_preview_card = deck_preview_card_scene.instantiate() as DeckPreviewCard
 		var card = CardIndex.card_scenes[card_type].instantiate() as TypedCard
 		card.visible = false
@@ -54,7 +49,7 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 		_flow_container.add_child(deck_preview_card)
 
 		deck_preview_card.panel.custom_minimum_size = card.card.get_texture_size()
-		deck_preview_card.label.text = 'x' + str(card_count[card_type])
+		deck_preview_card.label.text = 'x' + str(card_types[card_type])
 		deck_preview_card.card = card
 		
 func _process(delta: float) -> void:

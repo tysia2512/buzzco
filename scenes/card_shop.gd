@@ -66,5 +66,5 @@ func _select_card(card: TypedCard) -> void:
 	if _selected_card != null:
 		return
 	await card.animate_selection()
-	DeckState.current_deck[card.card_type] += 1
+	CardEventBus.card_purchased.emit(card.card_details)
 	card_shop_closed.emit()

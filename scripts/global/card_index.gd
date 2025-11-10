@@ -19,3 +19,37 @@ var card_scenes: Dictionary = {
 	CardType.DRILL_OPERATOR_BEE: preload("res://scenes/drill_operator_bee_card.tscn"),
 	CardType.SECRET_POLICE_BEE: preload("res://scenes/secret_police_bee_card.tscn")
 }
+
+enum CardTrait {
+	DOUBLE_ATTACK
+}
+
+var trait_chances: Dictionary = {
+	CardTrait.DOUBLE_ATTACK: 0.1
+}
+
+var _card_type_chance: Dictionary = {
+	CardType.BASIC_BEE: 1,
+	CardType.FRIENDLY_BEE: 1,
+	CardType.SECOND_STINGER: 1,
+	CardType.CHARGER_BEE: 1,
+	CardType.PROTECTOR_BEE: 1,
+	CardType.DRILL_OPERATOR_BEE: 1,
+	CardType.SECRET_POLICE_BEE: 1
+}
+
+func get_random_card_type() -> CardType:
+	var total_weight = 0
+	for weight in _card_type_chance.values():
+		total_weight += weight
+	
+	var random_value = Utils.rand_in_range(0, total_weight - 1)
+
+	var cumulative_weight = 0
+	for card_type in _card_type_chance:
+		cumulative_weight += _card_type_chance[card_type]
+		if random_value < cumulative_weight:
+			return card_type
+	
+	assert(false, "Should not reach here")
+	return CardType.BASIC_BEE  # Fallback

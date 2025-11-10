@@ -4,43 +4,55 @@ class_name Deck extends Node2D
 @onready var card_spawn_point: Node2D = $SpawnPoint
 @onready var _card_count_label: Label = $CardCountLabel
 
-var _deck = []
+var _card_count = 0
+var working_deck: Array = []
 
 func _ready() -> void:
-	for card_type in DeckState.current_deck:
-		var count = DeckState.current_deck[card_type]
-		var scene = CardIndex.card_scenes[card_type]
-		for i in range(count):
-			_deck.append(scene)
-
-	_deck.shuffle()
-	_update_label()
+	CardEventBus.card_purchased.connect(_on_card_purchased)
 
 func _on_spawn_card_button_pressed() -> void:
 	_deal_card()
 
-func _deal_card():
-	if _deck.size() > 0:
-		var card_scene = _deck.pop_back()
-		var card = card_scene.instantiate()
+func load_deck() -> void:
+	working_deck = DeckState.current_deck.duplicate()
 
-		await hand_spawn_point.spawn_card(card, card_spawn_point.global_position)
+	_card_count = working_deck.size()
+	working_deck.shuffle()
+
+	_update_label()
+
+func _deal_card():
+	#TODO: handle empty deck case
+	assert(_card_count > 0)
+	var card_details = working_deck.pop_back()
+	_card_count = working_deck.size()
+	#TODO: Add traits handling
+
+	var card_scene = CardIndex.card_scenes[card_details.card_type]
+	var card = card_scene.instantiate()
+	await hand_spawn_point.spawn_card(card, card_spawn_point.global_position)
+
 	_update_label()
 
 func deal_cards(cnt: int):
 	for i in range(cnt):
 		_deal_card()
 
-func get_cards_in_deck_count() -> int:
-	return _deck.size()
-
 func _update_label() -> void:
-	_card_count_label.text = str(get_cards_in_deck_count())
+	_card_count_label.text = str(_card_count)
 
 func get_cards_in_hand_count() -> int:
 	return hand_spawn_point.get_cards().size()
 
 func get_all_cards() -> Array:
-	var cards = []
-	cards.append_array(_deck)
-	return cards
+	return working_deck
+
+func _on_card_purchased(card_details: CardDetails) -> void:
+	DeckState.current_deck.append(card_details)
+
+	working_deck.append(card_details)
+	_card_count = working_deck.size()
+	working_deck.shuffle()
+
+func get_cards_in_deck_count():
+	return _card_count

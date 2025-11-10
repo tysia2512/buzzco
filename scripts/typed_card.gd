@@ -18,6 +18,16 @@ var tween: Tween
 
 @export var card_type: CardIndex.CardType
 
+# Required
+var card_details: CardDetails:
+	set(value):
+		assert(card_details == null, "Card details cannot be set again")
+		card_details = value
+		_initialize_traits(card_details)
+
+func _initialize_traits(traits: Dictionary) -> void:
+	pass
+
 var card_class: GenericCard.CardClass:
 	get():
 		return card.card_class
@@ -25,6 +35,10 @@ var card_class: GenericCard.CardClass:
 func _ready():
 	assert(card != null, "TypedCard: card is not set")
 	assert(texture != null, "TypedCard: texture is not set")
+	assert(card_details != null, "TypedCard: texture is not set")
+
+	if card_details == null:
+		card_details = CardDetails.new(card_type, {})
 
 	card.texture = texture
 	card.set_collision_shape_card(self)
@@ -46,7 +60,6 @@ func _ready():
 	else:
 		assert(on_card_placed[0] is OnCardPlaced)
 		card.card_placed.connect((on_card_placed[0] as OnCardPlaced).on_card_placed)
-
 
 		
 func remove_from_board():

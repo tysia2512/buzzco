@@ -34,6 +34,7 @@ func _process(_delta):
 func prepare_level(level: int):
 	enemy_tile_generator.prepare_level(level)
 	grid.set_up_new_level(level, enemy_tile_generator, enemy_manager)
+	deck.load_deck()
 	deck.deal_cards(GameState.START_NUMBER_OF_CARDS)
 
 func _on_cheat_button_pressed() -> void:
