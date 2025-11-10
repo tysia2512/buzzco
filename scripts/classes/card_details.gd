@@ -5,5 +5,17 @@ var card_type: CardIndex.CardType
 var traits: Dictionary = {}
 
 func _init(type: CardIndex.CardType, traits_dict: Dictionary) -> void:
-    card_type = type
-    traits = traits_dict
+	card_type = type
+	traits = traits_dict
+
+static func generate_random_card():
+	var card_type = CardIndex.get_random_card_type()
+	
+	var traits: Dictionary = {}
+	for t in CardIndex.trait_chances:
+		var chance = CardIndex.trait_chances[t]
+		if Utils.rand_with_chance(chance):
+			traits[t] = true
+		else:
+			traits[t] = false
+	return CardDetails.new(card_type, traits)

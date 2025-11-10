@@ -11,3 +11,5 @@ var starter_deck: Dictionary = {
 }
 
 var current_deck: Dictionary = {}
+
+var alternative_deck = [CardDetails.new(CardIndex.CardType.BASIC_BEE, {})]
