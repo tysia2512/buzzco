@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://rgnja06btpb7"]
+[gd_scene load_steps=8 format=3 uid="uid://rgnja06btpb7"]
 
 [ext_resource type="Script" uid="uid://bumb3b6pr0scy" path="res://scripts/main.gd" id="1_85g3d"]
 [ext_resource type="Texture2D" uid="uid://dp46lamxqdnjy" path="res://assets/ChatGPT Image Jun 24, 2025, 08_01_31 PM.png" id="1_o6xl0"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b0t0ehhi430ol" path="res://scenes/level_play.tscn" id="4_tbgi4"]
 [ext_resource type="Script" uid="uid://so73iwpeakdf" path="res://scripts/next_level_page.gd" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cy37pg13hes02" path="res://scenes/card_shop.tscn" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://5trqflu5ub6j" path="res://scripts/tests.gd" id="7_o6xl0"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_85g3d")
@@ -69,6 +70,9 @@ text = "Start bew gane"
 
 [node name="CardShop" parent="GameLoop" instance=ExtResource("6_tefeu")]
 visible = false
+
+[node name="Tests" type="Node" parent="."]
+script = ExtResource("7_o6xl0")
 
 [connection signal="pressed" from="GameLoop/IntroPage/StartGameButton" to="GameLoop" method="_on_start_game_button_pressed"]
 [connection signal="game_over" from="GameLoop/LevelPlay" to="GameLoop" method="_on_level_play_game_over"]
