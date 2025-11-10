@@ -5,7 +5,10 @@ class_name Deck extends Node2D
 @onready var _card_count_label: Label = $CardCountLabel
 
 var _card_count = 0
-var working_deck: Dictionary = {}
+var working_deck: Array = []
+
+func _ready() -> void:
+	CardEventBus.card_purchased.connect(_on_card_purchased)
 
 func _on_spawn_card_button_pressed() -> void:
 	_deal_card()
@@ -13,30 +16,19 @@ func _on_spawn_card_button_pressed() -> void:
 func load_deck() -> void:
 	working_deck = DeckState.current_deck.duplicate()
 
-	_card_count = 0
-	for card_type in working_deck:
-		_card_count += working_deck[card_type]
+	_card_count = working_deck.size()
+	working_deck.shuffle()
 
 	_update_label()
 
 func _deal_card():
 	#TODO: handle empty deck case
 	assert(_card_count > 0)
+	var card_details = working_deck.pop_back()
+	_card_count = working_deck.size()
+	#TODO: Add traits handling
 
-
-	var card_index = Utils.rand_in_range(0, _card_count - 1)
-	var cumulative_count = 0
-	var selected_card_type = null
-
-	for card_type in working_deck:
-		cumulative_count += working_deck[card_type]
-		if card_index < cumulative_count:
-			selected_card_type = card_type
-			working_deck[card_type] -= 1
-			_card_count -= 1
-			break
-			
-	var card_scene = CardIndex.card_scenes[selected_card_type]
+	var card_scene = CardIndex.card_scenes[card_details.card_type]
 	var card = card_scene.instantiate()
 	await hand_spawn_point.spawn_card(card, card_spawn_point.global_position)
 
@@ -52,5 +44,15 @@ func _update_label() -> void:
 func get_cards_in_hand_count() -> int:
 	return hand_spawn_point.get_cards().size()
 
-func get_all_cards() -> Dictionary:
+func get_all_cards() -> Array:
 	return working_deck
+
+func _on_card_purchased(card_details: CardDetails) -> void:
+	DeckState.current_deck.append(card_details)
+
+	working_deck.append(card_details)
+	_card_count = working_deck.size()
+	working_deck.shuffle()
+
+func get_cards_in_deck_count():
+	return _card_count

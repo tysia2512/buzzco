@@ -19,3 +19,7 @@ static func generate_random_card():
 		else:
 			traits[t] = false
 	return CardDetails.new(card_type, traits)
+
+
+#TODO: add card details in typed card to be pulled and add init.
+# Remember to use it in remove selected card processor and deck when spawning cards: in deck, shop, preview
