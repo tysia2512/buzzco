@@ -6,7 +6,9 @@ static func details_to_node(card_details: CardDetails) -> TypedCard:
     return node
 
 static func _initialize_traits(node: TypedCard, traits: Dictionary) -> void:
+    print("Initialize traits")
     for t in traits:
+        print("trait: ", t)
         assert(t is CardIndex.CardTrait)
         if traits[t]:
             var scene = CardIndex.trait_scenes[t]

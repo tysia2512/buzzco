@@ -5,6 +5,7 @@ signal card_removed_from_board
 signal player_turn_start
 signal card_selected_for_attack
 signal card_selected
+signal display_changed
 
 enum CardClass {
 	BEE,
@@ -90,6 +91,7 @@ var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 		
 		if _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
 			card_display.z_index = ZLayers.DECK_DISPLAY
+		display_changed.emit()
 
 var _is_dragged = false:
 	set(value):
@@ -279,3 +281,16 @@ func can_be_selected_for_shop() -> bool:
 # Handle the card click in the card display mode
 func _on_card_display_card_clicked() -> void:
 	card_selected.emit()
+
+var _traits = []
+
+func register_trait(t: Trait):
+	_traits.append(t)
+	card_display.add_trait(t)
+	#TODO: add to grid too
+var _traits = []
+
+func register_trait(t: Trait):
+	_traits.append(t)
+	card_display.add_trait(t)
+	#TODO: add to grid too
