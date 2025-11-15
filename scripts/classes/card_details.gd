@@ -20,12 +20,11 @@ static func generate_random_card():
 			traits[t] = false
 	return CardDetails.new(card_type, traits)
 
-func get_typed_card_node() -> TypedCard:
-	var scene = CardIndex.card_scenes[card_type]
-	var node = scene.instantiate()
-	node.card_details = self
-	return node
-
+# func get_typed_card_node() -> TypedCard:
+# 	var scene = CardIndex.card_scenes[card_type]
+# 	var node = scene.instantiate()
+# 	# node.card_details = self
+# 	return node
 
 #TODO: add card details in typed card to be pulled and add init.
 # Remember to use it in remove selected card processor and deck when spawning cards: in deck, shop, preview
