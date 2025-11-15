@@ -30,6 +30,7 @@ func _deal_card():
 
 	var card_scene = CardIndex.card_scenes[card_details.card_type]
 	var card = card_scene.instantiate()
+	card.card_details = card_details
 	await hand_spawn_point.spawn_card(card, card_spawn_point.global_position)
 
 	_update_label()

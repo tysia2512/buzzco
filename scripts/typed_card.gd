@@ -23,7 +23,7 @@ var card_details: CardDetails:
 	set(value):
 		assert(card_details == null, "Card details cannot be set again")
 		card_details = value
-		_initialize_traits(card_details)
+		_initialize_traits(card_details.traits)
 
 func _initialize_traits(traits: Dictionary) -> void:
 	pass
@@ -33,12 +33,12 @@ var card_class: GenericCard.CardClass:
 		return card.card_class
 
 func _ready():
+	for child in get_children():
+		if child is GenericCard:
+			card = child
 	assert(card != null, "TypedCard: card is not set")
 	assert(texture != null, "TypedCard: texture is not set")
-	assert(card_details != null, "TypedCard: texture is not set")
-
-	if card_details == null:
-		card_details = CardDetails.new(card_type, {})
+	assert(card_details != null, "TypedCard: card_details is not set")
 
 	card.texture = texture
 	card.set_collision_shape_card(self)
