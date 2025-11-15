@@ -104,7 +104,7 @@ func _perform_attack(enemy: Enemy):
 		attack_points += card.card.get_attack_with_effects()
 
 	for card in _cards_selected_for_attack:
-		card.remove_from_board()
+		card.use_for_attack()
 	_cards_selected_for_attack.clear()
 	
 	_attack_enemy(enemy, attack_points)

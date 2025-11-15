@@ -18,16 +18,6 @@ var tween: Tween
 
 @export var card_type: CardIndex.CardType
 
-# Required
-var card_details: CardDetails:
-	set(value):
-		assert(card_details == null, "Card details cannot be set again")
-		card_details = value
-		_initialize_traits(card_details.traits)
-
-func _initialize_traits(_traits: Dictionary) -> void:
-	pass
-
 var card_class: GenericCard.CardClass:
 	get():
 		return card.card_class
@@ -38,7 +28,6 @@ func _ready():
 			card = child
 	assert(card != null, "TypedCard: card is not set")
 	assert(texture != null, "TypedCard: texture is not set")
-	assert(card_details != null, "TypedCard: card_details is not set")
 
 	card.texture = texture
 	card.set_collision_shape_card(self)
@@ -61,7 +50,22 @@ func _ready():
 		assert(on_card_placed[0] is OnCardPlaced)
 		card.card_placed.connect((on_card_placed[0] as OnCardPlaced).on_card_placed)
 
-		
+func get_trait_nodes() -> Array:
+	var ts = []
+	for child in get_children():
+		if child is Trait:
+			if (child as Trait).is_active:
+				ts.append(child)
+	return ts
+
+func use_for_attack():
+	for t in get_trait_nodes():
+		t.process_attack()
+	for t in get_trait_nodes():
+		if t.should_stay_after_attack():
+			return
+	card.remove_from_the_board()
+
 func remove_from_board():
 	card.remove_from_the_board()
 	

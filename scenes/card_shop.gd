@@ -66,5 +66,5 @@ func _select_card(card: TypedCard) -> void:
 	if _selected_card != null:
 		return
 	await card.animate_selection()
-	CardEventBus.card_purchased.emit(card.card_details)
+	CardEventBus.card_purchased.emit(TypedCardCreator.node_to_details(card))
 	card_shop_closed.emit()
