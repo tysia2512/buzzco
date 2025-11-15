@@ -25,7 +25,7 @@ var card_details: CardDetails:
 		card_details = value
 		_initialize_traits(card_details.traits)
 
-func _initialize_traits(traits: Dictionary) -> void:
+func _initialize_traits(_traits: Dictionary) -> void:
 	pass
 
 var card_class: GenericCard.CardClass:

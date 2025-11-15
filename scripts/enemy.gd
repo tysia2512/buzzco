@@ -20,13 +20,13 @@ func spawn_boulder():
 func highlight() -> void:
 	await _enemy.highlight()
 
-func set_tile(tile: EnemyTile):
-	_enemy.tile = tile
+func set_tile(t: EnemyTile):
+	_enemy.tile = t
 
 func _connect_signals():
 	_enemy.deal_damage_to_player.connect(func(pts): deal_damage_to_player.emit(pts))
 	_enemy.enemy_died.connect(func(): enemy_died.emit(self))
-	_enemy.boulder_spawned.connect(func(tile): boulder_spawned.emit(tile))
+	_enemy.boulder_spawned.connect(func(t): boulder_spawned.emit(t))
 
 func receive_damage(pts: int) -> void:
 	_enemy.receive_damage(pts)
