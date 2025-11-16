@@ -8,6 +8,7 @@
 script = ExtResource("1_h5jfe")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 color = Color(0.7058824, 1, 1, 0.40392157)
 polygon = PackedVector2Array(-114, -202, -229, -2, -115, 196, 112, 197, 230, 0, 113, -200)
 
@@ -24,23 +25,23 @@ text = "0"
 [node name="Polygon2D" type="Polygon2D" parent="TraitContainers"]
 position = Vector2(110, -167)
 scale = Vector2(1.8833336, 1.855555)
-color = Color(1, 0.6862745, 1, 0.54509807)
+color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)
 
 [node name="Polygon2D2" type="Polygon2D" parent="TraitContainers"]
 position = Vector2(-3, -360.00003)
 scale = Vector2(1.8749999, 1.8888887)
-color = Color(1, 0.6862745, 1, 0.54509807)
+color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)
 
 [node name="Polygon2D3" type="Polygon2D" parent="TraitContainers"]
 position = Vector2(92, -534)
 scale = Vector2(1.7208331, 1.757409)
-color = Color(1, 0.6862745, 1, 0.54509807)
+color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)
 
 [node name="Polygon2D4" type="Polygon2D" parent="TraitContainers"]
 position = Vector2(313.00003, -527)
 scale = Vector2(1.6333332, 1.6981484)
-color = Color(1, 0.6862745, 1, 0.54509807)
+color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)
