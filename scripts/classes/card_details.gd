@@ -9,23 +9,16 @@ func _init(type: CardIndex.CardType, traits_dict: Dictionary) -> void:
 	traits = traits_dict
 
 static func generate_random_card():
-	var card_type = CardIndex.get_random_card_type()
+	var type = CardIndex.get_random_card_type()
 	
-	var traits: Dictionary = {}
+	var _traits: Dictionary = {}
 	for t in CardIndex.trait_chances:
 		var chance = CardIndex.trait_chances[t]
 		if Utils.rand_with_chance(chance):
-			traits[t] = true
+			_traits[t] = true
 		else:
-			traits[t] = false
-	return CardDetails.new(card_type, traits)
-
-func get_typed_card_node() -> TypedCard:
-	var scene = CardIndex.card_scenes[card_type]
-	var node = scene.instantiate()
-	node.card_details = self
-	return node
-
+			_traits[t] = false
+	return CardDetails.new(type, _traits)
 
 #TODO: add card details in typed card to be pulled and add init.
 # Remember to use it in remove selected card processor and deck when spawning cards: in deck, shop, preview

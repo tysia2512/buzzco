@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://qc261tn8u1il"]
+
+[ext_resource type="Script" uid="uid://p8pfbkaqm6ui" path="res://scenes/trait.gd" id="1_4ciwp"]
+
+[node name="Trait" type="Node2D"]
+script = ExtResource("1_4ciwp")

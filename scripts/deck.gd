@@ -26,10 +26,8 @@ func _deal_card():
 	assert(_card_count > 0)
 	var card_details = working_deck.pop_back()
 	_card_count = working_deck.size()
-	#TODO: Add traits handling
 
-	var card_scene = CardIndex.card_scenes[card_details.card_type]
-	var card = card_scene.instantiate()
+	var card = TypedCardCreator.details_to_node(card_details)
 	await hand_spawn_point.spawn_card(card, card_spawn_point.global_position)
 
 	_update_label()

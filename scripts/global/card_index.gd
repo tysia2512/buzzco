@@ -28,6 +28,11 @@ var trait_chances: Dictionary = {
 	CardTrait.DOUBLE_ATTACK: 0.1
 }
 
+
+var trait_scenes: Dictionary = {
+	CardTrait.DOUBLE_ATTACK: preload("res://scenes/double_attack_trait.tscn"),
+}
+
 var _card_type_chance: Dictionary = {
 	CardType.BASIC_BEE: 1,
 	CardType.FRIENDLY_BEE: 1,

@@ -63,6 +63,27 @@ polygon = PackedVector2Array(-460, -692, -451, 585, -423, 623, 7, 739, 465, 627,
 script = ExtResource("4_eh4pr")
 metadata/_custom_type_script = "uid://cb42o3fyvhm8o"
 
+[node name="TraitContainers" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="TraitContainers"]
+color = Color(0.39607844, 0.5176471, 1, 0.5372549)
+polygon = PackedVector2Array(-419, -577, -417, -431, -259, -431, -255, -581)
+
+[node name="Polygon2D2" type="Polygon2D" parent="TraitContainers"]
+position = Vector2(0, 158)
+color = Color(0.39607844, 0.5176471, 1, 0.5372549)
+polygon = PackedVector2Array(-419, -577, -417, -431, -259, -431, -255, -581)
+
+[node name="Polygon2D3" type="Polygon2D" parent="TraitContainers"]
+position = Vector2(-4, 321)
+color = Color(0.39607844, 0.5176471, 1, 0.5372549)
+polygon = PackedVector2Array(-419, -577, -417, -431, -259, -431, -255, -581)
+
+[node name="Polygon2D4" type="Polygon2D" parent="TraitContainers"]
+position = Vector2(5, 477)
+color = Color(0.39607844, 0.5176471, 1, 0.5372549)
+polygon = PackedVector2Array(-419, -577, -417, -431, -259, -431, -255, -581)
+
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

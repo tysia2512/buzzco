@@ -18,30 +18,22 @@ var tween: Tween
 
 @export var card_type: CardIndex.CardType
 
-# Required
-var card_details: CardDetails:
-	set(value):
-		assert(card_details == null, "Card details cannot be set again")
-		card_details = value
-		_initialize_traits(card_details)
-
-func _initialize_traits(traits: Dictionary) -> void:
-	pass
-
 var card_class: GenericCard.CardClass:
 	get():
 		return card.card_class
 
+# All traits need to be added before the card enters the tree
 func _ready():
+	for child in get_children():
+		if child is GenericCard:
+			card = child
 	assert(card != null, "TypedCard: card is not set")
 	assert(texture != null, "TypedCard: texture is not set")
-	assert(card_details != null, "TypedCard: texture is not set")
-
-	if card_details == null:
-		card_details = CardDetails.new(card_type, {})
 
 	card.texture = texture
 	card.set_collision_shape_card(self)
+
+	_register_traits()
 
 	card.card_removed_from_board.connect(_remove)
 	card.card_selected.connect(func ():
@@ -61,7 +53,22 @@ func _ready():
 		assert(on_card_placed[0] is OnCardPlaced)
 		card.card_placed.connect((on_card_placed[0] as OnCardPlaced).on_card_placed)
 
-		
+func get_trait_nodes() -> Array:
+	var ts = []
+	for child in get_children():
+		if child is Trait:
+			if (child as Trait).is_active:
+				ts.append(child)
+	return ts
+
+func use_for_attack():
+	for t in get_trait_nodes():
+		t.process_attack()
+	for t in get_trait_nodes():
+		if t.should_stay_after_attack():
+			return
+	card.remove_from_the_board()
+
 func remove_from_board():
 	card.remove_from_the_board()
 	
@@ -88,3 +95,8 @@ func animate_selection() -> void:
 	scale = s * 1.2
 	await get_tree().create_timer(0.8).timeout
 	scale = s
+
+func _register_traits() -> void:
+	var traits = get_trait_nodes()
+	for t in traits:
+		card.register_trait(t)

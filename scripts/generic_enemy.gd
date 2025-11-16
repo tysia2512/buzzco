@@ -42,10 +42,10 @@ var _base_scale = Vector2.ONE
 
 var _health: int = 10
 
-func receive_damage(attack_points: int) -> void:
+func receive_damage(pts: int) -> void:
 	var m = sprite.modulate
 	sprite.modulate = Color.RED
-	_health = max(0, _health - attack_points)
+	_health = max(0, _health - pts)
 	health_display.set_current_health(_health)
 	await get_tree().create_timer(0.5).timeout
 	if _health == 0:

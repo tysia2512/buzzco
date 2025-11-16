@@ -9,4 +9,6 @@ texture = ExtResource("1_bui7x")
 script = ExtResource("1_h5jfe")
 
 [node name="GirdSpriteNumberDisplay" parent="." instance=ExtResource("2_a8pqb")]
-visible = false
+position = Vector2(113.99999, 198.99998)
+scale = Vector2(0.1, 0.1)
+text = "0"

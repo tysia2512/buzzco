@@ -45,6 +45,7 @@ signal card_clicked
 @onready var _card_template_sprite: Sprite2D = $CardTemplateSprite
 @onready var _image_polygon: Polygon2D = $CardTemplateSprite/Polygon2D
 @onready var _collision_polygon: CardCollisionPolygon = $Area2D/CollisionPolygon2D
+@onready var trait_containters: Node2D = $TraitContainers
 
 func _ready():
 	_image_sprite.texture = texture
@@ -59,24 +60,8 @@ func _ready():
 func _resize_texture():
 	if !_image_polygon or _image_polygon.polygon.is_empty():
 		return
-	var min_x = _image_polygon.polygon[0].x
-	var max_x = _image_polygon.polygon[0].x
-	var min_y = _image_polygon.polygon[0].y
-	var max_y = _image_polygon.polygon[0].y
-	
-	for pt in _image_polygon.polygon:
-		min_x = min(min_x, pt.x)
-		max_x = max(max_x, pt.x)
-		min_y = min(min_y, pt.y)
-		max_y = max(max_y, pt.y)
-	
-	var W = max_x - min_x
-	var H = max_y - min_y
-	
-	var s = min(W / _image_sprite.texture.get_width(), H / _image_sprite.texture.get_height())
 
-	_image_sprite.position = Vector2((min_x + max_x) / 2, (min_y + max_y) / 2)
-	_image_sprite.scale = Vector2(s, s)
+	Utils.resize_sprite_to_polygon(_image_sprite, _image_polygon)
 
 func get_texture_size():
 	return _card_template_sprite.texture.get_size() * _card_template_sprite.scale * scale
@@ -89,3 +74,15 @@ func _on_area_2d_mouse_exited() -> void:
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		card_clicked.emit()
+
+func add_trait(t: Trait):
+	var sprite = Sprite2D.new()
+	sprite.texture = t.texture
+	var found_rec = false
+	for rec in trait_containters.get_children():
+		assert(rec is Polygon2D)
+		if rec.get_child_count() == 0:
+			found_rec = true
+			rec.add_child(sprite)
+			Utils.resize_sprite_to_polygon(sprite, rec)
+	assert(found_rec, "Too many traits")
