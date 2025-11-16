@@ -10,6 +10,7 @@ class_name LevelPlay extends Node2D
 @onready var deck: Deck = $CardMovementManager/DeckNHand/Deck
 @onready var _global_effect_manager: GlobalEffectManager = $GlobalEffectManager
 @onready var launch_attack_button: LaunchAttackButton = $LaunchAttackButton
+@onready var _cancel_attack_button: Button = $CancelLaunchAttackButton
 @onready var _deck_preview: DeckPreview = $DeckPreview
 
 @onready var _debug_label: Label = $DebugLabel
@@ -81,8 +82,14 @@ var _cards_selected_for_attack: Array = []
 var _interrupted_stage_by_attack: GameState.TurnStage
 func _on_launch_attack_button_launch_assault() -> void:
 	_interrupted_stage_by_attack = GameState.turn_stage 
+	_cancel_attack_button.visible = true
 	GameState.turn_stage = GameState.TurnStage.SPECIFIC_INPUT
 	GameState.specific_input = GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT
+
+func _on_cancel_launch_attack_button_pressed() -> void:
+	_cancel_attack_button.visible = false
+	_cards_selected_for_attack.clear()
+	GameState.turn_stage = _interrupted_stage_by_attack
 
 func _enemy_selected(enemy: Enemy) -> void:
 	_perform_attack(enemy)
@@ -108,6 +115,7 @@ func _perform_attack(enemy: Enemy):
 	_cards_selected_for_attack.clear()
 	
 	_attack_enemy(enemy, attack_points)
+	_cancel_attack_button.visible = false
 	GameState.turn_stage = _interrupted_stage_by_attack
 	_perform_action()
 
