@@ -1,5 +1,6 @@
 extends Node
 
+const BACKGROUND = -2
 const GRID = -1
 const ENEMIES = 0
 const CARDS_ON_GRID = 0

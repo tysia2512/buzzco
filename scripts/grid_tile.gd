@@ -8,6 +8,9 @@ var boulder: Boulder = null
 var _card: TypedCard = null
 var _effects = {}
 
+func _ready():
+	sprite.z_index = ZLayers.GRID
+
 func get_texture_size():
 	return sprite.get_texture_size() 
 	
