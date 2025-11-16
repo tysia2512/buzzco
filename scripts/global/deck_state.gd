@@ -19,6 +19,6 @@ func get_starter_deck() -> Array:
 	for card_type in _starter_deck_counts:
 		var count = _starter_deck_counts[card_type]
 		for i in range(count):
-			var card = CardDetails.new(card_type, {CardIndex.CardTrait.DOUBLE_ATTACK: true})
+			var card = CardDetails.new(card_type, {CardIndex.CardTrait.DOUBLE_ATTACK: false})
 			deck.append(card)
 	return deck
