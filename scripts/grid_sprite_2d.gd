@@ -28,7 +28,6 @@ class_name GridSprite2D extends Node2D
 
 func _ready():
 	_set_scale()
-	_set_label_scale()
 	number_display.visible = show_number_display
 	if number_display:
 		number_display.text = str(number_on_display)
@@ -39,8 +38,6 @@ func init_texture():
 	sprite.texture = texture
 	Utils.resize_sprite_to_polygon(sprite, polygon)
 	_set_scale()
-	if number_display:
-		_set_label_scale()
 	
 func _set_scale():
 	var text_size = Utils.get_size(polygon)
@@ -52,21 +49,6 @@ func _set_scale():
 	
 	var s = min(tile_width / text_size.x, tile_height / text_size.y) * 0.9
 	scale = Vector2(s, s)
-
-func _set_label_scale() -> void:
-	if texture == null:
-		return
-		
-	var label_size = number_display.get_size()
-	var desired = texture.get_size() * 0.25
-	
-	var s = min(desired.x / label_size.x, desired.y / label_size.y)
-	number_display.scale = Vector2(s, s)
-	var tile = grid_tile_scene.instantiate() as GridTile
-	add_child(tile)
-	number_display.position = tile.get_bottom_left_corner_position() / scale.x
-	number_display.z_index = ZLayers.ATTACK_DISPLAY_ON_GRID
-	tile.queue_free()
 
 func add_trait(t: Trait):
 	var sprite = Sprite2D.new()
