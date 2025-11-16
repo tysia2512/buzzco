@@ -288,9 +288,3 @@ func register_trait(t: Trait):
 	_traits.append(t)
 	card_display.add_trait(t)
 	#TODO: add to grid too
-var _traits = []
-
-func register_trait(t: Trait):
-	_traits.append(t)
-	card_display.add_trait(t)
-	#TODO: add to grid too

@@ -3,6 +3,7 @@ class_name TypedCardCreator
 static func details_to_node(card_details: CardDetails) -> TypedCard:
     var scene = CardIndex.card_scenes[card_details.card_type]
     var node = scene.instantiate()
+    _initialize_traits(node, card_details.traits)
     return node
 
 static func _initialize_traits(node: TypedCard, traits: Dictionary) -> void:

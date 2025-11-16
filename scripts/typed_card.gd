@@ -22,6 +22,7 @@ var card_class: GenericCard.CardClass:
 	get():
 		return card.card_class
 
+# All traits need to be added before the card enters the tree
 func _ready():
 	for child in get_children():
 		if child is GenericCard:
@@ -31,6 +32,8 @@ func _ready():
 
 	card.texture = texture
 	card.set_collision_shape_card(self)
+
+	_register_traits()
 
 	card.card_removed_from_board.connect(_remove)
 	card.card_selected.connect(func ():
@@ -92,3 +95,8 @@ func animate_selection() -> void:
 	scale = s * 1.2
 	await get_tree().create_timer(0.8).timeout
 	scale = s
+
+func _register_traits() -> void:
+	var traits = get_trait_nodes()
+	for t in traits:
+		card.register_trait(t)

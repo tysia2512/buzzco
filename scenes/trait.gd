@@ -1,6 +1,6 @@
 class_name Trait extends Node2D
 
-@export var trait_type: CardIndex.CardTrait
+@export var texture: Texture2D
 
 func process_attack():
 	pass
