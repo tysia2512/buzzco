@@ -37,7 +37,6 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 		add_child(typed_card)
 		typed_card.position = _spawn_point.position
 		typed_card.card.set_card_in_display_mode()
-		typed_card.card.is_in_dialog = true
 		typed_card.card.set_in_hand(false)
 		if _processor != null:
 			typed_card.card_selected.connect(_select_card)

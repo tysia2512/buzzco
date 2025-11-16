@@ -59,8 +59,7 @@ enum CardDisplayMode {
 	CARD,
 	TILE,
 	HOVER, # Hovered over on the board
-	CARD_IN_FRONT, # In hand and hovered over
-	CARD_IN_DISPLAY
+	CARD_IN_FRONT # In hand and hovered over
 }
 var is_in_shop = false
 var is_in_dialog = false
@@ -68,7 +67,9 @@ var is_in_dialog = false
 var _is_selected_for_attack = false
 
 func set_card_in_display_mode() -> void:
-	_card_display_mode = CardDisplayMode.CARD_IN_DISPLAY
+	is_in_dialog = true
+	_card_display_mode = CardDisplayMode.CARD
+	card_display.z_index = ZLayers.DECK_DISPLAY
 
 var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 	set(value):
@@ -87,10 +88,8 @@ var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 
 		_set_card_display_visible(
 			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER 
-			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY)
+			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
 		
-		if _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
-			card_display.z_index = ZLayers.DECK_DISPLAY
 		display_changed.emit()
 
 var _is_dragged = false:
@@ -175,7 +174,7 @@ func _set_card_display_visible(v: bool) -> void:
 	card_display.enable_collision = v
 
 func get_texture_size():
-	if _card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
+	if _card_display_mode == CardDisplayMode.CARD:
 		return card_display.get_texture_size()
 	return tile_sprite.scale * tile_sprite.texture.get_size()
 
@@ -238,9 +237,10 @@ func _on_area_2d_mouse_exited() -> void:
 	_reset_hover()
 
 func _on_card_display_mouse_entered() -> void:
-	if !_is_in_hand or InputStatus.is_card_dragged:
+	if InputStatus.is_card_dragged:
 		return
-	_card_display_mode = CardDisplayMode.CARD_IN_FRONT
+	if _card_display_mode == CardDisplayMode.CARD:
+		_card_display_mode = CardDisplayMode.CARD_IN_FRONT
 
 func _on_card_display_mouse_exited() -> void:
 	_reset_hover()
