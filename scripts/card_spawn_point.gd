@@ -3,30 +3,10 @@ class_name CardSpawnPoint extends Node2D
 @onready var W: int = get_viewport().get_visible_rect().size.y * 0.6
 
 func get_cards():
-	return get_children().filter(func(x): return x is TypedCard)
+	return get_children().filter(func(x): return x is TypedCard).filter(func(c): return c.card.is_in_hand())
 
 func _arrange_cards():
-	var cards = get_cards()
-	if cards.is_empty():
-		return
-	var card_width = cards[0].card.get_texture_size().x
-	var gap = card_width / 4
-	var w = min(W, (len(cards) - 1) * card_width + (len(cards) - 1) * gap)
-	
-	var current_x = 0
-	var delta_x = 0
-	if len(cards) > 0:
-		delta_x = w / (len(cards) - 1)
-	for card in cards:
-		if !card.card.is_in_hand():
-			continue
-		var destination = Vector2(current_x - w / 2, 0)
-		# if card.tween:
-		# 	time_elapsed = card.tween.get_total_elapsed_time()
-		card.tween = card.create_tween()
-		card.tween.tween_property(card, "position", destination, 0.3)
-		
-		current_x += delta_x
+	Utils.arrange_cards(W, Vector2.ZERO, get_cards())
 	
 func update():
 	_arrange_cards()

@@ -9,6 +9,7 @@ var working_deck: Array = []
 
 func _ready() -> void:
 	CardEventBus.card_purchased.connect(_on_card_purchased)
+	CardEventBus.card_removed_from_deck.connect(_on_remove_card)
 
 func _on_spawn_card_button_pressed() -> void:
 	_deal_card()
@@ -51,6 +52,10 @@ func _on_card_purchased(card_details: CardDetails) -> void:
 	working_deck.append(card_details)
 	_card_count = working_deck.size()
 	working_deck.shuffle()
+
+func _on_remove_card(cd: CardDetails) -> void:
+	# TODO: implement
+	pass
 
 func get_cards_in_deck_count():
 	return _card_count

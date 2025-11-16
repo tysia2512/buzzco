@@ -51,3 +51,22 @@ func get_center(p: Polygon2D) -> Vector2:
 	var Y = (max_y + min_y) / 2
 
 	return Vector2(X, Y)
+
+# Arranges the cards within the width around the center in a line
+func arrange_cards(width: int, center: Vector2, cards: Array) -> void:
+	if cards.is_empty():
+		return
+	var card_width = cards[0].card.get_texture_size().x
+	var gap = card_width / 4
+	var w = min(width, (len(cards) - 1) * card_width + (len(cards) - 1) * gap)
+	
+	var current_x = 0
+	var delta_x = 0
+	delta_x = w / (len(cards) - 1)
+	for card in cards:
+		var destination = Vector2(current_x - w / 2, 0) + center
+		
+		card.tween = card.create_tween()
+		card.tween.tween_property(card, "position", destination, 0.3)
+		
+		current_x += delta_x
