@@ -134,7 +134,6 @@ func _on_card_movement_manager_card_placed() -> void:
 func _on_enemy_manager_boulder_spawned(on_tile: GridTile) -> void:
 	grid.spawn_boulder(on_tile)
 
-
 func _on_grid_boulder_move_finished() -> void:
 	GameState.turn_stage = GameState.TurnStage.ENEMY_MOVE
 	start_enemy_turn()

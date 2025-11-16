@@ -8,7 +8,11 @@ class_name GridSprite2D extends Node2D
 @onready var number_display: GridSpriteNumberDisplay = $GirdSpriteNumberDisplay
 @onready var trait_containters: Node2D = $TraitContainers
 
-@export var texture: Texture2D
+@export var texture: Texture2D:
+	set(value):
+		texture = value
+		if sprite != null:
+			init_texture()
 
 @export var show_number_display: bool = false:
 	set(value):
@@ -28,9 +32,11 @@ func _ready():
 	number_display.visible = show_number_display
 	if number_display:
 		number_display.text = str(number_on_display)
+	if texture != null:
+		init_texture()
 	
-func init_texture(t: Texture2D):
-	sprite.texture = t
+func init_texture():
+	sprite.texture = texture
 	Utils.resize_sprite_to_polygon(sprite, polygon)
 	_set_scale()
 	if number_display:

@@ -43,7 +43,7 @@ var current_attack_points: int = 1
 	set(value):
 		texture = value
 		if tile_sprite:
-			tile_sprite.init_texture(value)
+			tile_sprite.texture = value
 		if card_display:
 			card_display.texture = value
 
@@ -139,7 +139,7 @@ var _sprite_modulate: Color
 func _ready():
 	_sprite_modulate = tile_sprite.modulate
 	_card_display_mode = CardDisplayMode.CARD
-	tile_sprite.init_texture(texture)
+	tile_sprite.texture = texture
 	card_display.texture = texture
 	card_display.card_name = card_name
 	card_display.description = description
