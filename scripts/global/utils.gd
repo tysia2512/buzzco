@@ -10,12 +10,21 @@ func rand_in_range(lower: int, upper: int) -> int:
 	return rng.randi_range(lower, upper)
 
 func resize_sprite_to_polygon(sprite: Sprite2D, polygon: Polygon2D) -> void:
-	var min_x = polygon.polygon[0].x
-	var max_x = polygon.polygon[0].x
-	var min_y = polygon.polygon[0].y
-	var max_y = polygon.polygon[0].y
+	var size = get_size(polygon)
+	var center = get_center(polygon)
 	
-	for pt in polygon.polygon:
+	var s = min(size.x / sprite.texture.get_width(), size.y / sprite.texture.get_height())
+
+	sprite.position = center
+	sprite.scale = Vector2(s, s)
+
+func get_size(p: Polygon2D) -> Vector2:
+	var min_x = p.polygon[0].x
+	var max_x = p.polygon[0].x
+	var min_y = p.polygon[0].y
+	var max_y = p.polygon[0].y
+
+	for pt in p.polygon:
 		min_x = min(min_x, pt.x)
 		max_x = max(max_x, pt.x)
 		min_y = min(min_y, pt.y)
@@ -23,8 +32,22 @@ func resize_sprite_to_polygon(sprite: Sprite2D, polygon: Polygon2D) -> void:
 	
 	var W = max_x - min_x
 	var H = max_y - min_y
-	
-	var s = min(W / sprite.texture.get_width(), H / sprite.texture.get_height())
 
-	sprite.position = Vector2((min_x + max_x) / 2, (min_y + max_y) / 2)
-	sprite.scale = Vector2(s, s)
+	return Vector2(W, H)
+
+func get_center(p: Polygon2D) -> Vector2:
+	var min_x = p.polygon[0].x
+	var max_x = p.polygon[0].x
+	var min_y = p.polygon[0].y
+	var max_y = p.polygon[0].y
+
+	for pt in p.polygon:
+		min_x = min(min_x, pt.x)
+		max_x = max(max_x, pt.x)
+		min_y = min(min_y, pt.y)
+		max_y = max(max_y, pt.y)
+	
+	var X = (max_x + min_x) / 2
+	var Y = (max_y + min_y) / 2
+
+	return Vector2(X, Y)

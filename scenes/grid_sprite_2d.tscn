@@ -4,11 +4,39 @@
 [ext_resource type="Script" uid="uid://dr65pifk4fdu7" path="res://scripts/grid_sprite_2d.gd" id="1_h5jfe"]
 [ext_resource type="PackedScene" uid="uid://bhrair5ua2r1o" path="res://scenes/gird_sprite_number_display.tscn" id="2_a8pqb"]
 
-[node name="GridSprite2D" type="Sprite2D"]
-texture = ExtResource("1_bui7x")
+[node name="GridSprite2D" type="Node2D"]
 script = ExtResource("1_h5jfe")
 
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.7058824, 1, 1, 0.40392157)
+polygon = PackedVector2Array(-114, -202, -229, -2, -115, 196, 112, 197, 230, 0, 113, -200)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_bui7x")
+
 [node name="GirdSpriteNumberDisplay" parent="." instance=ExtResource("2_a8pqb")]
+visible = false
 position = Vector2(113.99999, 198.99998)
 scale = Vector2(0.1, 0.1)
 text = "0"
+
+[node name="TraitContainers" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="TraitContainers"]
+color = Color(1, 0.6862745, 1, 0.54509807)
+polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)
+
+[node name="Polygon2D2" type="Polygon2D" parent="TraitContainers"]
+position = Vector2(-106, -185)
+color = Color(1, 0.6862745, 1, 0.54509807)
+polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)
+
+[node name="Polygon2D3" type="Polygon2D" parent="TraitContainers"]
+position = Vector2(9, -388)
+color = Color(1, 0.6862745, 1, 0.54509807)
+polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)
+
+[node name="Polygon2D4" type="Polygon2D" parent="TraitContainers"]
+position = Vector2(231, -388)
+color = Color(1, 0.6862745, 1, 0.54509807)
+polygon = PackedVector2Array(-150, 160, -90, 160, -90, 220, -150, 220)

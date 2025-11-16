@@ -85,4 +85,5 @@ func add_trait(t: Trait):
 			found_rec = true
 			rec.add_child(sprite)
 			Utils.resize_sprite_to_polygon(sprite, rec)
+			break
 	assert(found_rec, "Too many traits")
