@@ -14,11 +14,9 @@ func _ready() -> void:
 
 func load() -> void:
 	_clear()
-	var card_types = _get_random_cards()
-	for card_type in card_types:
-		var card_scene = CardIndex.card_scenes[card_type]
+	var cards = _get_random_cards()
+	for card in cards:
 		var panel = Panel.new()
-		var card = card_scene.instantiate() as TypedCard
 		card.visible = false
 		add_child(card)
 		_cards.append(card)
@@ -46,10 +44,10 @@ func _process(delta: float) -> void:
 
 
 func _get_random_cards() -> Array:
-	var available_card_types = CardIndex.CardType.values()
-	available_card_types.shuffle()
-	var selected_card_types = available_card_types.slice(0, 2)
-	return selected_card_types
+	var cards = []
+	for i in range(Constants.CARDS_IN_SHOP):
+		cards.append(TypedCardCreator.details_to_node(CardDetails.generate_random_card()))
+	return cards
 
 func _clear():
 	_cards_arranged = false
