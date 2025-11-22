@@ -4,7 +4,6 @@ signal close_preview
 
 @onready var deck_preview_card_scene = preload("res://scenes/deck_preview_card.tscn")
 
-@onready var _flow_container: FlowContainer = $FlowContainer
 @onready var _close_button: Button = $CloseButton
 @onready var _spawn_point: Node2D = $SpawnPoint
 # TODO: we need multiple
@@ -54,8 +53,6 @@ func _get_area_center(p: Polygon2D):
 	return Utils.get_center(p)
 
 func _on_close_button_pressed() -> void:
-	for child in _flow_container.get_children():
-		child.queue_free()
 	for child in get_children():
 		if child is TypedCard:
 			child.queue_free()
@@ -67,9 +64,25 @@ func _select_card(card: TypedCard) -> void:
 
 func _clear():
 	_cards_arranged = false
-	_flow_container.visible = true
-	for child in _flow_container.get_children():
-		child.queue_free()
 	for child in get_children():
 		if child is TypedCard:
 			child.queue_free()
+
+func check_for_card() -> TypedCard:
+	print("Checking for card")
+	var space_state = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.position = get_global_mouse_position()
+	parameters.collide_with_areas = true
+	parameters.collision_mask = 1
+	var result = space_state.intersect_point(parameters)
+	print("Result: ", result)
+	if result.is_empty():
+		return null
+	var card_area = result[0].collider
+	print("Has a collider: ", card_area)
+	assert(card_area is CardArea)
+	var card = (card_area as CardArea).get_card()
+	assert(card != null)
+	assert(card is TypedCard)
+	return card

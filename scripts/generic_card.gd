@@ -229,21 +229,31 @@ func get_attack_with_effects() -> int:
 	return total
 	
 func _on_area_2d_mouse_entered() -> void:
-	if !_is_on_the_board or InputStatus.is_card_dragged:
-		return
-	_card_display_mode = CardDisplayMode.HOVER
+	pass
+	# if !_is_on_the_board or InputStatus.is_card_dragged:
+	# 	return
+	# _card_display_mode = CardDisplayMode.HOVER
 
 func _on_area_2d_mouse_exited() -> void:
+	pass
 	_reset_hover()
 
 func _on_card_display_mouse_entered() -> void:
-	if InputStatus.is_card_dragged:
-		return
-	if _card_display_mode == CardDisplayMode.CARD:
-		_card_display_mode = CardDisplayMode.CARD_IN_FRONT
+	pass
+	# if InputStatus.is_card_dragged:
+	# 	return
+	# if _card_display_mode == CardDisplayMode.CARD:
+	# 	_card_display_mode = CardDisplayMode.CARD_IN_FRONT
 
 func _on_card_display_mouse_exited() -> void:
-	_reset_hover()
+	pass
+	# _reset_hover()
+
+func set_in_front(v: bool) -> void:
+	if v and _card_display_mode == CardDisplayMode.CARD:
+		_card_display_mode = CardDisplayMode.CARD_IN_FRONT
+	if !v and _card_display_mode == CardDisplayMode.CARD_IN_FRONT:
+		_card_display_mode = CardDisplayMode.CARD_IN_FRONT
 
 func _reset_hover():
 	if _card_display_mode != CardDisplayMode.HOVER && _card_display_mode != CardDisplayMode.CARD_IN_FRONT:
@@ -254,15 +264,13 @@ func _reset_hover():
 	else:
 		_card_display_mode = CardDisplayMode.CARD
 
-# If the tile is clicked (in grid display mode)
-func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if can_be_selected_for_attack():
-			_is_selected_for_attack = !_is_selected_for_attack
-			card_selected_for_attack.emit()
-		if can_be_selected_for_dialog() or can_be_selected_for_shop():
-			card_selected.emit()
+func select_for_attack():
+	_is_selected_for_attack = !_is_selected_for_attack
+	card_selected_for_attack.emit()
 
+func select():
+	card_selected.emit()
+	
 func can_be_selected_for_attack() -> bool:
 	if !_is_on_the_board:
 		return false
@@ -272,15 +280,14 @@ func can_be_selected_for_attack() -> bool:
 		return false
 	return true
 
+func can_be_selected() -> bool:
+	return can_be_selected_for_dialog() or can_be_selected_for_shop()
+
 func can_be_selected_for_dialog() -> bool:
 	return is_in_dialog and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
 
 func can_be_selected_for_shop() -> bool:
 	return is_in_shop and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
-
-# Handle the card click in the card display mode
-func _on_card_display_card_clicked() -> void:
-	card_selected.emit()
 
 var _traits = []
 
