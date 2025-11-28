@@ -4,10 +4,12 @@ signal close_preview
 
 @onready var deck_preview_card_scene = preload("res://scenes/deck_preview_card.tscn")
 
-@onready var _flow_container: FlowContainer = $FlowContainer
 @onready var _close_button: Button = $CloseButton
+@onready var _spawn_point: Node2D = $SpawnPoint
+# TODO: we need multiple
+@onready var _card_space: Polygon2D = $Polygon2D
 
-#TODO: put on a new top layer
+# TODO: put on a new top layer
 
 var _processor: CardSelectionProcessor = null
 
@@ -26,45 +28,31 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 		_close_button.visible = true
 
 	var cards_in_deck = deck.get_all_cards()
-
-	var card_types = {}
-	for crd in cards_in_deck:
-		assert(crd is CardDetails)
-		if card_types.has(crd.card_type):
-			card_types[crd.card_type] += 1
-		else:
-			card_types[crd.card_type] = 1
-
-	for card_type in card_types:
-		var deck_preview_card = deck_preview_card_scene.instantiate() as DeckPreviewCard
-		var card = CardIndex.card_scenes[card_type].instantiate() as TypedCard
-		card.visible = false
-		add_child(card)
-		card.card.set_card_in_display_mode()
-		card.card.is_in_dialog = true
-		card.card.set_in_hand(false)
+	var cards = []
+	for cd in cards_in_deck:
+		assert(cd is CardDetails)
+		var typed_card = TypedCardCreator.details_to_node(cd)
+		cards.append(typed_card)
+		add_child(typed_card)
+		typed_card.position = _spawn_point.position
+		typed_card.card.set_card_in_display_mode()
+		typed_card.card.set_in_hand(false)
 		if _processor != null:
-			card.card_selected.connect(_select_card)
+			typed_card.card_selected.connect(_select_card)
 
-		_flow_container.add_child(deck_preview_card)
-
-		deck_preview_card.panel.custom_minimum_size = card.card.get_texture_size()
-		deck_preview_card.label.text = 'x' + str(card_types[card_type])
-		deck_preview_card.card = card
-		
-func _process(delta: float) -> void:
-	if _cards_arranged:
-		return
-	for child in _flow_container.get_children():
-		var deck_preview_card = child as DeckPreviewCard
-		deck_preview_card.card.position = deck_preview_card.panel.global_position - position + deck_preview_card.card.card.get_texture_size() / 2
-		deck_preview_card.card.visible = true
+	Utils.arrange_cards(
+		_get_area_width(_card_space), 
+		_get_area_center(_card_space), 
+		cards)
 	_cards_arranged = true
-	_flow_container.visible = false
+
+func _get_area_width(p: Polygon2D):
+	return Utils.get_size(p).x
+
+func _get_area_center(p: Polygon2D):
+	return Utils.get_center(p)
 
 func _on_close_button_pressed() -> void:
-	for child in _flow_container.get_children():
-		child.queue_free()
 	for child in get_children():
 		if child is TypedCard:
 			child.queue_free()
@@ -76,9 +64,25 @@ func _select_card(card: TypedCard) -> void:
 
 func _clear():
 	_cards_arranged = false
-	_flow_container.visible = true
-	for child in _flow_container.get_children():
-		child.queue_free()
 	for child in get_children():
 		if child is TypedCard:
 			child.queue_free()
+
+func check_for_card() -> TypedCard:
+	print("Checking for card")
+	var space_state = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.position = get_global_mouse_position()
+	parameters.collide_with_areas = true
+	parameters.collision_mask = 1
+	var result = space_state.intersect_point(parameters)
+	print("Result: ", result)
+	if result.is_empty():
+		return null
+	var card_area = result[0].collider
+	print("Has a collider: ", card_area)
+	assert(card_area is CardArea)
+	var card = (card_area as CardArea).get_card()
+	assert(card != null)
+	assert(card is TypedCard)
+	return card

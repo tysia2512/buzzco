@@ -30,7 +30,7 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @onready var health_display: HealthDisplay = $HealthDisplay
 
 @onready var sprite_with_collision: Node2D = $SpriteWithCollision
-@onready var sprite: Sprite2D = $SpriteWithCollision/GridSprite2D
+@onready var sprite: Node2D = $SpriteWithCollision/GridSprite2D
 @onready var area: Area2D = $SpriteWithCollision/EnemyArea
 @onready var collision_polygon: CollisionPolygon2D = $SpriteWithCollision/EnemyArea/CollisionPolygon2D
 @onready var _sprite: GridSprite2D = $SpriteWithCollision/GridSprite2D

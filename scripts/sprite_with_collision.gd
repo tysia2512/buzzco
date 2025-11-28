@@ -2,7 +2,7 @@
 extends Node2D
 
 func set_texture(t: Texture2D):
-	$GridSprite2D.init_texture(t)
+	$GridSprite2D.texture = t
 	_rescale()
 	
 func _rescale():

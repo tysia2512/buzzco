@@ -37,7 +37,6 @@ func _spawn_enemy_invisible(scene: PackedScene):
 	var enemy = scene.instantiate() as Enemy
 	assert(enemy is Enemy)
 	enemy.visible = false
-	print("add child ", enemy)
 	add_child(enemy)
 	enemy.enemy.deal_damage.connect(deal_damage)
 	_enemies.append(enemy)
@@ -54,13 +53,11 @@ func _arrange_enemies():
 		func(enemy): return (enemy as Enemy).get_texture_size().x).reduce(func(x, y): return x + y, 0)
 	assert(W >= sprite_width_total)
 	var gap = (W - sprite_width_total) / (_enemies.size() - 1)
-	print("W: ", W, " sprite_width_total: ", sprite_width_total)
 	var offset_x = W / 2
 	var x = 0
 	for enemy in _enemies:
 		enemy.position.y = 0
 		enemy.position.x = x + (enemy as Enemy).get_texture_size().x / 2 - offset_x
-		print("Enemy position: ", enemy.position)
 		x += (enemy as Enemy).get_texture_size().x + gap
 	
 	

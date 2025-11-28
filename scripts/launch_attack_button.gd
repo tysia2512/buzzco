@@ -9,6 +9,10 @@ func _pressed() -> void:
 	launch_assault.emit()
 	
 func _process(delta: float):
+	if grid.get_cards().is_empty():
+		disabled = true
+	else:
+		disabled = !GameState.is_player_turn()
+
 	if grid != null:
 		text = "Launch assault (" + str(grid.get_points()) + ")"
-	disabled = !GameState.is_player_turn()

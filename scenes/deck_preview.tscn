@@ -13,10 +13,11 @@ offset_bottom = 83.0
 theme_override_font_sizes/font_size = 23
 text = "Close"
 
-[node name="FlowContainer" type="FlowContainer" parent="."]
-offset_left = 465.0
-offset_top = 152.0
-offset_right = 1593.0
-offset_bottom = 884.0
+[node name="SpawnPoint" type="Node2D" parent="."]
+position = Vector2(1767, 937)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(175, 175, 175, 325, 1750, 325, 1750, 175)
 
 [connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

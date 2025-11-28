@@ -25,7 +25,7 @@ enum CardTrait {
 }
 
 var trait_chances: Dictionary = {
-	CardTrait.DOUBLE_ATTACK: 0.1
+	CardTrait.DOUBLE_ATTACK: 0.5
 }
 
 

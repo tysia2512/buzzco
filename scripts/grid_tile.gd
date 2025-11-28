@@ -8,6 +8,9 @@ var boulder: Boulder = null
 var _card: TypedCard = null
 var _effects = {}
 
+func _ready():
+	sprite.z_index = ZLayers.GRID
+
 func get_texture_size():
 	return sprite.get_texture_size() 
 	
@@ -28,9 +31,7 @@ func add_effect(effect: Effect) -> void:
 	_effects[effect] = true
 	
 func remove_effect(effect: Effect) -> void:
-	print("Removing effect: ", effect)
 	_effects.erase(effect)
-	print("Effects left: ", _effects)
 	
 func get_effects() -> Array:
 	return _effects.keys().map(func(key): return key as Effect)

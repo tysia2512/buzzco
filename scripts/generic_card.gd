@@ -43,7 +43,7 @@ var current_attack_points: int = 1
 	set(value):
 		texture = value
 		if tile_sprite:
-			tile_sprite.init_texture(value)
+			tile_sprite.texture = value
 		if card_display:
 			card_display.texture = value
 
@@ -59,8 +59,7 @@ enum CardDisplayMode {
 	CARD,
 	TILE,
 	HOVER, # Hovered over on the board
-	CARD_IN_FRONT, # In hand and hovered over
-	CARD_IN_DISPLAY
+	CARD_IN_FRONT # In hand and hovered over
 }
 var is_in_shop = false
 var is_in_dialog = false
@@ -68,7 +67,9 @@ var is_in_dialog = false
 var _is_selected_for_attack = false
 
 func set_card_in_display_mode() -> void:
-	_card_display_mode = CardDisplayMode.CARD_IN_DISPLAY
+	is_in_dialog = true
+	_card_display_mode = CardDisplayMode.CARD
+	card_display.z_index = ZLayers.DECK_DISPLAY
 
 var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 	set(value):
@@ -87,10 +88,8 @@ var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 
 		_set_card_display_visible(
 			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER 
-			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY)
+			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
 		
-		if _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
-			card_display.z_index = ZLayers.DECK_DISPLAY
 		display_changed.emit()
 
 var _is_dragged = false:
@@ -139,11 +138,12 @@ var _sprite_modulate: Color
 func _ready():
 	_sprite_modulate = tile_sprite.modulate
 	_card_display_mode = CardDisplayMode.CARD
-	tile_sprite.init_texture(texture)
+	tile_sprite.texture = texture
 	card_display.texture = texture
 	card_display.card_name = card_name
 	card_display.description = description
 	_update_labels()
+	assert(z_index == ZLayers.DEFAULT, "GenericCard: z_index should be DEFAULT on ready")
 
 
 func _process(_delta: float) -> void:
@@ -175,7 +175,7 @@ func _set_card_display_visible(v: bool) -> void:
 	card_display.enable_collision = v
 
 func get_texture_size():
-	if _card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.CARD_IN_DISPLAY:
+	if _card_display_mode == CardDisplayMode.CARD:
 		return card_display.get_texture_size()
 	return tile_sprite.scale * tile_sprite.texture.get_size()
 
@@ -228,41 +228,20 @@ func get_attack_with_effects() -> int:
 	for effect in _tile_placed.get_effects():
 		total = (effect as Effect).apply(total)
 	return total
-	
-func _on_area_2d_mouse_entered() -> void:
-	if !_is_on_the_board or InputStatus.is_card_dragged:
-		return
-	_card_display_mode = CardDisplayMode.HOVER
 
-func _on_area_2d_mouse_exited() -> void:
-	_reset_hover()
-
-func _on_card_display_mouse_entered() -> void:
-	if !_is_in_hand or InputStatus.is_card_dragged:
-		return
-	_card_display_mode = CardDisplayMode.CARD_IN_FRONT
-
-func _on_card_display_mouse_exited() -> void:
-	_reset_hover()
-
-func _reset_hover():
-	if _card_display_mode != CardDisplayMode.HOVER && _card_display_mode != CardDisplayMode.CARD_IN_FRONT:
-		return
-
-	if _is_on_the_board or _is_dragged:
-		_card_display_mode = CardDisplayMode.TILE
+func set_in_front(v: bool) -> void:
+	if v:
+		z_index = ZLayers.ON_HOVER
 	else:
-		_card_display_mode = CardDisplayMode.CARD
+		z_index = ZLayers.DEFAULT
 
-# If the tile is clicked (in grid display mode)
-func _on_area_2d_input_event(viewport, event, shape_idx) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if can_be_selected_for_attack():
-			_is_selected_for_attack = !_is_selected_for_attack
-			card_selected_for_attack.emit()
-		if can_be_selected_for_dialog() or can_be_selected_for_shop():
-			card_selected.emit()
+func select_for_attack():
+	_is_selected_for_attack = !_is_selected_for_attack
+	card_selected_for_attack.emit()
 
+func select():
+	card_selected.emit()
+	
 func can_be_selected_for_attack() -> bool:
 	if !_is_on_the_board:
 		return false
@@ -272,19 +251,18 @@ func can_be_selected_for_attack() -> bool:
 		return false
 	return true
 
+func can_be_selected() -> bool:
+	return can_be_selected_for_dialog() or can_be_selected_for_shop()
+
 func can_be_selected_for_dialog() -> bool:
 	return is_in_dialog and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
 
 func can_be_selected_for_shop() -> bool:
 	return is_in_shop and GameState.turn_stage == GameState.TurnStage.SPECIFIC_INPUT and GameState.specific_input == GameState.SpecificInput.DIALOG_CARD_SELECT
 
-# Handle the card click in the card display mode
-func _on_card_display_card_clicked() -> void:
-	card_selected.emit()
-
 var _traits = []
 
 func register_trait(t: Trait):
 	_traits.append(t)
 	card_display.add_trait(t)
-	#TODO: add to grid too
+	tile_sprite.add_trait(t)

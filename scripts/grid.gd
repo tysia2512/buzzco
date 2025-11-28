@@ -82,24 +82,29 @@ func cards_on_board_count() -> int:
 	
 func get_points() -> int:
 	var points = 0
-	for row in grid:
-		for tile in row:
-			if !(tile is GridTile):
-				continue
-			if tile.get_card() != null:
-				points += tile.get_card().card.get_attack_with_effects()
+	var crds = get_cards()
+	for c in crds:
+		points += c.card.get_attack_with_effects()
 	return points
 
 func clear_cards() -> void:
+	var crds = get_cards()
+	for c in crds:
+		c.card.remove_from_board()
+	var children = cards_node.get_children()
+	for child in children:
+		cards_node.remove_child(child)
+
+func get_cards():
+	var crds = []
 	for row in grid:
 		for tile in row:
 			if !(tile is GridTile):
 				continue
-			if tile.get_card() != null:
-				tile.get_card().remove_from_board()
-	var children = cards_node.get_children()
-	for child in children:
-		cards_node.remove_child(child)
+			var crd = tile.get_card()
+			if crd != null:
+				crds.append(crd)
+	return crds
 
 func get_tile(r: int, c: int) -> GridTile:
 	if r < 0 || r >= grid.size():

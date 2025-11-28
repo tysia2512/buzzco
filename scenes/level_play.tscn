@@ -50,6 +50,15 @@ theme_override_font_sizes/font_size = 30
 text = "Launch assault"
 script = ExtResource("3_obdjb")
 
+[node name="CancelLaunchAttackButton" type="Button" parent="."]
+visible = false
+offset_left = 1747.0
+offset_top = 57.0
+offset_right = 1858.0
+offset_bottom = 109.0
+theme_override_font_sizes/font_size = 21
+text = "Cancel"
+
 [node name="ConfirmAttackButton" type="Button" parent="."]
 visible = false
 offset_left = 1682.0
@@ -145,6 +154,7 @@ visible = false
 
 [connection signal="launch_assault" from="LaunchAttackButton" to="." method="_on_launch_attack_button_launch_assault"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
+[connection signal="pressed" from="CancelLaunchAttackButton" to="." method="_on_cancel_launch_attack_button_pressed"]
 [connection signal="card_placed" from="CardMovementManager" to="." method="_on_card_movement_manager_card_placed"]
 [connection signal="pressed" from="CardMovementManager/DeckNHand/Deck/ShowDeckPreviewButton" to="." method="_on_show_deck_preview_button_pressed"]
 [connection signal="add_global_effect" from="CardMovementManager/Grid" to="." method="_on_grid_add_global_effect"]
