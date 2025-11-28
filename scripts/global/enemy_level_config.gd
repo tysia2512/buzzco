@@ -31,7 +31,6 @@ var _config = [
 	# 1
 	{
 		EnemyType.GOON_HORNET_ENEMY: IntRange.new(1, 1),
-		EnemyType.CHARGER_ENEMY: IntRange.new(3, 3),
 	},
 	# 2
 	{

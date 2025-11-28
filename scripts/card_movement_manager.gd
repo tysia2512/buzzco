@@ -21,9 +21,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if GameState.turn_stage != GameState.TurnStage.PLAYER_MOVE and GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
 		return
 
+	_handle_click(event)
+
+	_handle_hover(event)
+
+func _handle_click(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var clicked_card = check_for_card() as TypedCard
+			if clicked_card == null:
+				return
 			if clicked_card.card.is_in_hand() and GameState.turn_stage == GameState.TurnStage.PLAYER_MOVE:
 				dragged_card = check_for_card()
 				if dragged_card:
@@ -45,7 +52,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				drop_card()
 
-
+func _handle_hover(event: InputEvent) -> void:
 	if event is InputEventMouse and !event.is_pressed() and !InputStatus.is_card_dragged:
 		var card = check_for_card()
 
@@ -63,7 +70,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		_card_in_front = card
 		_card_in_front.card.set_in_front(true)
-
 			
 func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
 	if !GameState.is_player_turn():
