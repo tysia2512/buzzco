@@ -69,7 +69,7 @@ var _is_selected_for_attack = false
 func set_card_in_display_mode() -> void:
 	is_in_dialog = true
 	_card_display_mode = CardDisplayMode.CARD
-	card_display.z_index = ZLayers.DECK_DISPLAY
+	_set_z_index()
 
 var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 	set(value):
@@ -102,7 +102,7 @@ var _is_dragged = false:
 		_is_on_the_board = false
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
-			z_index = ZLayers.ON_HOVER
+			_set_z_index()
 
 
 var _is_in_hand = true:
@@ -114,7 +114,7 @@ var _is_in_hand = true:
 		_is_on_the_board = false
 		if value:
 			_card_display_mode = CardDisplayMode.CARD
-			z_index = ZLayers.DEFAULT
+			_set_z_index()
 
 var _is_on_the_board = false:
 	set(value):
@@ -127,9 +127,23 @@ var _is_on_the_board = false:
 		set_process(value)
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
-			z_index = ZLayers.CARDS_ON_GRID
+			_set_z_index()
 		else:
 			remove_from_the_board()
+
+func _set_z_index() -> void:
+	if  _card_display_mode == CardDisplayMode.HOVER:
+		z_index = ZLayers.ON_HOVER
+	elif _is_in_hand:
+		z_index = ZLayers.DEFAULT
+	elif _is_on_the_board:
+		z_index = ZLayers.CARDS_ON_GRID
+	elif _is_dragged:
+		z_index = ZLayers.ON_HOVER
+	elif is_in_dialog or is_in_shop:
+		z_index = ZLayers.DECK_DISPLAY
+	else:
+		z_index = ZLayers.DEFAULT
 
 var _tile_placed: GridTile = null
 
@@ -234,7 +248,7 @@ func set_in_front(v: bool) -> void:
 	if v:
 		z_index = ZLayers.ON_HOVER
 	else:
-		z_index = ZLayers.DEFAULT
+		_set_z_index()
 
 func select_for_attack():
 	_is_selected_for_attack = !_is_selected_for_attack
