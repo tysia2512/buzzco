@@ -70,3 +70,74 @@ func arrange_cards(width: int, center: Vector2, cards: Array) -> void:
 		card.tween.tween_property(card, "position", destination, 0.3)
 		
 		current_x += delta_x
+
+static func get_absolute_z_index(target: Node2D) -> int:
+	var node = target;
+	var z_index = 0;
+	while node and node.is_class('Node2D'):
+		z_index += node.z_index;
+		if !node.z_as_relative:
+			break;
+		node = node.get_parent();
+	return z_index;
+
+enum CardOwnership {
+	BOARD,
+	HAND,
+	PREVIEW
+}
+
+func _is_card_in_hand(card: TypedCard) -> bool:
+	return card.card.is_in_hand()
+
+func _is_card_on_board(card: TypedCard) -> bool:
+	return card.card.is_on_the_board()
+
+func _is_in_preview(card: TypedCard) -> bool:
+	return card.card.is_in_dialog || card.card.is_in_shop
+
+func _get_card_ownership(card: TypedCard) -> CardOwnership:
+	if _is_card_in_hand(card):
+		return CardOwnership.HAND
+	elif _is_card_on_board(card):
+		return CardOwnership.BOARD
+	elif _is_in_preview(card):
+		return CardOwnership.PREVIEW
+
+	assert(false, "Card ownership could not be determined")
+	return CardOwnership.PREVIEW
+
+func _get_position_in_parent(node: Node2D) -> int:
+	var parent = node.get_parent()
+	if parent == null:
+		return -1
+	return parent.get_children().find(node)
+
+func _sort_top_card(a: TypedCard, b: TypedCard) -> bool:
+	var z_index_a = get_absolute_z_index(a)
+	var z_index_b = get_absolute_z_index(b)
+	if z_index_a != z_index_b:
+		return z_index_a > z_index_b
+	
+	var ownership_a = _get_card_ownership(a)
+	var ownership_b = _get_card_ownership(b)
+	if ownership_a != ownership_b:
+		return ownership_a > ownership_b
+
+	if ownership_a == CardOwnership.HAND:
+		return _get_card_ownership(a) > _get_card_ownership(b)
+	elif ownership_a == CardOwnership.BOARD:
+		var tile_a = a.card.get_grid_tile()
+		var tile_b = b.card.get_grid_tile()
+		return _get_card_ownership(tile_a) > _get_card_ownership(tile_b)
+	elif ownership_a == CardOwnership.PREVIEW:
+		return _get_card_ownership(a) > _get_card_ownership(b)
+
+	return false
+
+func get_front_card(cards: Array) -> TypedCard:
+	if cards.is_empty():
+		return null
+	cards.sort_custom(_sort_top_card)
+	return cards[0]
+	

@@ -46,8 +46,23 @@ func _unhandled_input(event: InputEvent) -> void:
 				drop_card()
 
 
-	if event is InputEventMouse and !event.is_pressed():
+	if event is InputEventMouse and !event.is_pressed() and !InputStatus.is_card_dragged:
 		var card = check_for_card()
+
+		# Handle the currently hovered card
+		if _card_in_front != null:
+			if card == _card_in_front:
+				return
+			else:
+				_card_in_front.card.set_in_front(false)
+				_card_in_front = null
+
+		# Handle the new hovered card
+		if card == null:
+			return
+
+		_card_in_front = card
+		_card_in_front.card.set_in_front(true)
 
 			
 func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
@@ -93,13 +108,9 @@ func check_for_card() -> TypedCard:
 	var result = space_state.intersect_point(parameters)
 	if result.is_empty():
 		return null
-	var card_area = result[-1].collider
-	assert(card_area is CardArea)
-	var card = (card_area as CardArea).get_card()
-	assert(card != null)
-	assert(card is TypedCard)
-	return card
-	
+	var cards = result.filter(func(r): return r.collider is CardArea).map(func(r): return (r.collider as CardArea).get_card())
+	return Utils.get_front_card(cards)
+
 func _check_for_grid_tile(p: Vector2) -> GridTile:
 	var space_state = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()

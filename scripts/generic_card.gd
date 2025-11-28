@@ -143,6 +143,7 @@ func _ready():
 	card_display.card_name = card_name
 	card_display.description = description
 	_update_labels()
+	assert(z_index == ZLayers.DEFAULT, "GenericCard: z_index should be DEFAULT on ready")
 
 
 func _process(_delta: float) -> void:
@@ -227,42 +228,12 @@ func get_attack_with_effects() -> int:
 	for effect in _tile_placed.get_effects():
 		total = (effect as Effect).apply(total)
 	return total
-	
-func _on_area_2d_mouse_entered() -> void:
-	pass
-	# if !_is_on_the_board or InputStatus.is_card_dragged:
-	# 	return
-	# _card_display_mode = CardDisplayMode.HOVER
-
-func _on_area_2d_mouse_exited() -> void:
-	pass
-	_reset_hover()
-
-func _on_card_display_mouse_entered() -> void:
-	pass
-	# if InputStatus.is_card_dragged:
-	# 	return
-	# if _card_display_mode == CardDisplayMode.CARD:
-	# 	_card_display_mode = CardDisplayMode.CARD_IN_FRONT
-
-func _on_card_display_mouse_exited() -> void:
-	pass
-	# _reset_hover()
 
 func set_in_front(v: bool) -> void:
-	if v and _card_display_mode == CardDisplayMode.CARD:
-		_card_display_mode = CardDisplayMode.CARD_IN_FRONT
-	if !v and _card_display_mode == CardDisplayMode.CARD_IN_FRONT:
-		_card_display_mode = CardDisplayMode.CARD_IN_FRONT
-
-func _reset_hover():
-	if _card_display_mode != CardDisplayMode.HOVER && _card_display_mode != CardDisplayMode.CARD_IN_FRONT:
-		return
-
-	if _is_on_the_board or _is_dragged:
-		_card_display_mode = CardDisplayMode.TILE
+	if v:
+		z_index = ZLayers.ON_HOVER
 	else:
-		_card_display_mode = CardDisplayMode.CARD
+		z_index = ZLayers.DEFAULT
 
 func select_for_attack():
 	_is_selected_for_attack = !_is_selected_for_attack
