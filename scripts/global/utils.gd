@@ -125,13 +125,13 @@ func _sort_top_card(a: TypedCard, b: TypedCard) -> bool:
 		return ownership_a > ownership_b
 
 	if ownership_a == CardOwnership.HAND:
-		return _get_card_ownership(a) > _get_card_ownership(b)
+		return _get_position_in_parent(a) > _get_position_in_parent(b)
 	elif ownership_a == CardOwnership.BOARD:
 		var tile_a = a.card.get_grid_tile()
 		var tile_b = b.card.get_grid_tile()
-		return _get_card_ownership(tile_a) > _get_card_ownership(tile_b)
+		return _get_position_in_parent(tile_a) > _get_position_in_parent(tile_b)
 	elif ownership_a == CardOwnership.PREVIEW:
-		return _get_card_ownership(a) > _get_card_ownership(b)
+		return _get_position_in_parent(a) > _get_position_in_parent(b)
 
 	return false
 
