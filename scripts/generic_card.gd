@@ -142,6 +142,7 @@ func _ready():
 	card_display.texture = texture
 	card_display.card_name = card_name
 	card_display.description = description
+	card_display.attack = attack_value
 	_update_labels()
 	assert(z_index == ZLayers.DEFAULT, "GenericCard: z_index should be DEFAULT on ready")
 
