@@ -5,7 +5,7 @@ signal card_removed_from_board
 signal player_turn_start
 signal card_selected_for_attack
 signal card_selected
-signal display_changed
+# signal display_changed
 
 enum CardClass {
 	BEE,
@@ -58,8 +58,6 @@ var tween: Tween
 enum CardDisplayMode {
 	CARD,
 	TILE,
-	HOVER, # Hovered over on the board
-	CARD_IN_FRONT # In hand and hovered over
 }
 var is_in_shop = false
 var is_in_dialog = false
@@ -75,22 +73,8 @@ var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 	set(value):
 		_card_display_mode = value
 
-		_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE || _card_display_mode == CardDisplayMode.HOVER)
-		
-		if _card_display_mode == CardDisplayMode.HOVER:
-			card_display.position = $HoverOffset.position
-			card_display.z_index = ZLayers.ON_HOVER
-		elif _card_display_mode == CardDisplayMode.CARD_IN_FRONT:
-			card_display.z_index = ZLayers.ON_HOVER
-		else:
-			card_display.position = Vector2.ZERO
-			card_display.z_index = z_index
-
-		_set_card_display_visible(
-			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER 
-			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
-		
-		display_changed.emit()
+		_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE)
+		_set_card_display_visible(_card_display_mode == CardDisplayMode.CARD)
 
 var _is_dragged = false:
 	set(value):
@@ -132,7 +116,7 @@ var _is_on_the_board = false:
 			remove_from_the_board()
 
 func _set_z_index() -> void:
-	if  _card_display_mode == CardDisplayMode.HOVER:
+	if _is_hovered:
 		z_index = ZLayers.ON_HOVER
 	elif _is_in_hand:
 		z_index = ZLayers.DEFAULT
@@ -141,7 +125,7 @@ func _set_z_index() -> void:
 	elif _is_dragged:
 		z_index = ZLayers.ON_HOVER
 	elif is_in_dialog or is_in_shop:
-		z_index = ZLayers.DECK_DISPLAY
+		z_index = ZLayers.DEFAULT
 	else:
 		z_index = ZLayers.DEFAULT
 
@@ -244,11 +228,21 @@ func get_attack_with_effects() -> int:
 		total = (effect as Effect).apply(total)
 	return total
 
-func set_in_front(v: bool) -> void:
-	if v:
-		z_index = ZLayers.ON_HOVER
-	else:
+var _is_hovered = false:
+	set(value):
+		_is_hovered = value
+		if _card_display_mode == CardDisplayMode.TILE && _is_hovered:
+			card_display.position = $HoverOffset.position
+			card_display.visible = true
+		elif _card_display_mode == CardDisplayMode.TILE:
+			card_display.position = Vector2.ZERO
+			card_display.visible = false
+		else:
+			card_display.position = Vector2.ZERO
 		_set_z_index()
+
+func set_in_front(v: bool) -> void:
+	_is_hovered = v
 
 func select_for_attack():
 	_is_selected_for_attack = !_is_selected_for_attack

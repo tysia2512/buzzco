@@ -115,7 +115,12 @@ func check_for_card() -> TypedCard:
 	if result.is_empty():
 		return null
 	var cards = result.filter(func(r): return r.collider is CardArea).map(func(r): return (r.collider as CardArea).get_card())
-	return Utils.get_front_card(cards)
+	var cards_on_tiles = result.filter(
+		func(r): return r.collider is Area2D and r.collider.get_parent() is GenericCard
+		).map(
+			func(r): return r.collider.get_parent().get_parent() as TypedCard
+			)
+	return Utils.get_front_card(cards + cards_on_tiles)
 
 func _check_for_grid_tile(p: Vector2) -> GridTile:
 	var space_state = get_world_2d().direct_space_state
