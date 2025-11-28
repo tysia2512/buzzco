@@ -45,6 +45,7 @@ func load(deck: Deck, processor: CardSelectionProcessor) -> void:
 		_get_area_center(_card_space), 
 		cards)
 	_cards_arranged = true
+	ActionEventBus.open_overlay.emit()
 
 func _get_area_width(p: Polygon2D):
 	return Utils.get_size(p).x
@@ -56,10 +57,12 @@ func _on_close_button_pressed() -> void:
 	for child in get_children():
 		if child is TypedCard:
 			child.queue_free()
+	ActionEventBus.close_overlay.emit()
 	close_preview.emit()
 
 func _select_card(card: TypedCard) -> void:
 	await _processor.process_card(card)
+	ActionEventBus.close_overlay.emit()
 	close_preview.emit()
 
 func _clear():

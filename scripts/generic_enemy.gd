@@ -65,6 +65,16 @@ func _ready():
 	health_display.set_current_health(_health)
 	_base_scale = scale
 	_set_enemy_details_dialog()
+	ActionEventBus.open_overlay.connect(_set_behind_overlay)
+	ActionEventBus.close_overlay.connect(_set_overlay_normal)
+
+var _is_behind_overlay = false
+
+func _set_behind_overlay() -> void:
+	_is_behind_overlay = true
+	_set_stop_hover()
+func _set_overlay_normal() -> void:
+	_is_behind_overlay = false
 
 func _set_enemy_details_dialog() -> void:
 	if _enemy_details == null:
@@ -150,7 +160,7 @@ func _highlight(color: Color) -> void:
 var _is_hovered = false
 
 func _set_on_hover():
-	if InputStatus.is_card_dragged:
+	if InputStatus.is_card_dragged or _is_behind_overlay:
 		return
 		
 	_is_hovered = true
