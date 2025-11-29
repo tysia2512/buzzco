@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cf1vsls4mxo1j"
-path="res://.godot/imported/double_attack.png-08a1126ded1a72b449b9797f006d14c5.ctex"
+uid="uid://dm4yc7w77q1u8"
+path="res://.godot/imported/Shaker3D.svg-ed425183c69b0c043ce3ce5088c6ff49.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/double_attack.png"
-dest_files=["res://.godot/imported/double_attack.png-08a1126ded1a72b449b9797f006d14c5.ctex"]
+source_file="res://addons/shaker/assets/Shaker3D.svg"
+dest_files=["res://.godot/imported/Shaker3D.svg-ed425183c69b0c043ce3ce5088c6ff49.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
