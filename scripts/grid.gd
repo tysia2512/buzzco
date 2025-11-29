@@ -123,7 +123,7 @@ func get_enemy_tiles() -> Array:
 
 func move_enemies() -> void:
 	var enemy_tiles = get_enemy_tiles()
-	var enemies = enemy_tiles.map(func(t): return t.clear_enemy()).filter(func(e): return e != null)
+	var enemies = enemy_tiles.map(func(t): return t.get_enemy()).filter(func(e): return e != null)
 	enemies.shuffle()
 	enemy_tiles.shuffle()
 	var selected_tiles = enemy_tiles.slice(0, enemies.size())
@@ -131,13 +131,17 @@ func move_enemies() -> void:
 	for i in range(0, enemies.size()):
 		var tile = selected_tiles[i]
 		var enemy = enemies[i]
-		await enemy.move_animation(tile.position)
-	
+		var old_tile = enemy.get_tile()
+		await enemy.move_animation(tile.position - old_tile.position)
+
+	for tile in enemy_tiles:
+		tile.clear_enemy()
 
 	for i in range(0, enemies.size()):
 		var enemy = enemies[i]
 		var tile = selected_tiles[i]
-		tile.move_enemy(enemy)
+		await enemy.move_tile_tween.finished
+		tile.move_enemy_without_transform(enemy)
 
 func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: EnemyManager) -> void:
 	var enemies = []

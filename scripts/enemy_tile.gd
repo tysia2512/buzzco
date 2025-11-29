@@ -17,7 +17,8 @@ func set_enemy(e: Enemy) -> void:
 func get_enemy() -> Enemy:
 	return _enemy
 
-func move_enemy(e: Enemy) -> void:
+func move_enemy_without_transform(e: Enemy) -> void:
 	_enemy = e
 	e.set_tile(self)
-	e.reparent(self, false)
+	e.reparent(self)
+	e.position = Vector2.ZERO

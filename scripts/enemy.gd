@@ -50,6 +50,8 @@ func highlight() -> void:
 func set_tile(t: EnemyTile):
 	_enemy.tile = t
 
+func get_tile() -> EnemyTile:
+	return _enemy.tile
 
 #Remove?
 func _connect_signals():
@@ -59,3 +61,8 @@ func _connect_signals():
 
 func receive_damage(pts: int) -> void:
 	_enemy.receive_damage(pts)
+
+var move_tile_tween: Tween
+func move_animation(diff: Vector2) -> void:
+	move_tile_tween = create_tween()
+	move_tile_tween.tween_property(self, "position", position + diff, 0.3)
