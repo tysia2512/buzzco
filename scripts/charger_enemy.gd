@@ -5,8 +5,8 @@ class_name ChargerEnemy extends Enemy
 var _attack_base
 
 func _ready():
-	_attack_base = _enemy.attack_points
 	super._ready()
+	_attack_base = _enemy.attack_points
 
 func attack():
 	if Utils.rand_with_chance(charge_chance):

@@ -8,8 +8,8 @@ const shield_cooldown_max = 2
 var shield_cooldown = shield_cooldown_max
 
 func _ready():
-	shield_sprite.visible = false
 	super._ready()
+	shield_sprite.visible = false
 
 func attack():
 	if !_is_shielded && shield_cooldown == 0:
