@@ -46,3 +46,5 @@ func remove_boulder() -> void:
 	boulder.queue_free()
 	boulder = null
 	
+func get_polygon() -> PackedVector2Array:
+	return $Area2D/CollisionPolygon2D.polygon

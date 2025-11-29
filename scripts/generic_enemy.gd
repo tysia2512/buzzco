@@ -22,8 +22,17 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 
 @export var stats_description_suffix_lines: Array = []
 
-@export var texture: Texture2D
-@export var polygon: PackedVector2Array
+var texture: Texture2D:
+	set(value):
+		texture = value
+		if sprite_with_collision:
+			sprite_with_collision.set_texture(value)
+
+var polygon: PackedVector2Array:
+	set(value):
+		polygon = value
+		if collision_polygon:
+			collision_polygon.polygon = value
 
 @export var description: String
 
@@ -35,6 +44,12 @@ var animated_label_scene: PackedScene = preload("res://scenes/animated_label.tsc
 @onready var collision_polygon: CollisionPolygon2D = $SpriteWithCollision/EnemyArea/CollisionPolygon2D
 @onready var _sprite: GridSprite2D = $SpriteWithCollision/GridSprite2D
 @onready var _enemy_details: EnemyDetails = $EnemyDetails
+
+
+func _get_configuration_warning() -> String:
+	if get_parent() is not Enemy:
+		return "Must be a child of Enemy node"
+	return ""
 
 const SCALE_ON_HOVER_MULTIPLIER = 1.25
 const SCALE_ON_ATTACK_MULTIPIER = 2.0
@@ -54,11 +69,9 @@ func receive_damage(pts: int) -> void:
 		sprite.modulate = m
 
 func _ready():
-	sprite_with_collision.set_texture(texture)
 	if attack_points:
 		_sprite.number_on_display = attack_points
 		_sprite.show_number_display = true
-	collision_polygon.polygon = polygon
 	area.collision_layer = 2 ** (GameState.EMEMY_COLLISION_LAYER - 1)
 	_health = max_health
 	health_display.set_max_health(max_health)
