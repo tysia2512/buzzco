@@ -16,6 +16,8 @@ func perform_turn():
 	for enemy in _enemies:
 		assert(enemy is Enemy)
 		await _perform_enemy_attack(enemy)
+
+	ActionEventBus.move_enemies.emit()
 		
 	enemy_turn_finished.emit()
 

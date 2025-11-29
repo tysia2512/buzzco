@@ -19,6 +19,7 @@ var W
 
 func _ready():
 	set_up_new_grid()
+	ActionEventBus.move_enemies.connect(move_enemies)
 
 func set_up_new_grid():
 	grid.resize(ROWS.size())
@@ -113,6 +114,31 @@ func get_tile(r: int, c: int) -> GridTile:
 		return null
 	return grid[r][c]
 
+func get_enemy_tiles() -> Array:
+	var enemy_tiles = []
+	for tile in get_children():
+		if tile is EnemyTile:
+			enemy_tiles.append(tile)
+	return enemy_tiles
+
+func move_enemies() -> void:
+	var enemy_tiles = get_enemy_tiles()
+	var enemies = enemy_tiles.map(func(t): return t.clear_enemy()).filter(func(e): return e != null)
+	enemies.shuffle()
+	enemy_tiles.shuffle()
+	var selected_tiles = enemy_tiles.slice(0, enemies.size())
+
+	for i in range(0, enemies.size()):
+		var tile = selected_tiles[i]
+		var enemy = enemies[i]
+		await enemy.move_animation(tile.position)
+	
+
+	for i in range(0, enemies.size()):
+		var enemy = enemies[i]
+		var tile = selected_tiles[i]
+		tile.move_enemy(enemy)
+
 func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: EnemyManager) -> void:
 	var enemies = []
 
@@ -125,14 +151,13 @@ func generate_enemies(enemy_tile_generator: EnemyTileGenerator, enemy_manager: E
 			tile.row = row
 			tile.column = i
 			tile.visible = false
-			var enemy_scene = enemy_scenes[row][i] as PackedScene
-			if enemy_scene == null:
-				continue
-				
-			var enemy = enemy_scene.instantiate() as Enemy
-			enemies.append(enemy)
 			add_child(tile)
-			tile.set_enemy(enemy)
+			var enemy_scene = enemy_scenes[row][i] as PackedScene
+			if enemy_scene != null:
+				var enemy = enemy_scene.instantiate() as Enemy
+				enemies.append(enemy)
+				tile.set_enemy(enemy)
+			
 			tile.position = get_coord(row, i)
 			tile.set_grid_position(row, i)
 			tile.visible = true
