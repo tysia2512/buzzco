@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0t0ehhi430ol"]
+[gd_scene load_steps=21 format=3 uid="uid://b0t0ehhi430ol"]
 
 [ext_resource type="Script" uid="uid://o4fo1k5fxst8" path="res://scripts/level_play.gd" id="1_1uwbi"]
 [ext_resource type="Script" uid="uid://dupf0687sotgl" path="res://scripts/pollen_count.gd" id="1_2jmw1"]
@@ -12,6 +12,25 @@
 [ext_resource type="PackedScene" uid="uid://pecyklvb0byh" path="res://scenes/global_effect_manager.tscn" id="10_obdjb"]
 [ext_resource type="PackedScene" uid="uid://cn0nek0sj8uyd" path="res://scenes/health_label.tscn" id="11_obdjb"]
 [ext_resource type="PackedScene" uid="uid://55rxg0iw0xwg" path="res://scenes/deck_preview.tscn" id="12_5espj"]
+[ext_resource type="Script" uid="uid://dapxpo3twxf47" path="res://addons/shaker/src/Vector2/ShakerEmitter2D.gd" id="13_1n5cl"]
+[ext_resource type="Script" uid="uid://2oc227q31l8y" path="res://addons/shaker/data/Vector2/BaseShakerType2D.gd" id="14_nk028"]
+[ext_resource type="Script" uid="uid://c2g2o4lc7ahtg" path="res://addons/shaker/data/Vector2/ShakerTypeSineWave2D.gd" id="15_l8u1m"]
+[ext_resource type="Script" uid="uid://betic08ld2por" path="res://addons/shaker/data/Single/BaseShakerType1D.gd" id="16_75bta"]
+[ext_resource type="Script" uid="uid://cglcwqem1j0vk" path="res://addons/shaker/data/Vector2/ShakerPreset2D.gd" id="17_4l5oa"]
+
+[sub_resource type="Resource" id="Resource_waqsm"]
+script = ExtResource("15_l8u1m")
+amplitude = Vector2(10, 10)
+metadata/_custom_type_script = "uid://c2g2o4lc7ahtg"
+
+[sub_resource type="Resource" id="Resource_0n82b"]
+script = ExtResource("17_4l5oa")
+PositionShake = Array[ExtResource("14_nk028")]([SubResource("Resource_waqsm")])
+metadata/_custom_type_script = "uid://cglcwqem1j0vk"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nk028"]
+radius = 1101.0
+height = 2202.0
 
 [node name="LevelPlay" type="Node2D"]
 script = ExtResource("1_1uwbi")
@@ -151,6 +170,20 @@ theme_override_font_sizes/font_size = 19
 
 [node name="DeckPreview" parent="." instance=ExtResource("12_5espj")]
 visible = false
+
+[node name="ShakerEmitter2D" type="Node2D" parent="."]
+script = ExtResource("13_1n5cl")
+emit = true
+shakerPreset = SubResource("Resource_0n82b")
+metadata/_custom_type_script = "uid://dapxpo3twxf47"
+
+[node name="Area2D" type="Area2D" parent="ShakerEmitter2D"]
+collision_layer = 512
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShakerEmitter2D/Area2D"]
+position = Vector2(963, 456)
+shape = SubResource("CapsuleShape2D_nk028")
 
 [connection signal="launch_assault" from="LaunchAttackButton" to="." method="_on_launch_attack_button_launch_assault"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]

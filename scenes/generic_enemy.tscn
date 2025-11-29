@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dhq8ybaxgx175"]
+[gd_scene load_steps=12 format=3 uid="uid://dhq8ybaxgx175"]
 
 [ext_resource type="Script" uid="uid://ciox2q0tgbe5m" path="res://scripts/generic_enemy.gd" id="1_8fubi"]
 [ext_resource type="Script" uid="uid://c2gdu55e32jrq" path="res://scenes/health_display.gd" id="2_fcrdg"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://dtlcchgt3xjsb" path="res://scripts/sprite_with_collision.gd" id="3_h66n4"]
 [ext_resource type="PackedScene" uid="uid://bgilbttcnjaf8" path="res://scenes/grid_sprite_2d.tscn" id="4_h66n4"]
 [ext_resource type="PackedScene" uid="uid://d1oknyvtwdmrl" path="res://scenes/enemy_details.tscn" id="6_ofjd3"]
+[ext_resource type="Script" uid="uid://defs7yyu2eu3y" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="7_4btcy"]
+[ext_resource type="Script" uid="uid://bsxww4qaq1lih" path="res://addons/shaker/src/Vector2/ShakerReceiver2D.gd" id="8_fouqe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fubi"]
 bg_color = Color(0.8, 0.8, 0.8, 0.333333)
@@ -18,6 +20,9 @@ border_width_bottom = 1
 bg_color = Color(0.847059, 0.0745098, 0.176471, 1)
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8sjcc"]
+radius = 227.87935
 
 [node name="GenericEnemy" type="Node2D"]
 script = ExtResource("1_8fubi")
@@ -34,6 +39,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_8fubi")
 theme_override_styles/fill = SubResource("StyleBoxFlat_v2kyb")
 value = 50.0
 show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="HealthLabel" type="Label" parent="HealthDisplay"]
 offset_left = 71.0
@@ -42,6 +48,7 @@ offset_right = 111.0
 offset_bottom = -106.0
 theme_override_colors/font_color = Color(0.760784, 0, 0, 1)
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureArea" type="Polygon2D" parent="."]
 visible = false
@@ -51,6 +58,8 @@ polygon = PackedVector2Array(-100, -100, 100, -100, 100, 100, -100, 100)
 script = ExtResource("3_h66n4")
 
 [node name="GridSprite2D" parent="SpriteWithCollision" instance=ExtResource("4_h66n4")]
+show_number_display = true
+number_on_display = 5
 
 [node name="EnemyArea" type="Area2D" parent="SpriteWithCollision"]
 collision_layer = 4
@@ -62,6 +71,22 @@ script = ExtResource("2_v2kyb")
 visible = false
 position = Vector2(193, -17)
 scale = Vector2(0.3, 0.3)
+
+[node name="ShakerComponent2D" type="Node2D" parent="."]
+script = ExtResource("7_4btcy")
+AutoPlay = true
+metadata/_custom_type_script = "uid://defs7yyu2eu3y"
+
+[node name="ShakerReceiver2D" type="Node2D" parent="ShakerComponent2D"]
+script = ExtResource("8_fouqe")
+metadata/_custom_type_script = "uid://bsxww4qaq1lih"
+
+[node name="Area2D" type="Area2D" parent="ShakerComponent2D/ShakerReceiver2D"]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShakerComponent2D/ShakerReceiver2D/Area2D"]
+shape = SubResource("CircleShape2D_8sjcc")
 
 [connection signal="mouse_entered" from="SpriteWithCollision/EnemyArea" to="." method="_on_enemy_area_mouse_entered"]
 [connection signal="mouse_exited" from="SpriteWithCollision/EnemyArea" to="." method="_on_enemy_area_mouse_exited"]
