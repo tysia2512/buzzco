@@ -59,7 +59,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if event.pressed:
 			var enemy = _check_for_enemy()
-			if enemy == null:
+			if enemy == null or !enemy.can_be_selected_for_attack():
 				return
 			await enemy.highlight()
 			enemy_selected.emit(enemy)

@@ -58,7 +58,6 @@ var _base_scale = Vector2.ONE
 var _health: int = 10
 
 func receive_damage(pts: int) -> void:
-	var m = sprite.modulate
 	sprite.modulate = Color.RED
 	_health = max(0, _health - pts)
 	health_display.set_current_health(_health)
@@ -66,9 +65,12 @@ func receive_damage(pts: int) -> void:
 	if _health == 0:
 		enemy_died.emit()
 	else:
-		sprite.modulate = m
+		sprite.modulate = og_modulate
 
+var og_modulate: Color
 func _ready():
+	assert(get_parent() is Enemy, "GenericEnemy must be a child of Enemy node")
+
 	if attack_points:
 		_sprite.number_on_display = attack_points
 		_sprite.show_number_display = true
@@ -80,6 +82,26 @@ func _ready():
 	_set_enemy_details_dialog()
 	ActionEventBus.open_overlay.connect(_set_behind_overlay)
 	ActionEventBus.close_overlay.connect(_set_overlay_normal)
+	GameState.card_staged_for_attack_changed.connect(_update_can_be_selected_for_attack)
+	GameState.launch_attack_start.connect(_update_can_be_selected_for_attack)
+	GameState.launch_attack_end.connect(_end_launch_attack)
+	og_modulate = sprite.modulate
+
+func _update_can_be_selected_for_attack() -> void:
+	if GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
+		return
+
+	if GameState.specific_input != GameState.SpecificInput.ENEMY_OR_BEE_SELECT and GameState.specific_input != GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT:
+		return
+
+	var can_be_selected_for_attack = get_parent().can_be_selected_for_attack()
+	if can_be_selected_for_attack:
+		sprite.modulate = og_modulate
+	else:
+		sprite.modulate = Color.BLACK * 0.5
+
+func _end_launch_attack() -> void:
+	sprite.modulate = og_modulate
 
 var _is_behind_overlay = false
 

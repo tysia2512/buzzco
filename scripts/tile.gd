@@ -46,3 +46,13 @@ func get_neighbors() -> Array:
 	return neighbors.map(
 		func(coord): return grid.get_tile(coord.x, coord.y)
 		).filter(func(tile): return tile != null)
+
+func get_tiles_below() -> Array:
+	var tiles_below = []
+	var current_row = row + 2
+	while current_row < grid.ROWS.size():
+		var tile = grid.get_tile(current_row, column)
+		if tile != null:
+			tiles_below.append(tile)
+		current_row += 2
+	return tiles_below

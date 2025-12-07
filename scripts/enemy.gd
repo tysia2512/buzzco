@@ -66,3 +66,20 @@ var move_tile_tween: Tween
 func move_animation(diff: Vector2) -> void:
 	move_tile_tween = create_tween()
 	move_tile_tween.tween_property(self, "position", position + diff, 0.3)
+
+func can_be_selected_for_attack() -> bool:
+	if GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
+		return false
+
+	if GameState.specific_input != GameState.SpecificInput.ENEMY_OR_BEE_SELECT and GameState.specific_input != GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT:
+		return false
+
+	var cards_below = _enemy.tile.get_tiles_below().map(
+		func(t): return t.get_card()
+		).filter(
+		func(c): return c != null
+		).filter(
+		func(c): return GameState.get_cards_staged_for_attack().has(c)
+		)
+
+	return !cards_below.is_empty()
