@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0t0ehhi430ol"]
+[gd_scene load_steps=15 format=3 uid="uid://b0t0ehhi430ol"]
 
 [ext_resource type="Script" uid="uid://o4fo1k5fxst8" path="res://scripts/level_play.gd" id="1_1uwbi"]
 [ext_resource type="Script" uid="uid://dupf0687sotgl" path="res://scripts/pollen_count.gd" id="1_2jmw1"]
@@ -12,6 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://pecyklvb0byh" path="res://scenes/global_effect_manager.tscn" id="10_obdjb"]
 [ext_resource type="PackedScene" uid="uid://cn0nek0sj8uyd" path="res://scenes/health_label.tscn" id="11_obdjb"]
 [ext_resource type="PackedScene" uid="uid://55rxg0iw0xwg" path="res://scenes/deck_preview.tscn" id="12_5espj"]
+[ext_resource type="Script" uid="uid://dapxpo3twxf47" path="res://addons/shaker/src/Vector2/ShakerEmitter2D.gd" id="13_1n5cl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l8u1m"]
+size = Vector2(1926, 1098)
 
 [node name="LevelPlay" type="Node2D"]
 script = ExtResource("1_1uwbi")
@@ -151,6 +155,19 @@ theme_override_font_sizes/font_size = 19
 
 [node name="DeckPreview" parent="." instance=ExtResource("12_5espj")]
 visible = false
+
+[node name="ShakerEmitter2D" type="Node2D" parent="."]
+script = ExtResource("13_1n5cl")
+emit = true
+metadata/_custom_type_script = "uid://dapxpo3twxf47"
+
+[node name="Area2D" type="Area2D" parent="ShakerEmitter2D"]
+collision_layer = 512
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShakerEmitter2D/Area2D"]
+position = Vector2(958, 537)
+shape = SubResource("RectangleShape2D_l8u1m")
 
 [connection signal="launch_assault" from="LaunchAttackButton" to="." method="_on_launch_attack_button_launch_assault"]
 [connection signal="pressed" from="LaunchAttackButton" to="PointCounter" method="_on_launch_attack_button_pressed"]
