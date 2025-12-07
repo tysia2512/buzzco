@@ -28,6 +28,7 @@ DeckState="*res://scripts/global/deck_state.gd"
 CardEventBus="*res://scripts/global/card_event_bus.gd"
 ActionEventBus="*res://scripts/global/action_event_bus.gd"
 Constants="*res://scripts/global/constants.gd"
+Shaker="*res://addons/shaker/src/Shaker.gd"
 
 [display]
 
@@ -37,7 +38,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/font_auto_size_labels/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/font_auto_size_labels/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/shaker/plugin.cfg")
 
 [layer_names]
 

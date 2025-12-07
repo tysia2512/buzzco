@@ -1,17 +1,19 @@
 class_name ChargerEnemy extends Enemy
 
-var charge_chance = 0.5
-const attack_base: int = 4
+@export var charge_chance = 0.5
+
+var _attack_base
 
 func _ready():
-	_enemy = $GenericEnemy
+	super._ready()
+	_attack_base = _enemy.attack_points
 
 func attack():
 	if Utils.rand_with_chance(charge_chance):
 		await _charge()
 	else:
 		await super.attack()
-		_enemy.attack_points = attack_base
+		_enemy.attack_points = _attack_base
 	
 func _charge() -> void:
 	var diff = _enemy.attack_points

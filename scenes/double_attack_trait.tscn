@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dqlfq73o16k62"]
 
 [ext_resource type="Script" uid="uid://cxae1ueeh3vfk" path="res://scripts/double_attack_trait.gd" id="1_md304"]
-[ext_resource type="Texture2D" uid="uid://cf1vsls4mxo1j" path="res://addons/double_attack.png" id="2_or2cm"]
+[ext_resource type="Texture2D" uid="uid://cf1vsls4mxo1j" path="res://assets/double_attack.png" id="2_or2cm"]
 
 [node name="DoubleAttackTrait" type="Node2D"]
 script = ExtResource("1_md304")

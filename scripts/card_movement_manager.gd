@@ -21,9 +21,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if GameState.turn_stage != GameState.TurnStage.PLAYER_MOVE and GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
 		return
 
+	_handle_click(event)
+
+	_handle_hover(event)
+
+func _handle_click(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var clicked_card = check_for_card() as TypedCard
+			if clicked_card == null:
+				return
 			if clicked_card.card.is_in_hand() and GameState.turn_stage == GameState.TurnStage.PLAYER_MOVE:
 				dragged_card = check_for_card()
 				if dragged_card:
@@ -45,7 +52,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				drop_card()
 
-
+func _handle_hover(event: InputEvent) -> void:
 	if event is InputEventMouse and !event.is_pressed() and !InputStatus.is_card_dragged:
 		var card = check_for_card()
 
@@ -63,7 +70,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		_card_in_front = card
 		_card_in_front.card.set_in_front(true)
-
 			
 func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
 	if !GameState.is_player_turn():
@@ -71,7 +77,7 @@ func _can_place_on_tile(grid_tile: GridTile, card: GenericCard) -> bool:
 	if !PollenManager.can_afford_pollen(card.pollen_cost):
 		return false
 
-	if grid_tile.get_card() != null:
+	if !grid_tile.is_free():
 		return false
 
 	var bottom_neighbor = grid_tile.get_bottom_neighbor()
@@ -109,7 +115,12 @@ func check_for_card() -> TypedCard:
 	if result.is_empty():
 		return null
 	var cards = result.filter(func(r): return r.collider is CardArea).map(func(r): return (r.collider as CardArea).get_card())
-	return Utils.get_front_card(cards)
+	var cards_on_tiles = result.filter(
+		func(r): return r.collider is Area2D and r.collider.get_parent() is GenericCard
+		).map(
+			func(r): return r.collider.get_parent().get_parent() as TypedCard
+			)
+	return Utils.get_front_card(cards + cards_on_tiles)
 
 func _check_for_grid_tile(p: Vector2) -> GridTile:
 	var space_state = get_world_2d().direct_space_state

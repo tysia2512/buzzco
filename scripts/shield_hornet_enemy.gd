@@ -8,9 +8,7 @@ const shield_cooldown_max = 2
 var shield_cooldown = shield_cooldown_max
 
 func _ready():
-	_enemy = $GenericEnemy
-	_enemy.texture = $Sprite.texture
-	_enemy.polygon = $Polygon2D.polygon
+	super._ready()
 	shield_sprite.visible = false
 
 func attack():

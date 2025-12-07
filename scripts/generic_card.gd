@@ -5,7 +5,7 @@ signal card_removed_from_board
 signal player_turn_start
 signal card_selected_for_attack
 signal card_selected
-signal display_changed
+# signal display_changed
 
 enum CardClass {
 	BEE,
@@ -58,8 +58,6 @@ var tween: Tween
 enum CardDisplayMode {
 	CARD,
 	TILE,
-	HOVER, # Hovered over on the board
-	CARD_IN_FRONT # In hand and hovered over
 }
 var is_in_shop = false
 var is_in_dialog = false
@@ -69,28 +67,14 @@ var _is_selected_for_attack = false
 func set_card_in_display_mode() -> void:
 	is_in_dialog = true
 	_card_display_mode = CardDisplayMode.CARD
-	card_display.z_index = ZLayers.DECK_DISPLAY
+	_set_z_index()
 
 var _card_display_mode: CardDisplayMode = CardDisplayMode.CARD:
 	set(value):
 		_card_display_mode = value
 
-		_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE || _card_display_mode == CardDisplayMode.HOVER)
-		
-		if _card_display_mode == CardDisplayMode.HOVER:
-			card_display.position = $HoverOffset.position
-			card_display.z_index = ZLayers.ON_HOVER
-		elif _card_display_mode == CardDisplayMode.CARD_IN_FRONT:
-			card_display.z_index = ZLayers.ON_HOVER
-		else:
-			card_display.position = Vector2.ZERO
-			card_display.z_index = z_index
-
-		_set_card_display_visible(
-			_card_display_mode == CardDisplayMode.CARD || _card_display_mode == CardDisplayMode.HOVER 
-			|| _card_display_mode == CardDisplayMode.CARD_IN_FRONT)
-		
-		display_changed.emit()
+		_set_tile_sprite_visible(_card_display_mode == CardDisplayMode.TILE)
+		_set_card_display_visible(_card_display_mode == CardDisplayMode.CARD)
 
 var _is_dragged = false:
 	set(value):
@@ -102,7 +86,7 @@ var _is_dragged = false:
 		_is_on_the_board = false
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
-			z_index = ZLayers.ON_HOVER
+			_set_z_index()
 
 
 var _is_in_hand = true:
@@ -114,7 +98,7 @@ var _is_in_hand = true:
 		_is_on_the_board = false
 		if value:
 			_card_display_mode = CardDisplayMode.CARD
-			z_index = ZLayers.DEFAULT
+			_set_z_index()
 
 var _is_on_the_board = false:
 	set(value):
@@ -127,9 +111,23 @@ var _is_on_the_board = false:
 		set_process(value)
 		if value:
 			_card_display_mode = CardDisplayMode.TILE
-			z_index = ZLayers.CARDS_ON_GRID
+			_set_z_index()
 		else:
 			remove_from_the_board()
+
+func _set_z_index() -> void:
+	if _is_hovered:
+		z_index = ZLayers.ON_HOVER
+	elif _is_in_hand:
+		z_index = ZLayers.DEFAULT
+	elif _is_on_the_board:
+		z_index = ZLayers.CARDS_ON_GRID
+	elif _is_dragged:
+		z_index = ZLayers.ON_HOVER
+	elif is_in_dialog or is_in_shop:
+		z_index = ZLayers.DEFAULT
+	else:
+		z_index = ZLayers.DEFAULT
 
 var _tile_placed: GridTile = null
 
@@ -142,6 +140,7 @@ func _ready():
 	card_display.texture = texture
 	card_display.card_name = card_name
 	card_display.description = description
+	card_display.attack = attack_value
 	_update_labels()
 	assert(z_index == ZLayers.DEFAULT, "GenericCard: z_index should be DEFAULT on ready")
 
@@ -229,11 +228,21 @@ func get_attack_with_effects() -> int:
 		total = (effect as Effect).apply(total)
 	return total
 
+var _is_hovered = false:
+	set(value):
+		_is_hovered = value
+		if _card_display_mode == CardDisplayMode.TILE && _is_hovered:
+			card_display.position = $HoverOffset.position
+			card_display.visible = true
+		elif _card_display_mode == CardDisplayMode.TILE:
+			card_display.position = Vector2.ZERO
+			card_display.visible = false
+		else:
+			card_display.position = Vector2.ZERO
+		_set_z_index()
+
 func set_in_front(v: bool) -> void:
-	if v:
-		z_index = ZLayers.ON_HOVER
-	else:
-		z_index = ZLayers.DEFAULT
+	_is_hovered = v
 
 func select_for_attack():
 	_is_selected_for_attack = !_is_selected_for_attack

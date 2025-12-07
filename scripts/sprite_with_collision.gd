@@ -6,8 +6,7 @@ func set_texture(t: Texture2D):
 	_rescale()
 	
 func _rescale():
-	scale = $GridSprite2D.scale
-	$GridSprite2D.scale = Vector2.ONE
+	$EnemyArea.scale = Vector2($GridSprite2D.scale.x * $GridSprite2D.sprite.scale.x, $GridSprite2D.scale.y * $GridSprite2D.sprite.scale.y)
 
 func _ready() -> void:
 	_rescale()

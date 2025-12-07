@@ -20,6 +20,9 @@ func put_card(card: TypedCard) -> void:
 # Should only be called by the card
 func remove_card() -> void:
 	_card = null
+
+func is_free() -> bool:
+	return _card == null and boulder == null
 	
 func get_card() -> TypedCard:
 	return _card
@@ -43,3 +46,5 @@ func remove_boulder() -> void:
 	boulder.queue_free()
 	boulder = null
 	
+func get_polygon() -> PackedVector2Array:
+	return $Area2D/CollisionPolygon2D.polygon
