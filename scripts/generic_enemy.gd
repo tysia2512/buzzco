@@ -1,4 +1,3 @@
-@tool
 class_name GenericEnemy extends Node2D
 
 signal deal_damage_to_player
