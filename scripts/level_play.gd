@@ -77,8 +77,6 @@ func _on_enemy_manager_enemy_turn_finished() -> void:
 	actions_left_in_turn = GameState.ACTIONS_PER_TURN
 	GameState.turn_stage = GameState.TurnStage.PLAYER_MOVE
 
-var _cards_selected_for_attack: Array = []
-
 var _interrupted_stage_by_attack: GameState.TurnStage
 func _on_launch_attack_button_launch_assault() -> void:
 	_interrupted_stage_by_attack = GameState.turn_stage 
@@ -88,32 +86,31 @@ func _on_launch_attack_button_launch_assault() -> void:
 
 func _on_cancel_launch_attack_button_pressed() -> void:
 	_cancel_attack_button.visible = false
-	_cards_selected_for_attack.clear()
+	GameState.clear_cards_staged_for_attack()
 	GameState.turn_stage = _interrupted_stage_by_attack
+	GameState.launch_attack_end.emit()
 
 func _enemy_selected(enemy: Enemy) -> void:
 	_perform_attack(enemy)
 
 func _on_grid_card_selected_for_attack(card: TypedCard) -> void:
-	if _cards_selected_for_attack.has(card):
-		_cards_selected_for_attack.erase(card)
-	else:
-		_cards_selected_for_attack.append(card)
-
-	if _cards_selected_for_attack.is_empty():
+	GameState.stage_card_for_attack(card)
+	
+	if GameState.get_cards_staged_for_attack().is_empty():
 		GameState.specific_input = GameState.SpecificInput.LAUNCH_ATTACK_BEE_SELECT
 	else:
 		GameState.specific_input = GameState.SpecificInput.ENEMY_OR_BEE_SELECT
 
 func _perform_attack(enemy: Enemy):
 	var attack_points: int = 0
-	for card in _cards_selected_for_attack:
+	for card in GameState.get_cards_staged_for_attack():
 		attack_points += card.card.get_attack_with_effects()
 
-	for card in _cards_selected_for_attack:
+	for card in GameState.get_cards_staged_for_attack():
 		card.use_for_attack()
-	_cards_selected_for_attack.clear()
+	GameState.clear_cards_staged_for_attack()
 	
+	GameState.launch_attack_end.emit()
 	_attack_enemy(enemy, attack_points)
 	_cancel_attack_button.visible = false
 	GameState.turn_stage = _interrupted_stage_by_attack

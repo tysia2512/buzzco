@@ -11,19 +11,6 @@ var _enemies: Array = []
 
 func _ready():
 	spawn_enemies()
-
-func _input(event: InputEvent) -> void:
-	if GameState.turn_stage != GameState.TurnStage.SPECIFIC_INPUT:
-		return
-
-	if GameState.specific_input != GameState.SpecificInput.ENEMY_OR_BEE_SELECT:
-		return
-
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if event.pressed:
-			var enemy = check_for_enemy()
-			await enemy.highlight()
-			enemy_selected.emit(enemy)
 	
 func spawn_enemies():
 	for i in range(0, goon_hornet_enemy_count):
@@ -70,9 +57,6 @@ func get_enemies() -> Array:
 
 func deal_damage(damage: int):
 	get_parent().deal_damage.emit(damage)
-
-func enemy_selected_for_attack(generic_enemy: GenericEnemy):
-	var enemy
 
 func check_for_enemy() -> Enemy:
 	var space_state = get_world_2d().direct_space_state

@@ -1,7 +1,9 @@
 extends Node2D
 
 signal player_turn_start
-
+signal card_staged_for_attack_changed
+signal launch_attack_start
+signal launch_attack_end
 
 enum TurnStage {
 	PLAYER_MOVE,
@@ -13,9 +15,9 @@ enum TurnStage {
 enum SpecificInput {
 	ENEMY_OR_BEE_SELECT,
 	LAUNCH_ATTACK_BEE_SELECT,
-	GRID_CARD_SELECT,
 	DIALOG_CARD_SELECT
 }
+
 const DEBUG_MODE: bool = false
 const POLLEN_ENABLED: bool = false
 
@@ -36,7 +38,11 @@ var turn_stage: TurnStage = TurnStage.PLAYER_MOVE:
 		if value == TurnStage.PLAYER_MOVE:
 			player_turn_start.emit()
 
-var specific_input: SpecificInput
+var specific_input: SpecificInput:
+	set(value):
+		specific_input = value
+		if value == SpecificInput.LAUNCH_ATTACK_BEE_SELECT:
+			launch_attack_start.emit()
 
 var player_health: int = 30
 
@@ -56,3 +62,20 @@ func set_up_new_level(level: int) -> void:
 	turn_stage = GameState.TurnStage.PLAYER_MOVE
 	player_health = GameState.PLAYER_START_HEALTH
 	PollenManager.set_up_new_level()
+
+var _cards_staged_for_attack: Array = []
+
+func get_cards_staged_for_attack() -> Array:
+	return _cards_staged_for_attack
+
+func stage_card_for_attack(card: TypedCard) -> void:
+	if !_cards_staged_for_attack.has(card):
+		_cards_staged_for_attack.append(card)
+	else:
+		_cards_staged_for_attack.erase(card)
+	
+	card_staged_for_attack_changed.emit()
+
+func clear_cards_staged_for_attack() -> void:
+	_cards_staged_for_attack.clear()
+	card_staged_for_attack_changed.emit()
